@@ -1,21 +1,10 @@
 package model.insurances.attributes;
 
-/**
- * Created with IntelliJ IDEA.
- * User: lsa
- * Date: 26.10.13
- * Time: 20:38
- * To change this template use File | Settings | File Templates.
- */
 public abstract class InsuranceAttribute {
     private final int attributeId;
     private final int insuranceId;
     private final String attributeName;
-    private final AttributeType type;
-
-    public AttributeType getType() {
-        return type;
-    }
+    private final int typeId;
 
     public int getAttributeId() {
         return attributeId;
@@ -31,12 +20,15 @@ public abstract class InsuranceAttribute {
 
     public abstract String getValue();
 
-    protected InsuranceAttribute(int attributeId, int insuranceId, String attributeName, AttributeType type) {
-
+    protected InsuranceAttribute(int attributeId, int insuranceId, String attributeName, int typeId) {
         this.attributeId = attributeId;
         this.insuranceId = insuranceId;
         this.attributeName = attributeName;
-        this.type = type;
+        this.typeId = typeId;
+    }
+
+    public int getTypeId() {
+        return typeId;
     }
 
     @Override
@@ -62,7 +54,7 @@ public abstract class InsuranceAttribute {
         sb.append("attributeId=").append(attributeId);
         sb.append(", insuranceId=").append(insuranceId);
         sb.append(", attributeName='").append(attributeName).append('\'');
-        sb.append(", type=").append(type);
+        sb.append(", typeId=").append(typeId);
         sb.append("} ");
         sb.append(super.toString());
 

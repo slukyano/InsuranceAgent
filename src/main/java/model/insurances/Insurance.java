@@ -1,61 +1,47 @@
 package model.insurances;
 
-import model.Agent;
-import model.Company;
-import model.clients.Client;
-import model.insurances.attributes.InsuranceAttribute;
-
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created with IntelliJ IDEA.
- * User: lsa
- * Date: 26.10.13
- * Time: 20:54
- * To change this template use File | Settings | File Templates.
- */
 public class Insurance {
+    //region Fields
     private final int insuranceId;
-    private final Client client;
-    private final Company company;
-    private final Agent agent;
-    private final InsuranceType type;
-    private final ArrayList<InsuranceAttribute> attributes;
+    private final int clientId;
+    private final int companyId;
+    private final int agentId;
+    private final int typeId;
+    //endregion
 
-    public ArrayList<InsuranceAttribute> getAttributes() {
-        return attributes;
-    }
-
-    public InsuranceType getType() {
-        return type;
-    }
-
+    //region Getters
     public int getInsuranceId() {
         return insuranceId;
     }
 
-    public Client getClient() {
-        return client;
+    public int getClientId() {
+        return clientId;
     }
 
-    public Company getCompany() {
-        return company;
+    public int getCompanyId() {
+        return companyId;
     }
 
-    public Agent getAgent() {
-        return agent;
+    public int getAgentId() {
+        return agentId;
     }
 
-    protected Insurance(int insuranceId, Client client, Company company, Agent agent, InsuranceType type, ArrayList<InsuranceAttribute> attributes) {
+    public int getTypeId() {
+        return typeId;
+    }
+    //endregion
+
+    //region Constructors
+    public Insurance(int insuranceId, int clientId, int companyId, int agentId, int typeId) {
         this.insuranceId = insuranceId;
-        this.client = client;
-        this.company = company;
-        this.agent = agent;
-        this.type = type;
-        this.attributes = attributes;
+        this.clientId = clientId;
+        this.companyId = companyId;
+        this.agentId = agentId;
+        this.typeId = typeId;
     }
+    //endregion
 
+    //region Public Methods
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -77,12 +63,14 @@ public class Insurance {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Insurance{");
         sb.append("insuranceId=").append(insuranceId);
-        sb.append(", client=").append(client);
-        sb.append(", company=").append(company);
-        sb.append(", agent=").append(agent);
+        sb.append(", clientId=").append(clientId);
+        sb.append(", companyId=").append(companyId);
+        sb.append(", agentId=").append(agentId);
+        sb.append(", typeId=").append(typeId);
         sb.append("} ");
         sb.append(super.toString());
 
         return sb.toString();
     }
+    //endregion
 }

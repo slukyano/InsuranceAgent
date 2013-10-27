@@ -3,7 +3,7 @@ package model;
 public class Company {
     private final int companyId;
     private final String name;
-    private final Company parentCompany;
+    private final int parentCompanyId;
     private final String description;
 
     public int getCompanyId() {
@@ -14,18 +14,18 @@ public class Company {
         return name;
     }
 
-    public Company getParentCompany() {
-        return parentCompany;
+    public int getParentCompanyId() {
+        return parentCompanyId;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public Company(int companyId, String name, Company parentCompany, String description) {
+    public Company(int companyId, String name, int parentCompanyId, String description) {
         this.companyId = companyId;
         this.name = name;
-        this.parentCompany = parentCompany;
+        this.parentCompanyId = parentCompanyId;
         this.description = description;
     }
 
@@ -51,7 +51,7 @@ public class Company {
         final StringBuilder sb = new StringBuilder("Company{");
         sb.append("companyId=").append(companyId);
         sb.append(", name='").append(name).append('\'');
-        sb.append(", parentCompany=").append(parentCompany);
+        sb.append(", parentCompanyId=").append(parentCompanyId);
         sb.append(", description='").append(description).append('\'');
         sb.append("} ");
         sb.append(super.toString());

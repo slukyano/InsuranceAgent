@@ -1,12 +1,5 @@
 package model.insurances.attributes;
 
-/**
- * Created with IntelliJ IDEA.
- * User: lsa
- * Date: 26.10.13
- * Time: 20:38
- * To change this template use File | Settings | File Templates.
- */
 public class AttributeType {
     private final int typeId;
     private final String name;
@@ -16,7 +9,6 @@ public class AttributeType {
         this.typeId = typeId;
         this.name = name;
         this.description = description;
-
     }
 
     @Override

@@ -1,18 +1,11 @@
 package model.insurances.attributes;
 
-/**
- * Created with IntelliJ IDEA.
- * User: lsa
- * Date: 27.10.13
- * Time: 0:54
- * To change this template use File | Settings | File Templates.
- */
 public class StaticAttributeValue {
-    private int staticValueId;
-    private String name;
-    private AttributeType type;
-    private String value;
-    private String description;
+    private final int staticValueId;
+    private final String name;
+    private final int typeId;
+    private final String value;
+    private final String description;
 
     public int getStaticValueId() {
         return staticValueId;
@@ -22,8 +15,8 @@ public class StaticAttributeValue {
         return name;
     }
 
-    public AttributeType getType() {
-        return type;
+    public int getTypeId() {
+        return typeId;
     }
 
     public String getValue() {
@@ -34,10 +27,10 @@ public class StaticAttributeValue {
         return description;
     }
 
-    public StaticAttributeValue(int staticValueId, String name, AttributeType type, String value, String description) {
+    public StaticAttributeValue(int staticValueId, String name, int typeId, String value, String description) {
         this.staticValueId = staticValueId;
         this.name = name;
-        this.type = type;
+        this.typeId = typeId;
         this.value = value;
         this.description = description;
     }
@@ -64,7 +57,7 @@ public class StaticAttributeValue {
         final StringBuilder sb = new StringBuilder("StaticAttributeValue{");
         sb.append("staticValueId=").append(staticValueId);
         sb.append(", name='").append(name).append('\'');
-        sb.append(", type=").append(type);
+        sb.append(", typeId=").append(typeId);
         sb.append(", value='").append(value).append('\'');
         sb.append(", description='").append(description).append('\'');
         sb.append("} ");

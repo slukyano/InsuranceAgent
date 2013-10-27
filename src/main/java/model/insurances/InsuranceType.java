@@ -1,12 +1,5 @@
 package model.insurances;
 
-/**
- * Created with IntelliJ IDEA.
- * User: lsa
- * Date: 26.10.13
- * Time: 20:37
- * To change this template use File | Settings | File Templates.
- */
 public class InsuranceType {
     private final int insuranceTypeId;
     private final String name;

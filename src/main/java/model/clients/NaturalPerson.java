@@ -1,17 +1,8 @@
 package model.clients;
 
-import model.Agent;
-
 import java.util.Date;
 
-/**
- * Created with IntelliJ IDEA.
- * User: lsa
- * Date: 26.10.13
- * Time: 20:21
- * To change this template use File | Settings | File Templates.
- */
-public class NaturalClient extends Client {
+public class NaturalPerson extends Client {
     private final String firstName;
     private final String secondName;
     private final String lastName;
@@ -34,8 +25,8 @@ public class NaturalClient extends Client {
 
     }
 
-    protected NaturalClient(int clientId, Agent agent, String firstName, String secondName, String lastName, Date dateOfBirth) {
-        super(clientId, agent);
+    public NaturalPerson(int clientId, int agentId, String firstName, String secondName, String lastName, Date dateOfBirth) {
+        super(clientId, agentId);
         this.firstName = firstName;
         this.secondName = secondName;
         this.lastName = lastName;
@@ -44,7 +35,7 @@ public class NaturalClient extends Client {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("NaturalClient{");
+        final StringBuilder sb = new StringBuilder("NaturalPerson{");
         sb.append("firstName='").append(firstName).append('\'');
         sb.append(", secondName='").append(secondName).append('\'');
         sb.append(", lastName='").append(lastName).append('\'');

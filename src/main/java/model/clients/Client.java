@@ -1,31 +1,12 @@
 package model.clients;
 
-import model.Agent;
-
-import java.util.List;
-
-/**
- * Created with IntelliJ IDEA.
- * User: lsa
- * Date: 26.10.13
- * Time: 20:20
- * To change this template use File | Settings | File Templates.
- */
 public abstract class Client {
     private final int clientId;
-    private final Agent agent;
+    private final int agentId;
 
-    public int getClientId() {
-        return clientId;
-    }
-
-    public Agent getAgent() {
-        return agent;
-    }
-
-    protected Client(int clientId, Agent agent) {
+    protected Client(int clientId, int agentId) {
         this.clientId = clientId;
-        this.agent = agent;
+        this.agentId = agentId;
     }
 
     @Override
@@ -49,7 +30,7 @@ public abstract class Client {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Client{");
         sb.append("clientId=").append(clientId);
-        sb.append(", agent=").append(agent);
+        sb.append(", agentId=").append(agentId);
         sb.append("} ");
         sb.append(super.toString());
 
