@@ -42,7 +42,7 @@ public class ModelController {
                 "SELECT NaturalPersonID, FirstName, SecondName, LastName, DateOfBirth, AgentID"
                         + " FROM NATURAL_PERSONS"
                         + " WHERE NaturalPersonID = ?");
-        stmt.setDouble(1, 1.0);
+        stmt.setDouble(1, clientId);
 
         ResultSet rSet = stmt.executeQuery();
 
@@ -59,31 +59,69 @@ public class ModelController {
 
     //region Agent Factories
     public Agent getAgent(int agentId) throws SQLException {
-        ResultSet rSet = executeQuery("SELECT * FROM AGENTS WHERE AgentId = " + agentId);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+
+        PreparedStatement stmt = conn.prepareStatement (
+                "SELECT AgentId,FirstName,SecondName,LastName,HiringDate,QuitDate"
+                    +" FROM AGENTS"
+                    +" WHERE AgentId = ?");
+        stmt.setDouble(1, agentId);
+
+        ResultSet rSet = stmt.executeQuery();
 
         if (!rSet.next())
             return null;
-        return new Agent();
+        return new Agent(rSet.getInt("AgentId"),
+                rSet.getString("FirstName"),
+                rSet.getString("SecondName"),
+                rSet.getString("LastName"),
+                rSet.getDate("HiringDate"),
+                rSet.getDate("QuitDate"));
     }
     //endregion
 
     //region Company Factories
     public Company getCompany(int companyId) throws SQLException {
-        ResultSet rSet = executeQuery("SELECT * FROM COMPANIES WHERE CompanyId = " + companyId);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "SELECT CompanyID, CompanyName,ParentCompanyId,CompanyDescription "
+                    + " FROM COMPANIES"
+                    + " WHERE CompanyId = ?");
+        stmt.setDouble(1, companyId);
+
+        ResultSet rSet = stmt.executeQuery();
 
         if (!rSet.next())
             return null;
-        return new Company();
+        return new Company(rSet.getInt("CompanyID"),
+                rSet.getString("CompanyName"),
+                rSet.getInt("ParentCompanyId"),
+                rSet.getString("CompanyDescription"));
     }
     //endregion
 
     //region Insurance Factories
     public Insurance getInsurance(int insuranceId) throws SQLException {
-        ResultSet rSet = executeQuery("SELECT * FROM INSURANCES WHERE InsuranceId = " + insuranceId);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "SELECT InsuranceID, ClientID,ClientType,CompanyByInsuranceTypeID,AgentId,BaseValue"
+                    +" FROM INSURANCES"
+                    +" WHERE InsuranceId = ?");
+        stmt.setDouble(1, insuranceId);
+
+        ResultSet rSet = stmt.executeQuery();
 
         if (!rSet.next())
             return null;
-        return new Insurance();
+        return new Insurance(rSet.getInt("InsuranceID"),
+                rSet.getInt("ClientID"),
+                rSet.getString("ClientType"),
+                rSet.getInt("CompanyByInsuranceTypeID"),
+                rSet.getInt("AgentId"),
+                rSet.getDouble("BaseValue"));
     }
     //endregion
 

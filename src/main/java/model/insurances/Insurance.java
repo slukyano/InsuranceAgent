@@ -4,9 +4,10 @@ public class Insurance {
     //region Fields
     private final int insuranceId;
     private final int clientId;
-    private final int companyId;
+    private final String clientType;
+    private final int companyByInsuranceTypeId;
     private final int agentId;
-    private final int typeId;
+    private final double baseValue;
     //endregion
 
     //region Getters
@@ -18,26 +19,33 @@ public class Insurance {
         return clientId;
     }
 
-    public int getCompanyId() {
-        return companyId;
+    public double getBaseValue() {
+        return baseValue;
+    }
+
+    public int getCompanyByInsuranceTypeId() {
+
+        return companyByInsuranceTypeId;
+    }
+
+    public String getClientType() {
+
+        return clientType;
     }
 
     public int getAgentId() {
         return agentId;
     }
-
-    public int getTypeId() {
-        return typeId;
-    }
     //endregion
 
     //region Constructors
-    public Insurance(int insuranceId, int clientId, int companyId, int agentId, int typeId) {
+    public Insurance(int insuranceId, int clientId, String clientType, int companyByInsuranceTypeId, int agentId, double baseValue) {
         this.insuranceId = insuranceId;
         this.clientId = clientId;
-        this.companyId = companyId;
+        this.clientType = clientType;
         this.agentId = agentId;
-        this.typeId = typeId;
+        this.baseValue = baseValue;
+        this.companyByInsuranceTypeId = companyByInsuranceTypeId;
     }
     //endregion
 
@@ -64,9 +72,10 @@ public class Insurance {
         final StringBuilder sb = new StringBuilder("Insurance{");
         sb.append("insuranceId=").append(insuranceId);
         sb.append(", clientId=").append(clientId);
-        sb.append(", companyId=").append(companyId);
+        sb.append(", clientType=").append(clientType);
+        sb.append(", CompanyByInsuranceTypeID =").append(companyByInsuranceTypeId);
         sb.append(", agentId=").append(agentId);
-        sb.append(", typeId=").append(typeId);
+        sb.append(", baseValue=").append(baseValue);
         sb.append("} ");
         sb.append(super.toString());
 
