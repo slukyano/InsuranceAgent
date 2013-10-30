@@ -1,5 +1,8 @@
 package model.clients;
 
+import model.insurances.Insurance;
+
+import java.util.Collection;
 import java.util.Date;
 
 public class NaturalPerson extends Client {
@@ -31,6 +34,23 @@ public class NaturalPerson extends Client {
         this.secondName = secondName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
+    }
+
+    @Override
+    public Collection<Insurance> getInsurances() {
+              return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof NaturalPerson)) return false;
+
+        Client client = (Client) o;
+
+        if (clientId != client.clientId) return false;
+
+        return true;
     }
 
     @Override

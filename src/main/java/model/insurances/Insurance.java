@@ -1,5 +1,9 @@
 package model.insurances;
 
+import model.insurances.attributes.InsuranceAttribute;
+
+import java.util.Collection;
+
 public class Insurance {
     //region Fields
     private final int insuranceId;
@@ -24,7 +28,6 @@ public class Insurance {
     }
 
     public int getCompanyByInsuranceTypeId() {
-
         return companyByInsuranceTypeId;
     }
 
@@ -35,6 +38,10 @@ public class Insurance {
 
     public int getAgentId() {
         return agentId;
+    }
+
+    public Collection<InsuranceAttribute> getAttributes() {
+          return null;
     }
     //endregion
 

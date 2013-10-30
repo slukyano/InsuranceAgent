@@ -1,7 +1,14 @@
 package model.clients;
 
+import model.Agent;
+import model.ModelController;
+import model.insurances.Insurance;
+
+import java.sql.SQLException;
+import java.util.Collection;
+
 public abstract class Client {
-    private final int clientId;
+    protected final int clientId;
     private final int agentId;
 
     protected Client(int clientId, int agentId) {
@@ -9,17 +16,19 @@ public abstract class Client {
         this.agentId = agentId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Client)) return false;
-
-        Client client = (Client) o;
-
-        if (clientId != client.clientId) return false;
-
-        return true;
+    public int getClientId() {
+        return clientId;
     }
+
+    public int getAgentId() {
+        return agentId;
+    }
+
+    public Agent getAgent() throws SQLException {
+        return ModelController.getInstance().getAgent(agentId);
+    }
+
+    public abstract Collection<Insurance> getInsurances();
 
     @Override
     public int hashCode() {

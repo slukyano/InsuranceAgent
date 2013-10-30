@@ -1,26 +1,26 @@
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.ModelController;
 
-import java.sql.SQLException;
-import java.util.Locale;
+import java.net.URL;
 
 public class Main extends Application {
 
     public static void main(String[] args) {
-        //launch(args);
-
-        ModelController.initializeInstance("jdbc:oracle:thin:@5.19.237.145:65432:xe", "system", "1234");
-        try {
-            Locale.setDefault(Locale.ENGLISH);
-            System.out.println(ModelController.getInstance().getNaturalPerson(1));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws Exception {
+        Class c = getClass();
+        URL url = c.getResource("/ui/login/LoginPage.fxml");
+        Parent root = FXMLLoader.load(url);
 
+        //Parent root = FXMLLoader.load(getClass().getResource("LoginPage.fxml"));
+        primaryStage.setTitle("Insurance");
+        primaryStage.setScene(new Scene(root, 640, 480));
+        primaryStage.show();
     }
 }

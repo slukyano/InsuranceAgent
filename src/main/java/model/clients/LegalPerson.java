@@ -1,5 +1,9 @@
 package model.clients;
 
+import model.insurances.Insurance;
+
+import java.util.Collection;
+
 public class LegalPerson extends Client {
     private final String name;
     private final String vatin;
@@ -22,6 +26,23 @@ public class LegalPerson extends Client {
         this.name = name;
         this.vatin = vatin;
         this.address = address;
+    }
+
+    @Override
+    public Collection<Insurance> getInsurances() {
+         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LegalPerson)) return false;
+
+        Client client = (Client) o;
+
+        if (clientId != client.clientId) return false;
+
+        return true;
     }
 
     @Override

@@ -1,5 +1,9 @@
 package model;
 
+import model.clients.Client;
+import model.insurances.Insurance;
+
+import java.util.Collection;
 import java.util.Date;
 
 public class Agent {
@@ -41,6 +45,14 @@ public class Agent {
         this.lastName = lastName;
         this.hiringDate = hiringDate;
         this.quitDate = quitDate;
+    }
+
+    public Collection<Insurance> getInsurances() {
+          return null;
+    }
+
+    public Collection<Client> getClients() {
+          return null;
     }
 
     @Override

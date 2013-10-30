@@ -5,9 +5,11 @@ import model.clients.NaturalPerson;
 import model.insurances.CompanyByInsuranceType;
 import model.insurances.Insurance;
 import model.insurances.InsuranceType;
-import model.insurances.attributes.*;
+import model.insurances.attributes.AttributeType;
+import model.insurances.attributes.InsuranceAttribute;
 
 import java.sql.*;
+import java.util.Locale;
 
 public class ModelController {
     //region Static Members
@@ -17,7 +19,11 @@ public class ModelController {
         return ourInstance;
     }
 
-    public static void initializeInstance(String connectionUrl, String username, String password) {
+    public static void initializeInstance(String connectionUrl, String username, String password) throws SQLException {
+        // will throw exception, if fail to log in
+        Locale.setDefault(Locale.ENGLISH);
+        DriverManager.getConnection(connectionUrl, username, password).close();
+
         ourInstance = new ModelController(connectionUrl, username, password);
     }
     //endregion
@@ -49,14 +55,21 @@ public class ModelController {
 
         ResultSet rSet = stmt.executeQuery();
 
-        if (!rSet.next())
-            return null;
-        return new NaturalPerson(rSet.getInt("NaturalPersonID"),
-                rSet.getInt("AgentId"),
-                rSet.getString("FirstName"),
-                rSet.getString("SecondName"),
-                rSet.getString("LastName"),
-                rSet.getDate("DateOfBirth"));
+        NaturalPerson result;
+        if (rSet.next())
+            result = new NaturalPerson(rSet.getInt("NaturalPersonID"),
+                    rSet.getInt("AgentId"),
+                    rSet.getString("FirstName"),
+                    rSet.getString("SecondName"),
+                    rSet.getString("LastName"),
+                    rSet.getDate("DateOfBirth"));
+        else
+            result = null;
+
+        stmt.close();
+        conn.close();
+
+        return result;
     }
     public LegalPerson getLegalPerson(int clientId) throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
@@ -69,13 +82,20 @@ public class ModelController {
 
         ResultSet rSet = stmt.executeQuery();
 
-        if (!rSet.next())
-            return null;
-        return new LegalPerson(rSet.getInt("LegalPersonID"),
-                rSet.getInt("AgentId"),
-                rSet.getString("LegalName"),
-                rSet.getString("vatin"),
-                rSet.getString("Address"));
+        LegalPerson result;
+        if (rSet.next())
+            result = new LegalPerson(rSet.getInt("LegalPersonID"),
+                    rSet.getInt("AgentId"),
+                    rSet.getString("LegalName"),
+                    rSet.getString("vatin"),
+                    rSet.getString("Address"));
+        else
+            result = null;
+
+        stmt.close();
+        conn.close();
+
+        return result;
     }
     //endregion
 
@@ -92,14 +112,21 @@ public class ModelController {
 
         ResultSet rSet = stmt.executeQuery();
 
-        if (!rSet.next())
-            return null;
-        return new Agent(rSet.getInt("AgentId"),
-                rSet.getString("FirstName"),
-                rSet.getString("SecondName"),
-                rSet.getString("LastName"),
-                rSet.getDate("HiringDate"),
-                rSet.getDate("QuitDate"));
+        Agent result;
+        if (rSet.next())
+            result = new Agent(rSet.getInt("AgentId"),
+                    rSet.getString("FirstName"),
+                    rSet.getString("SecondName"),
+                    rSet.getString("LastName"),
+                    rSet.getDate("HiringDate"),
+                    rSet.getDate("QuitDate"));
+        else
+            result = null;
+
+        stmt.close();
+        conn.close();
+
+        return result;
     }
     //endregion
 
@@ -109,18 +136,25 @@ public class ModelController {
 
         PreparedStatement stmt = conn.prepareStatement(
                 "SELECT CompanyID, CompanyName,ParentCompanyId,CompanyDescription "
-                        + " FROM COMPANIES"
-                        + " WHERE CompanyId = ?");
+                    + " FROM COMPANIES"
+                    + " WHERE CompanyId = ?");
         stmt.setDouble(1, companyId);
 
         ResultSet rSet = stmt.executeQuery();
 
-        if (!rSet.next())
-            return null;
-        return new Company(rSet.getInt("CompanyID"),
-                rSet.getString("CompanyName"),
-                rSet.getInt("ParentCompanyId"),
-                rSet.getString("CompanyDescription"));
+        Company result;
+        if (rSet.next())
+            result = new Company(rSet.getInt("CompanyID"),
+                    rSet.getString("CompanyName"),
+                    rSet.getInt("ParentCompanyId"),
+                    rSet.getString("CompanyDescription"));
+        else
+            result = null;
+
+        stmt.close();
+        conn.close();
+
+        return result;
     }
 
     public CompanyByInsuranceType getCompanyByInsuranceType(int companyByInsuranceTypeID) throws SQLException {
@@ -154,14 +188,21 @@ public class ModelController {
 
         ResultSet rSet = stmt.executeQuery();
 
-        if (!rSet.next())
-            return null;
-        return new Insurance(rSet.getInt("InsuranceID"),
-                rSet.getInt("ClientID"),
-                rSet.getString("ClientType"),
-                rSet.getInt("CompanyByInsuranceTypeID"),
-                rSet.getInt("AgentId"),
-                rSet.getDouble("BaseValue"));
+        Insurance result;
+        if (rSet.next())
+            result = new Insurance(rSet.getInt("InsuranceID"),
+                    rSet.getInt("ClientID"),
+                    rSet.getString("ClientType"),
+                    rSet.getInt("CompanyByInsuranceTypeID"),
+                    rSet.getInt("AgentId"),
+                    rSet.getDouble("BaseValue"));
+        else
+            result = null;
+
+        stmt.close();
+        conn.close();
+
+        return result;
     }
 
     public InsuranceType getInsuranceType(int insuranceTypeId) throws SQLException {
@@ -195,19 +236,26 @@ public class ModelController {
 
         ResultSet rSet = stmt.executeQuery();
 
-        if (!rSet.next())
-            return null;
-        return new AttributeType(rSet.getInt("AttributeId"),
-                rSet.getString("AttributeName"),
-                rSet.getString("AttributeDescription"),
-                rSet.getString("CompanyByInsuranceTypeId"));
+        AttributeType result;
+        if (rSet.next())
+            result = new AttributeType(rSet.getInt("AttributeId"),
+                    rSet.getString("AttributeName"),
+                    rSet.getString("AttributeDescription"),
+                    rSet.getString("CompanyByInsuranceTypeId"));
+        else
+            result = null;
+
+        stmt.close();
+        conn.close();
+
+        return result;
     }
 
     public InsuranceAttribute getInsuranceAttribute(int attributeId) throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         PreparedStatement stmt = conn.prepareStatement(
-                "SELECT AttributeID, AttrinuteTypeId,AttributeValue,InsuranceId "
+                "SELECT AttributeID, AttributeTypeId,AttributeValue,InsuranceId "
                         + " FROM INSURANCE_ATTRIBUTES"
                         + " WHERE AttributeId = ?");
         stmt.setDouble(1, attributeId);
@@ -220,28 +268,6 @@ public class ModelController {
                 rSet.getInt("AttributeTypeId"),
                 rSet.getString("AttributeValue"),
                 rSet.getInt("InsuranceId"));
-    }
-    //endregion
-    //endregion
-
-    //region Database Management
-    private ResultSet executeQuery(String queryString) throws SQLException {
-        Statement stmt;
-        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
-        stmt = conn.createStatement();
-        ResultSet rSet = stmt.executeQuery(queryString);
-        //stmt.close();
-        //conn.close();
-        return rSet;
-    }
-
-    private void executeUpdate(String updateString) throws SQLException {
-        Statement stmt;
-        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
-        stmt = conn.createStatement();
-        stmt.executeUpdate(updateString);
-        stmt.close();
-        conn.close();
     }
     //endregion
 }
