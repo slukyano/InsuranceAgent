@@ -1,7 +1,5 @@
 package model;
 
-import model.clients.Client;
-import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
 import model.insurances.Insurance;
 import model.insurances.attributes.*;
@@ -37,15 +35,25 @@ public class ModelController {
 
     //region Factories
     //region Client Factories
-    public Client getClient(int clientId) throws SQLException {
-        ResultSet rSet = executeQuery("SELECT * FROM CLIENTS"
-                + "JOIN NATURAL_PERSONS USING (ClientId)"
-                + "JOIN LEGAL_PERSONS USING (ClientId)"
-                + "WHERE ClientId = " + clientId);
+    public NaturalPerson getNaturalPerson(int clientId) throws SQLException {
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "SELECT NaturalPersonID, FirstName, SecondName, LastName, DateOfBirth, AgentID"
+                        + " FROM NATURAL_PERSONS"
+                        + " WHERE NaturalPersonID = ?");
+        stmt.setDouble(1, 1.0);
+
+        ResultSet rSet = stmt.executeQuery();
 
         if (!rSet.next())
             return null;
-        return (isLegal) ? new LegalPerson() : new NaturalPerson();
+        return new NaturalPerson(rSet.getInt("NaturalPersonID"),
+                rSet.getInt("AgentId"),
+                rSet.getString("FirstName"),
+                rSet.getString("SecondName"),
+                rSet.getString("LastName"),
+                rSet.getDate("DateOfBirth"));
     }
     //endregion
 
@@ -113,8 +121,8 @@ public class ModelController {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         stmt = conn.createStatement();
         ResultSet rSet = stmt.executeQuery(queryString);
-        stmt.close();
-        conn.close();
+        //stmt.close();
+        //conn.close();
         return rSet;
     }
 
