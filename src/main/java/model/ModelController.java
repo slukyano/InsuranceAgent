@@ -1,5 +1,6 @@
 package model;
 
+import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
 import model.insurances.Insurance;
 import model.insurances.attributes.*;
@@ -55,6 +56,25 @@ public class ModelController {
                 rSet.getString("LastName"),
                 rSet.getDate("DateOfBirth"));
     }
+    public LegalPerson getLegalPerson(int clientId) throws SQLException {
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "SELECT LegalPersonID, LegalName, Address, vatin, AgentID"
+                        + " FROM Legal_PERSONS"
+                        + " WHERE LegalPersonID = ?");
+        stmt.setDouble(1, clientId);
+
+        ResultSet rSet = stmt.executeQuery();
+
+        if (!rSet.next())
+            return null;
+        return new LegalPerson(rSet.getInt("LegalPersonID"),
+                rSet.getInt("AgentId"),
+                rSet.getString("LegalName"),
+                rSet.getString("vatin"),
+                rSet.getString("Address"));
+    }
     //endregion
 
     //region Agent Factories
@@ -62,10 +82,10 @@ public class ModelController {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
 
-        PreparedStatement stmt = conn.prepareStatement (
+        PreparedStatement stmt = conn.prepareStatement(
                 "SELECT AgentId,FirstName,SecondName,LastName,HiringDate,QuitDate"
-                    +" FROM AGENTS"
-                    +" WHERE AgentId = ?");
+                        + " FROM AGENTS"
+                        + " WHERE AgentId = ?");
         stmt.setDouble(1, agentId);
 
         ResultSet rSet = stmt.executeQuery();
@@ -87,8 +107,8 @@ public class ModelController {
 
         PreparedStatement stmt = conn.prepareStatement(
                 "SELECT CompanyID, CompanyName,ParentCompanyId,CompanyDescription "
-                    + " FROM COMPANIES"
-                    + " WHERE CompanyId = ?");
+                        + " FROM COMPANIES"
+                        + " WHERE CompanyId = ?");
         stmt.setDouble(1, companyId);
 
         ResultSet rSet = stmt.executeQuery();
@@ -108,8 +128,8 @@ public class ModelController {
 
         PreparedStatement stmt = conn.prepareStatement(
                 "SELECT InsuranceID, ClientID,ClientType,CompanyByInsuranceTypeID,AgentId,BaseValue"
-                    +" FROM INSURANCES"
-                    +" WHERE InsuranceId = ?");
+                        + " FROM INSURANCES"
+                        + " WHERE InsuranceId = ?");
         stmt.setDouble(1, insuranceId);
 
         ResultSet rSet = stmt.executeQuery();
@@ -127,28 +147,41 @@ public class ModelController {
 
     //region Attribute Factories
     public AttributeType getAttributeType(int typeId) throws SQLException {
-        ResultSet rSet = executeQuery("SELECT * FROM ATTRIBUTE_TYPES WHERE AttributeTypeId = " + typeId);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "SELECT AttributeId,AttributeName,AttributeDescription,CompanyByInsuranceTypeId"
+                        + " FROM ATTRIBUTE_TYPES+"
+                        + " WHERE AttributeTypeId = ?");
+        stmt.setDouble(1, typeId);
+
+        ResultSet rSet = stmt.executeQuery();
 
         if (!rSet.next())
             return null;
-        return new AttributeType(rSet.getInt(0), rSet.getString(1), rSet.getString(2));
+        return new AttributeType(rSet.getInt("AttributeId"),
+                rSet.getString("AttributeName"),
+                rSet.getString("AttributeDescription"),
+                rSet.getString("CompanyByInsuranceTypeId"));
     }
 
     public InsuranceAttribute getInsuranceAttribute(int attributeId) throws SQLException {
-        ResultSet rSet = executeQuery("SELECT * FROM INSURANCE_ATTRIBUTES WHERE AttributeId = " + attributeId);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "SELECT AttributeID, AttrinuteTypeId,AttributeValue,InsuranceId "
+                        + " FROM INSURANCE_ATTRIBUTES"
+                        + " WHERE AttributeId = ?");
+        stmt.setDouble(1, attributeId);
+
+        ResultSet rSet = stmt.executeQuery();
 
         if (!rSet.next())
             return null;
-        return (isStatic) ? new StaticAttribute() : new RegularAttribute();
-    }
-
-    public StaticAttributeValue getStaticAttributeValue(int valueId) throws SQLException {
-        ResultSet rSet = executeQuery("SELECT * FROM STATIC_ATTRIBUTES WHERE StaticAttributeId = " + valueId);
-
-        if (!rSet.next())
-            return null;
-        return new StaticAttributeValue(rSet.getInt(0),
-                rSet.getString(1), rSet.getInt(2), rSet.getString(3), rSet.getString(4));
+        return new InsuranceAttribute(rSet.getInt("AttributeID"),
+                rSet.getInt("AttrinuteTypeId"),
+                rSet.getString("AttributeValue"),
+                rSet.getInt("InsuranceId"));
     }
     //endregion
     //endregion

@@ -1,10 +1,10 @@
 package model.insurances.attributes;
 
-public abstract class InsuranceAttribute {
+public class InsuranceAttribute {
     private final int attributeId;
     private final int insuranceId;
-    private final String attributeName;
-    private final int typeId;
+    private final String attributeValue;
+    private final int attributeTypeId;
 
     public int getAttributeId() {
         return attributeId;
@@ -15,20 +15,18 @@ public abstract class InsuranceAttribute {
     }
 
     public String getAttributeName() {
-        return attributeName;
+        return attributeValue;
     }
 
-    public abstract String getValue();
-
-    protected InsuranceAttribute(int attributeId, int insuranceId, String attributeName, int typeId) {
+    public InsuranceAttribute(int attributeId, int insuranceId, String attributeValue, int attributeTypeId) {
         this.attributeId = attributeId;
         this.insuranceId = insuranceId;
-        this.attributeName = attributeName;
-        this.typeId = typeId;
+        this.attributeValue = attributeValue;
+        this.attributeTypeId = attributeTypeId;
     }
 
     public int getTypeId() {
-        return typeId;
+        return attributeTypeId;
     }
 
     @Override
@@ -53,8 +51,8 @@ public abstract class InsuranceAttribute {
         final StringBuilder sb = new StringBuilder("InsuranceAttribute{");
         sb.append("attributeId=").append(attributeId);
         sb.append(", insuranceId=").append(insuranceId);
-        sb.append(", attributeName='").append(attributeName).append('\'');
-        sb.append(", typeId=").append(typeId);
+        sb.append(", attributeValue='").append(attributeValue).append('\'');
+        sb.append(", attributeTypeId=").append(attributeTypeId);
         sb.append("} ");
         sb.append(super.toString());
 

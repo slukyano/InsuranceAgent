@@ -4,11 +4,13 @@ public class AttributeType {
     private final int typeId;
     private final String name;
     private final String description;
+    private final String companyByInsuranceTypeId;
 
-    public AttributeType(int typeId, String name, String description) {
+    public AttributeType(int typeId, String name, String description, String companyByInsuranceTypeId) {
         this.typeId = typeId;
         this.name = name;
         this.description = description;
+        this.companyByInsuranceTypeId = companyByInsuranceTypeId;
     }
 
     @Override
