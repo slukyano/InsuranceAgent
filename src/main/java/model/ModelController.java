@@ -2,7 +2,9 @@ package model;
 
 import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
+import model.insurances.CompanyByInsuranceType;
 import model.insurances.Insurance;
+import model.insurances.InsuranceType;
 import model.insurances.attributes.*;
 
 import java.sql.*;
@@ -120,6 +122,24 @@ public class ModelController {
                 rSet.getInt("ParentCompanyId"),
                 rSet.getString("CompanyDescription"));
     }
+
+    public CompanyByInsuranceType getCompanyByInsuranceType(int companyByInsuranceTypeID) throws SQLException {
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "SELECT companyByInsuranceTypeID, companyByInsuranceTypeName,companyByInsuranceTypeDescription"
+                        + " FROM insurance_types"
+                        + " WHERE InsuranceTypeId = ?");
+        stmt.setDouble(1, companyByInsuranceTypeID);
+
+        ResultSet rSet = stmt.executeQuery();
+
+        if (!rSet.next())
+            return null;
+        return new CompanyByInsuranceType(rSet.getInt("companyByInsuranceTypeID"),
+                rSet.getString("companyByInsuranceTypeName"),
+                rSet.getString("companyByInsuranceTypeDescription"));
+    }
     //endregion
 
     //region Insurance Factories
@@ -142,6 +162,24 @@ public class ModelController {
                 rSet.getInt("CompanyByInsuranceTypeID"),
                 rSet.getInt("AgentId"),
                 rSet.getDouble("BaseValue"));
+    }
+
+    public InsuranceType getInsuranceType(int insuranceTypeId) throws SQLException {
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "SELECT InsuranceTypeID, InsuranceTypeName,InsuranceTypeDescription"
+                        + " FROM insurance_types"
+                        + " WHERE InsuranceTypeId = ?");
+        stmt.setDouble(1, insuranceTypeId);
+
+        ResultSet rSet = stmt.executeQuery();
+
+        if (!rSet.next())
+            return null;
+        return new InsuranceType(rSet.getInt("InsuranceTypeID"),
+                rSet.getString("InsuranceTypeName"),
+                rSet.getString("InsuranceTypeDescription"));
     }
     //endregion
 
@@ -179,7 +217,7 @@ public class ModelController {
         if (!rSet.next())
             return null;
         return new InsuranceAttribute(rSet.getInt("AttributeID"),
-                rSet.getInt("AttrinuteTypeId"),
+                rSet.getInt("AttributeTypeId"),
                 rSet.getString("AttributeValue"),
                 rSet.getInt("InsuranceId"));
     }
