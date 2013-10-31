@@ -26,16 +26,11 @@ public class ClientsPageController implements Initializable {
 
         ObservableList<NaturalPerson> list;
         try {
-            list = FXCollections.observableArrayList(
-                    ModelController.getInstance().getNaturalPerson(1),
-                    ModelController.getInstance().getNaturalPerson(2)
-            );
+            list = FXCollections.observableArrayList(ModelController.getInstance().getNaturalPersons());
         } catch (SQLException e) {
             e.printStackTrace();
             return;
         }
-//        list.add(new NaturalPerson(0, 0, "иван", "иванович", "иванов", new Date(1000000)));
-//        list.add(new NaturalPerson(0, 0, "петров", "пётр", "петрович", new Date(1000000)));
         clientsListView.setItems(list);
 
         clientsListView.setCellFactory(new Callback<ListView<NaturalPerson>, ListCell<NaturalPerson>>() {
