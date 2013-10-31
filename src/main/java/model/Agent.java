@@ -1,9 +1,12 @@
 package model;
 
 import model.clients.Client;
+import model.clients.LegalPerson;
+import model.clients.NaturalPerson;
 import model.insurances.Insurance;
 
-import java.util.Collection;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Agent {
@@ -47,12 +50,22 @@ public class Agent {
         this.quitDate = quitDate;
     }
 
-    public Collection<Insurance> getInsurances() {
-          return null;
+    public ArrayList<Insurance> getInsurances() throws SQLException {
+          return ModelController.getInstance().getInsurances(this);
     }
 
-    public Collection<Client> getClients() {
-          return null;
+    public ArrayList<Client> getClients() throws SQLException {
+        ArrayList<Client> list = new ArrayList<Client>(ModelController.getInstance().getLegalPersons(this));
+        list.addAll(ModelController.getInstance().getLegalPersons(this));
+        return list;
+    }
+
+    public ArrayList<NaturalPerson> getNaturalPersons() throws SQLException {
+        return ModelController.getInstance().getNaturalPersons(this);
+    }
+
+    public ArrayList<LegalPerson> getLegalPersons() throws SQLException {
+        return ModelController.getInstance().getLegalPersons(this);
     }
 
     @Override

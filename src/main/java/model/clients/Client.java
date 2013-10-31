@@ -5,7 +5,7 @@ import model.ModelController;
 import model.insurances.Insurance;
 
 import java.sql.SQLException;
-import java.util.Collection;
+import java.util.ArrayList;
 
 public abstract class Client {
     protected final int clientId;
@@ -28,7 +28,7 @@ public abstract class Client {
         return ModelController.getInstance().getAgent(agentId);
     }
 
-    public abstract Collection<Insurance> getInsurances();
+    public abstract ArrayList<Insurance> getInsurances() throws SQLException;
 
     @Override
     public int hashCode() {

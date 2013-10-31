@@ -1,8 +1,13 @@
 package model.insurances;
 
+import model.Agent;
+import model.Company;
+import model.ModelController;
+import model.clients.Client;
 import model.insurances.attributes.InsuranceAttribute;
 
-import java.util.Collection;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Insurance {
     //region Fields
@@ -23,6 +28,12 @@ public class Insurance {
         return clientId;
     }
 
+    public Client getClient() throws SQLException {
+        return clientType.equals("LEGAL")
+                ? ModelController.getInstance().getLegalPerson(clientId)
+                : ModelController.getInstance().getNaturalPerson(clientId);
+    }
+
     public double getBaseValue() {
         return baseValue;
     }
@@ -31,8 +42,19 @@ public class Insurance {
         return companyByInsuranceTypeId;
     }
 
-    public String getClientType() {
+    public CompanyByInsuranceType getCompanyByInsuranceType() throws SQLException {
+        return ModelController.getInstance().getCompanyByInsuranceType(companyByInsuranceTypeId);
+    }
 
+    public Company getCompany() throws SQLException {
+        return getCompanyByInsuranceType().getCompany();
+    }
+
+    public InsuranceType getInsuranceType() throws SQLException {
+        return getCompanyByInsuranceType().getInsuranceType();
+    }
+
+    public String getClientType() {
         return clientType;
     }
 
@@ -40,8 +62,12 @@ public class Insurance {
         return agentId;
     }
 
-    public Collection<InsuranceAttribute> getAttributes() {
-          return null;
+    public Agent getAgent() throws SQLException {
+        return ModelController.getInstance().getAgent(agentId);
+    }
+
+    public ArrayList<InsuranceAttribute> getAttributes() throws SQLException {
+        return ModelController.getInstance().getInsuranceAttributes(this);
     }
     //endregion
 

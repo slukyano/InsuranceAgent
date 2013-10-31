@@ -1,5 +1,11 @@
 package model;
 
+import model.insurances.CompanyByInsuranceType;
+import model.insurances.InsuranceType;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class Company {
     private final int companyId;
     private final String name;
@@ -20,6 +26,18 @@ public class Company {
 
     public String getDescription() {
         return description;
+    }
+
+    public ArrayList<CompanyByInsuranceType> getCompaniesByInsuranceType() throws SQLException {
+        return ModelController.getInstance().getCompaniesByInsuranceTypes(this);
+    }
+
+    public ArrayList<InsuranceType> getInsuranceTypes() throws SQLException {
+        ArrayList<CompanyByInsuranceType> compList = getCompaniesByInsuranceType();
+        ArrayList<InsuranceType> list = new ArrayList<InsuranceType>(compList.size());
+        for (CompanyByInsuranceType companyByInsuranceType : compList)
+            list.add(companyByInsuranceType.getInsuranceType());
+        return list;
     }
 
     public Company(int companyId, String name, int parentCompanyId, String description) {

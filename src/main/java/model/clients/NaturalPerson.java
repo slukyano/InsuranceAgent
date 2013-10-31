@@ -1,8 +1,10 @@
 package model.clients;
 
+import model.ModelController;
 import model.insurances.Insurance;
 
-import java.util.Collection;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class NaturalPerson extends Client {
@@ -37,8 +39,8 @@ public class NaturalPerson extends Client {
     }
 
     @Override
-    public Collection<Insurance> getInsurances() {
-              return null;
+    public ArrayList<Insurance> getInsurances() throws SQLException {
+        return ModelController.getInstance().getInsurances(this);
     }
 
     @Override

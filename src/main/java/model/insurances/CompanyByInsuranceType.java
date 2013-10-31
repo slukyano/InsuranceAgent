@@ -1,48 +1,64 @@
 package model.insurances;
 
-/**
- * Created with IntelliJ IDEA.
- * User: nik
- * Date: 31.10.13
- * Time: 1:57
- * To change this template use File | Settings | File Templates.
- */
+import model.Company;
+import model.ModelController;
+
+import java.sql.SQLException;
+
 public class CompanyByInsuranceType {
+    private final int companyByInsuranceTypeId;
+    private final int companyId;
+    private final int insuranceTypeId;
 
-    private final int companyByInsuranceTypeID;
-    private final String companyByInsuranceTypeName;
-    private final String companyByInsuranceTypeDescription;
-
-    public CompanyByInsuranceType(int companyByInsuranceTypeID, String companyByInsuranceTypeName, String companyByInsuranceTypeDescription) {
-        this.companyByInsuranceTypeID = companyByInsuranceTypeID;
-        this.companyByInsuranceTypeName = companyByInsuranceTypeName;
-        this.companyByInsuranceTypeDescription = companyByInsuranceTypeDescription;
+    public int getCompanyByInsuranceTypeId() {
+        return companyByInsuranceTypeId;
     }
 
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public Company getCompany() throws SQLException {
+        return ModelController.getInstance().getCompany(companyId);
+    }
+
+    public int getInsuranceTypeId() {
+        return insuranceTypeId;
+    }
+
+    public InsuranceType getInsuranceType() throws SQLException {
+        return ModelController.getInstance().getInsuranceType(insuranceTypeId);
+    }
+
+    public CompanyByInsuranceType(int companyByInsuranceTypeId, int companyId, int insuranceTypeId) {
+        this.companyByInsuranceTypeId = companyByInsuranceTypeId;
+        this.companyId = companyId;
+        this.insuranceTypeId = insuranceTypeId;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CompanyByInsuranceType)) return false;
 
-        CompanyByInsuranceType companyByInsuranceType = (CompanyByInsuranceType) o;
+        CompanyByInsuranceType that = (CompanyByInsuranceType) o;
 
-        if (companyByInsuranceTypeID != companyByInsuranceType.companyByInsuranceTypeID) return false;
+        if (companyByInsuranceTypeId != that.companyByInsuranceTypeId) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return companyByInsuranceTypeID;
+        return companyByInsuranceTypeId;
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Company{");
-        sb.append("companyByInsuranceTypeID=").append(companyByInsuranceTypeID);
-        sb.append(", companyByInsuranceTypeName='").append(companyByInsuranceTypeName).append('\'');
-        sb.append(", companyByInsuranceTypeDescription=").append(companyByInsuranceTypeDescription);
+        final StringBuilder sb = new StringBuilder("CompanyByInsuranceType{");
+        sb.append("companyByInsuranceTypeId=").append(companyByInsuranceTypeId);
+        sb.append(", companyId=").append(companyId);
+        sb.append(", insuranceTypeId=").append(insuranceTypeId);
         sb.append("} ");
         sb.append(super.toString());
 

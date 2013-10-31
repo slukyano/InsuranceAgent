@@ -1,5 +1,9 @@
 package model.insurances.attributes;
 
+import model.ModelController;
+
+import java.sql.SQLException;
+
 public class InsuranceAttribute {
     private final int attributeId;
     private final int insuranceId;
@@ -18,15 +22,19 @@ public class InsuranceAttribute {
         return attributeValue;
     }
 
+    public int getTypeId() {
+        return attributeTypeId;
+    }
+
+    public AttributeType getType() throws SQLException {
+        return ModelController.getInstance().getAttributeType(attributeTypeId);
+    }
+
     public InsuranceAttribute(int attributeId, int insuranceId, String attributeValue, int attributeTypeId) {
         this.attributeId = attributeId;
         this.insuranceId = insuranceId;
         this.attributeValue = attributeValue;
         this.attributeTypeId = attributeTypeId;
-    }
-
-    public int getTypeId() {
-        return attributeTypeId;
     }
 
     @Override
