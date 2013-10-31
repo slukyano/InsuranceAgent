@@ -1,0 +1,10 @@
+<!--<fx:root type="javafx.scene.control.ListCell" xmlns:fx="http://javafx.com/fxml">-->
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<GridPane fx:id="gridPane" xmlns:fx="http://javafx.com/fxml">
+        <Text fx:id="nameField"
+              GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Text fx:id="birthField"
+              GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    </GridPane>
+<!--</fx:root>-->
