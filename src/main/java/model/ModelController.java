@@ -76,13 +76,24 @@ public class ModelController {
 
         return list;
     }
+
+    private void executeSQL(String sqlQuery)  throws SQLException {
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(sqlQuery);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
+
+    }
     //endregion
 
     //region NaturalPerson Factories
-    public NaturalPerson getNaturalPerson(int clientId) throws SQLException {
+    public NaturalPerson getNaturalPerson(int NaturalPersonID) throws SQLException {
         String sql = "SELECT NaturalPersonID, FirstName, SecondName, LastName, DateOfBirth, AgentID"
                         + " FROM NATURAL_PERSONS"
-                        + " WHERE NaturalPersonID = " + clientId;
+                        + " WHERE NaturalPersonID = " + NaturalPersonID;
 
         return getObject(NaturalPersonFactory.getInstance(), sql);
     }
@@ -98,6 +109,36 @@ public class ModelController {
                 + " FROM NATURAL_PERSONS"
                 + " WHERE AgentID = " + agent.getAgentId();
         return getObjects(NaturalPersonFactory.getInstance(), sql);
+    }
+
+    public void updateNaturalPerson(NaturalPerson naturalPerson)      throws SQLException {
+        String sql = "UPDATE NATURAL_PERSONS"
+                        + "SET FirstName = " + naturalPerson.getFirstName()
+                            +"SecondName = " + naturalPerson.getSecondName()
+                            +"LastName = " + naturalPerson.getLastName()
+                            +"DateOfBirth = " + naturalPerson.getDateOfBirth() //TODO:Check if valid string
+                            +"AgentID = " + naturalPerson.getAgentId()
+                        + "wHERE NaturalPersonID = " + naturalPerson.getClientId();
+        executeSQL(sql);
+
+    }
+
+    public void createNaturalPerson(NaturalPerson naturalPerson)      throws SQLException {
+        String sql = "INSERT INTO NATURAL_PERSONS (FirstName, SecondName, LastName, DateOfBirth, AgentID)"
+                        + "VALUES (" +   naturalPerson.getFirstName()
+                                     + "," +naturalPerson.getSecondName()
+                                     + "," +naturalPerson.getLastName()
+                                     + "," +naturalPerson.getDateOfBirth()
+                                     + "," +naturalPerson.getAgentId()+")";
+        executeSQL(sql);
+        //TODO: should set an ID somehow
+    }
+
+    public void  deleteNaturalPerson(int ClientId)      throws SQLException {
+        String sql = "DELETE FROM NATURAL_PERSONS"
+                        + "WHERE NaturalPersonID = "  +  ClientId;
+        executeSQL(sql);
+        //TODO delete cascade?
     }
     //endregion
 
@@ -120,6 +161,34 @@ public class ModelController {
                 + " FROM LEGAL_PERSONS"
                 + " WHERE AgentID = " + agent.getAgentId();
         return getObjects(LegalPersonFactory.getInstance(), sql);
+    }
+
+    public void updateLegalPerson(LegalPerson legalPerson)      throws SQLException {
+        String sql = "UPDATE Legal_PERSONS"
+                + "SET LegalName = " + legalPerson.getName()
+                +"Address = " + legalPerson.getAddress()
+                +"vatin = " + legalPerson.getVatin()
+                +"AgentID = " + legalPerson.getAgentId()
+                + "wHERE LegalPersonID = " + legalPerson.getClientId();
+        executeSQL(sql);
+
+    }
+
+    public void createLegalPerson(LegalPerson legalPerson)      throws SQLException {
+        String sql = "INSERT INTO Legal_PERSONS (LegalName, Address, vatin, AgentID)"
+                + "VALUES (" +   legalPerson.getName()
+                + "," +legalPerson.getAddress()
+                + "," +legalPerson.getVatin()
+                + "," +legalPerson.getAgentId()+")";
+        executeSQL(sql);
+        //TODO: should set an ID somehow
+    }
+
+    public void  deleteLegalPerson(int ClientId)      throws SQLException {
+        String sql = "DELETE FROM Legal_PERSONS"
+                + "WHERE LegalPersonID = "  +  ClientId;
+        executeSQL(sql);
+        //TODO delete cascade?
     }
     //endregion
 
