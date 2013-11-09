@@ -25,7 +25,7 @@ public class ModelController {
         Locale.setDefault(Locale.ENGLISH);
         DriverManager.getConnection(connectionUrl, username, password).close();
 
-        ourInstance = new ModelController(connectionUrl, username, password);
+        ourInstance = new ModelController(connectionUrl, username, password, UserType.ADMIN);
     }
     //endregion
 
@@ -33,13 +33,21 @@ public class ModelController {
     private final String connectionUrl;
     private final String username;
     private final String password;
+    private final UserType userType;
+    //endregion
+
+    //region Getters
+    public UserType getUserType() {
+        return userType;
+    }
     //endregion
 
     //region Constructors
-    private ModelController(String connectionUrl, String username, String password) {
+    private ModelController(String connectionUrl, String username, String password, UserType userType) {
         this.connectionUrl = connectionUrl;
         this.username = username;
         this.password = password;
+        this.userType = userType;
     }
     //endregion
 

@@ -12,9 +12,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/ui/login/LoginPage.fxml"));
+        Parent loginRoot = FXMLLoader.load(getClass().getResource("/ui/login/LoginPage.fxml"));
+
+        primaryStage.setScene(new Scene(loginRoot, 640, 480));
+        primaryStage.sizeToScene();
         primaryStage.setTitle("Insurance");
-        primaryStage.setScene(new Scene(root, 640, 480));
         primaryStage.show();
+
+        primaryStage.setMinWidth(primaryStage.getWidth());
+        primaryStage.setMinHeight(primaryStage.getHeight());
     }
 }

@@ -1,27 +1,42 @@
 package ui.login;
 
-import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import model.ModelController;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
-/**
- * Created with IntelliJ IDEA.
- * User: lsa
- * Date: 30.10.13
- */
-public class LoginPageController {
+public class LoginPageController implements Initializable, ChangeListener<String> {
     public TextField usernameField;
     public PasswordField passwordField;
     public TextField connectionField;
+    public Text infoText;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        usernameField.textProperty().addListener(this);
+        passwordField.textProperty().addListener(this);
+        connectionField.textProperty().addListener(this);
+    }
+
+    @Override
+    public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
+        // clear info when credentials change
+        infoText.setText("");
+    }
 
     public void loginClick(ActionEvent actionEvent) {
         try {
@@ -29,16 +44,19 @@ public class LoginPageController {
             ModelController.initializeInstance(connectionField.getText(),
                     usernameField.getText(),
                     passwordField.getText());
-
-            Scene scene = ((Node)actionEvent.getSource()).getScene();
-            Parent root = FXMLLoader.load(Application.class.getResource("/ui/clients/ClientsPage.fxml"));
-            scene.setRoot(root);
         }
         catch (SQLException e) {
             e.printStackTrace();
+            infoText.setText("Error while connecting to database");
+            infoText.setFill(Color.RED);
+        }
+
+        try {
+            Scene scene = ((Node)actionEvent.getSource()).getScene();
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/UiRoot.fxml"));
+            scene.setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }

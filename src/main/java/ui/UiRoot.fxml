@@ -1,0 +1,6 @@
+<?import javafx.scene.control.TabPane?>
+<TabPane xmlns:fx="http://javafx.com/fxml"
+         fx:id="rootTabPane" fx:controller="ui.UiRootController"
+         tabClosingPolicy="UNAVAILABLE">
+
+</TabPane>

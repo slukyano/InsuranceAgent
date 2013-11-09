@@ -3,6 +3,8 @@
 <GridPane fx:id="gridPane" xmlns:fx="http://javafx.com/fxml">
     <Text fx:id="nameField"
           GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-    <Text fx:id="birthField"
+    <Text fx:id="vatinField"
           GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <Text fx:id="addressField"
+          GridPane.rowIndex="2" GridPane.columnIndex="0"/>
 </GridPane>

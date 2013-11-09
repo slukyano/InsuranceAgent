@@ -9,11 +9,6 @@ import model.clients.NaturalPerson;
 
 import java.io.IOException;
 
-/**
- * Created with IntelliJ IDEA.
- * User: lsa
- * Date: 31.10.13
- */
 public class NaturalPersonCell extends ListCell<NaturalPerson> {
     @FXML public Text nameField;
     @FXML public Text birthField;
@@ -21,7 +16,6 @@ public class NaturalPersonCell extends ListCell<NaturalPerson> {
 
     public NaturalPersonCell() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("NaturalPersonCell.fxml"));
-        //fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 
         try {
