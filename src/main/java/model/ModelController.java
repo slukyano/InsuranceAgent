@@ -213,6 +213,36 @@ public class ModelController {
                 + " FROM AGENTS";
         return getObjects(AgentFactory.getInstance(), sql);
     }
+
+    public void updateAgent(Agent agent)      throws SQLException {
+        String sql = "UPDATE Legal_PERSONS"
+                + "SET FirstName = " + agent.getFirstName()
+                +"SecondName = " + agent.getSecondName()
+                +"LastName = " + agent.getLastName()
+                +"HiringDate = " + agent.getHiringDate()
+                +"QuitDate = " + agent.getQuitDate()
+                + "wHERE AgentId = " + agent.getAgentId() + ")";
+        executeSQL(sql);
+
+    }
+
+    public void createAgent(Agent agent)      throws SQLException {
+        String sql = "INSERT INTO Legal_PERSONS (FirstName,SecondName,LastName,HiringDate,QuitDate)"
+                + "VALUES (" +  agent.getFirstName()
+                + "," +agent.getSecondName()
+                + "," +agent.getLastName()
+                + "," +agent.getHiringDate()
+                +"," +agent.getQuitDate()+")";
+        executeSQL(sql);
+        //TODO: should set an ID somehow
+    }
+
+    public void  deleteAgent(int AgentId)      throws SQLException {
+        String sql = "DELETE FROM Legal_PERSONS"
+                + "WHERE AgentId = "  +  AgentId;
+        executeSQL(sql);
+        //TODO delete cascade?
+    }
     //endregion
 
     //region Company Factories
