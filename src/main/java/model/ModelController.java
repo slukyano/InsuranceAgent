@@ -304,6 +304,28 @@ public class ModelController {
                 + " WHERE companyID = " + company.getCompanyId();
         return getObjects(CompanyByInsuranceTypeFactory.getInstance(), sql);
     }
+    public void updateCompanyByInsuranceType(CompanyByInsuranceType companyByInsuranceType)      throws SQLException {
+        String sql = "UPDATE companies_by_insurance_type"
+                + "SET companyID = " + companyByInsuranceType.getCompanyId()
+                +"insuranceID = " + companyByInsuranceType.getInsuranceTypeId() + ")";
+        executeSQL(sql);
+
+    }
+
+    public void createCompanyByInsuranceType(CompanyByInsuranceType companyByInsuranceType)      throws SQLException {
+        String sql = "INSERT INTO companies_by_insurance_type (companyID, insuranceID)"
+                + "VALUES (" +  companyByInsuranceType.getCompanyId()
+                + "," +companyByInsuranceType.getInsuranceTypeId()+")";
+        executeSQL(sql);
+        //TODO: should set an ID somehow
+    }
+
+    public void  deleteCompanyByInsuranceType(int companyByInsuranceTypeId)      throws SQLException {
+        String sql = "DELETE FROM companies_by_insurance_type"
+                + "WHERE CompanyId = "  +  companyId;
+        executeSQL(sql);
+        //TODO delete cascade?
+    }
     //endregion
 
     //region Insurance Factories
