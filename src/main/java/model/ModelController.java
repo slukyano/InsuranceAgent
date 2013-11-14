@@ -215,7 +215,7 @@ public class ModelController {
     }
 
     public void updateAgent(Agent agent)      throws SQLException {
-        String sql = "UPDATE Legal_PERSONS"
+        String sql = "UPDATE AGENTS"
                 + "SET FirstName = " + agent.getFirstName()
                 +"SecondName = " + agent.getSecondName()
                 +"LastName = " + agent.getLastName()
@@ -227,7 +227,7 @@ public class ModelController {
     }
 
     public void createAgent(Agent agent)      throws SQLException {
-        String sql = "INSERT INTO Legal_PERSONS (FirstName,SecondName,LastName,HiringDate,QuitDate)"
+        String sql = "INSERT INTO AGENTS (FirstName,SecondName,LastName,HiringDate,QuitDate)"
                 + "VALUES (" +  agent.getFirstName()
                 + "," +agent.getSecondName()
                 + "," +agent.getLastName()
@@ -238,7 +238,7 @@ public class ModelController {
     }
 
     public void  deleteAgent(int AgentId)      throws SQLException {
-        String sql = "DELETE FROM Legal_PERSONS"
+        String sql = "DELETE FROM AGENTS"
                 + "WHERE AgentId = "  +  AgentId;
         executeSQL(sql);
         //TODO delete cascade?
@@ -257,6 +257,30 @@ public class ModelController {
         String sql = "SELECT CompanyID, CompanyName,ParentCompanyId,CompanyDescription "
                 + " FROM COMPANIES";
         return getObjects(CompanyFactory.getInstance(), sql);
+    }
+    public void updateCompany(Company company)      throws SQLException {
+        String sql = "UPDATE COMPANIES"
+                + "SET CompanyName = " + company.getName()
+                +"ParentCompanyId = " + company.getParentCompanyId()
+                +"CompanyDescription = " + company.getDescription()+ ")";
+        executeSQL(sql);
+
+    }
+
+    public void createCompany(Company company)      throws SQLException {
+        String sql = "INSERT INTO COMPANIES (CompanyName,ParentCompanyId,CompanyDescription)"
+                + "VALUES (" +  company.getName()
+                + "," +company.getParentCompanyId()
+                + "," +company.getDescription()+")";
+        executeSQL(sql);
+        //TODO: should set an ID somehow
+    }
+
+    public void  deleteCompany(int companyId)      throws SQLException {
+        String sql = "DELETE FROM COMPANIES"
+                + "WHERE CompanyId = "  +  companyId;
+        executeSQL(sql);
+        //TODO delete cascade?
     }
     //endregion
 
