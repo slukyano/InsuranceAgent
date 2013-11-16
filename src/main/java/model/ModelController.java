@@ -114,26 +114,26 @@ public class ModelController {
 
     public ArrayList<NaturalPerson> getNaturalPersons(Agent agent) throws SQLException {
         String sql = "SELECT NaturalPersonID, FirstName, SecondName, LastName, DateOfBirth, AgentID"
-                + " FROM NATURAL_PERSONS"
-                + " WHERE AgentID = " + agent.getAgentId();
+                        + " FROM NATURAL_PERSONS"
+                        + " WHERE AgentID = " + agent.getAgentId();
         return getObjects(NaturalPersonFactory.getInstance(), sql);
     }
 
     public void updateNaturalPerson(NaturalPerson naturalPerson)      throws SQLException {
         String sql = "UPDATE NATURAL_PERSONS"
-                        + "SET FirstName = " + naturalPerson.getFirstName()
-                            +"SecondName = " + naturalPerson.getSecondName()
-                            +"LastName = " + naturalPerson.getLastName()
-                            +"DateOfBirth = " + naturalPerson.getDateOfBirth() //TODO:Check if valid string
-                            +"AgentID = " + naturalPerson.getAgentId()
-                        + "wHERE NaturalPersonID = " + naturalPerson.getClientId();
+                        + " SET FirstName = " + naturalPerson.getFirstName()
+                            +", SecondName = " + naturalPerson.getSecondName()
+                            +", LastName = " + naturalPerson.getLastName()
+                            +", DateOfBirth = " + naturalPerson.getDateOfBirth() //TODO:Check if valid string
+                            +", AgentID = " + naturalPerson.getAgentId()
+                        + " WHERE NaturalPersonID = " + naturalPerson.getClientId();
         executeSQL(sql);
 
     }
 
     public void createNaturalPerson(NaturalPerson naturalPerson)      throws SQLException {
         String sql = "INSERT INTO NATURAL_PERSONS (FirstName, SecondName, LastName, DateOfBirth, AgentID)"
-                        + "VALUES (" +   naturalPerson.getFirstName()
+                        + " VALUES (" +   naturalPerson.getFirstName()
                                      + "," +naturalPerson.getSecondName()
                                      + "," +naturalPerson.getLastName()
                                      + "," +naturalPerson.getDateOfBirth()
@@ -144,7 +144,7 @@ public class ModelController {
 
     public void  deleteNaturalPerson(int ClientId)      throws SQLException {
         String sql = "DELETE FROM NATURAL_PERSONS"
-                        + "WHERE NaturalPersonID = "  +  ClientId;
+                        + " WHERE NaturalPersonID = "  +  ClientId;
         executeSQL(sql);
         //TODO delete cascade?
     }
@@ -173,18 +173,18 @@ public class ModelController {
 
     public void updateLegalPerson(LegalPerson legalPerson)      throws SQLException {
         String sql = "UPDATE Legal_PERSONS"
-                + "SET LegalName = " + legalPerson.getName()
-                +"Address = " + legalPerson.getAddress()
-                +"vatin = " + legalPerson.getVatin()
-                +"AgentID = " + legalPerson.getAgentId()
-                + "wHERE LegalPersonID = " + legalPerson.getClientId();
+                        + " SET LegalName = " + legalPerson.getName()
+                            +", Address = " + legalPerson.getAddress()
+                            +", vatin = " + legalPerson.getVatin()
+                            +", AgentID = " + legalPerson.getAgentId()
+                        + " wHERE LegalPersonID = " + legalPerson.getClientId();
         executeSQL(sql);
 
     }
 
     public void createLegalPerson(LegalPerson legalPerson)      throws SQLException {
         String sql = "INSERT INTO Legal_PERSONS (LegalName, Address, vatin, AgentID)"
-                + "VALUES (" +   legalPerson.getName()
+                + " VALUES (" +   legalPerson.getName()
                 + "," +legalPerson.getAddress()
                 + "," +legalPerson.getVatin()
                 + "," +legalPerson.getAgentId()+")";
@@ -194,7 +194,7 @@ public class ModelController {
 
     public void  deleteLegalPerson(int ClientId)      throws SQLException {
         String sql = "DELETE FROM Legal_PERSONS"
-                + "WHERE LegalPersonID = "  +  ClientId;
+                + " WHERE LegalPersonID = "  +  ClientId;
         executeSQL(sql);
         //TODO delete cascade?
     }
@@ -216,12 +216,12 @@ public class ModelController {
 
     public void updateAgent(Agent agent)      throws SQLException {
         String sql = "UPDATE AGENTS"
-                + "SET FirstName = " + agent.getFirstName()
-                +"SecondName = " + agent.getSecondName()
-                +"LastName = " + agent.getLastName()
-                +"HiringDate = " + agent.getHiringDate()
-                +"QuitDate = " + agent.getQuitDate()
-                + "wHERE AgentId = " + agent.getAgentId() + ")";
+                        + " SET FirstName = " + agent.getFirstName()
+                            +", SecondName = " + agent.getSecondName()
+                            +", LastName = " + agent.getLastName()
+                            +", HiringDate = " + agent.getHiringDate()
+                            +", QuitDate = " + agent.getQuitDate()
+                        + " wHERE AgentId = " + agent.getAgentId();
         executeSQL(sql);
 
     }
@@ -239,7 +239,7 @@ public class ModelController {
 
     public void  deleteAgent(int AgentId)      throws SQLException {
         String sql = "DELETE FROM AGENTS"
-                + "WHERE AgentId = "  +  AgentId;
+                        + " WHERE AgentId = "  +  AgentId;
         executeSQL(sql);
         //TODO delete cascade?
     }
@@ -260,16 +260,17 @@ public class ModelController {
     }
     public void updateCompany(Company company)      throws SQLException {
         String sql = "UPDATE COMPANIES"
-                + "SET CompanyName = " + company.getName()
-                +"ParentCompanyId = " + company.getParentCompanyId()
-                +"CompanyDescription = " + company.getDescription()+ ")";
+                        + " SET CompanyName = " + company.getName()
+                                +", ParentCompanyId = " + company.getParentCompanyId()
+                                +", CompanyDescription = " + company.getDescription()
+                        + " WHERE CompanyId = " +company.getCompanyId();
         executeSQL(sql);
 
     }
 
     public void createCompany(Company company)      throws SQLException {
         String sql = "INSERT INTO COMPANIES (CompanyName,ParentCompanyId,CompanyDescription)"
-                + "VALUES (" +  company.getName()
+                + " VALUES (" +  company.getName()
                 + "," +company.getParentCompanyId()
                 + "," +company.getDescription()+")";
         executeSQL(sql);
@@ -278,7 +279,7 @@ public class ModelController {
 
     public void  deleteCompany(int companyId)      throws SQLException {
         String sql = "DELETE FROM COMPANIES"
-                + "WHERE CompanyId = "  +  companyId;
+                + " WHERE CompanyId = "  +  companyId;
         executeSQL(sql);
         //TODO delete cascade?
     }
@@ -306,15 +307,16 @@ public class ModelController {
     }
     public void updateCompanyByInsuranceType(CompanyByInsuranceType companyByInsuranceType)      throws SQLException {
         String sql = "UPDATE companies_by_insurance_type"
-                + "SET companyID = " + companyByInsuranceType.getCompanyId()
-                +"insuranceID = " + companyByInsuranceType.getInsuranceTypeId() + ")";
+                        + " SET companyID = " + companyByInsuranceType.getCompanyId()
+                            +" insuranceID = " + companyByInsuranceType.getInsuranceTypeId()
+                        + " where companyByInsuranceTypeID = " + companyByInsuranceType.getCompanyByInsuranceTypeId();
         executeSQL(sql);
 
     }
 
     public void createCompanyByInsuranceType(CompanyByInsuranceType companyByInsuranceType)      throws SQLException {
         String sql = "INSERT INTO companies_by_insurance_type (companyID, insuranceID)"
-                + "VALUES (" +  companyByInsuranceType.getCompanyId()
+                + " VALUES (" +  companyByInsuranceType.getCompanyId()
                 + "," +companyByInsuranceType.getInsuranceTypeId()+")";
         executeSQL(sql);
         //TODO: should set an ID somehow
@@ -322,7 +324,7 @@ public class ModelController {
 
     public void  deleteCompanyByInsuranceType(int companyByInsuranceTypeId)      throws SQLException {
         String sql = "DELETE FROM companies_by_insurance_type"
-                + "WHERE CompanyId = "  +  companyId;
+                + " WHERE companyByInsuranceTypeID = "  +  companyByInsuranceTypeId;
         executeSQL(sql);
         //TODO delete cascade?
     }
@@ -364,6 +366,35 @@ public class ModelController {
                 + " WHERE AgentID = " + agent.getAgentId();
         return getObjects(InsuranceFactory.getInstance(), sql);
     }
+    public void updateInsurance(Insurance insurance)      throws SQLException {
+        String sql = "UPDATE INSURANCES"
+                        + "SET ClientID = " + insurance.getClientId()
+                            +", ClientType = " + insurance.getClientType()
+                            +", CompanyByInsuranceTypeID = " +insurance.getCompanyByInsuranceTypeId()
+                            + ", AgentId = " + insurance.getAgentId()
+                            + ", BaseValue = " + insurance.getBaseValue()
+                        + " Where InsuranceId = " +insurance.getInsuranceId();
+        executeSQL(sql);
+
+    }
+
+    public void createInsurance(Insurance insurance)      throws SQLException {
+        String sql = "INSERT INTO INSURANCES (ClientID, ClientType, CompanyByInsuranceTypeID, AgentId, BaseValue)"
+                + " VALUES (" +  insurance.getClientId()
+                + "," +insurance.getClientType()
+                + "," +insurance.getCompanyByInsuranceTypeId()
+                + "," +insurance.getAgentId()
+                + "," +insurance.getBaseValue() + ")";
+        executeSQL(sql);
+        //TODO: should set an ID somehow
+    }
+
+    public void  deleteInsurance(int insuranceId)      throws SQLException {
+        String sql = "DELETE FROM INSURANCES"
+                + " WHERE insuranceID = "  +  insuranceId;
+        executeSQL(sql);
+        //TODO delete cascade?
+    }
     //endregion
 
     //region InsuranceType Factories
@@ -379,6 +410,29 @@ public class ModelController {
                 + " FROM insurance_types";
         return getObjects(InsuranceTypeFactory.getInstance(), sql);
     }
+    public void updateInsuranceType(InsuranceType insuranceType)      throws SQLException {
+        String sql = "UPDATE insurance_types"
+                        + " SET InsuranceTypeName = " + insuranceType.getName()
+                            +", InsuranceTypeDescription = " + insuranceType.getDescription()
+                        +" Where InsuranceTypeId = " insuranceType.getInsuranceTypeId();
+        executeSQL(sql);
+
+    }
+
+    public void createInsuranceType(InsuranceType insuranceType)      throws SQLException {
+        String sql = "INSERT INTO insurance_types (InsuranceTypeName,InsuranceTypeDescription)"
+                + " VALUES (" +  insuranceType.getName()
+                + "," +insuranceType.getDescription() + ")";
+        executeSQL(sql);
+        //TODO: should set an ID somehow
+    }
+
+    public void  deleteInsuranceType(int insuranceTypeId)      throws SQLException {
+        String sql = "DELETE FROM insurance_types"
+                + "WHERE InsuranceTypeId = "  +  insuranceTypeId;
+        executeSQL(sql);
+        //TODO delete cascade?
+    }
     //endregion
 
     //region Attribute Factories
@@ -393,6 +447,29 @@ public class ModelController {
         String sql = "SELECT AttributeId,AttributeName,AttributeDescription"
                 + " FROM ATTRIBUTE_TYPES";
         return getObjects(AttributeTypeFactory.getInstance(), sql);
+    }
+    public void updateAttributeType(AttributeType attributeType)      throws SQLException {
+        String sql = "UPDATE ATTRIBUTE_TYPES"
+                        + " SET AttributeName = " + attributeType.getName()
+                            +", AttributeDescription = " + attributeType.getDescription()
+                        +" Where AttributeTypeId = " +attributeType.getTypeId();
+        executeSQL(sql);
+
+    }
+
+    public void createAttributeType(AttributeType attributeType)      throws SQLException {
+        String sql = "INSERT INTO ATTRIBUTE_TYPES (AttributeName,AttributeDescription)"
+                + " VALUES (" +  attributeType.getName()
+                + "," +attributeType.getDescription() + ")";
+        executeSQL(sql);
+        //TODO: should set an ID somehow
+    }
+
+    public void  deleteAttributeType(int attribureTypeId)      throws SQLException {
+        String sql = "DELETE FROM ATTRIBUTE_TYPES"
+                + " WHERE AttributeTypeId = "  +  attribureTypeId;
+        executeSQL(sql);
+        //TODO delete cascade?
     }
 
     public InsuranceAttribute getInsuranceAttribute(int insuranceAttributeId) throws SQLException {
@@ -413,6 +490,31 @@ public class ModelController {
                 + " FROM INSURANCE_ATTRIBUTES"
                 + " WHERE InsuranceId = " + insurance.getInsuranceId();
         return getObjects(InsuranceAttributeFactory.getInstance(), sql);
+    }
+    public void updateInsuranceAttribute(InsuranceAttribute insuranceAttribute)      throws SQLException {
+        String sql = "UPDATE INSURANCE_ATTRIBUTES"
+                        + " SET AttributeTypeId = " + insuranceAttribute.getAttributeTypeId()
+                            +", AttributeValue = " + insuranceAttribute.getAttributeValue()
+                            +", InsuranceId = " +insuranceAttribute.getInsuranceId()
+                        + " where AttributeId = " + insuranceAttribute.getAttributeId();
+        executeSQL(sql);
+
+    }
+
+    public void createInsuranceAttribute(InsuranceAttribute insuranceAttribute)      throws SQLException {
+        String sql = "INSERT INTO INSURANCE_ATTRIBUTES (AttributeTypeId,AttributeValue,InsuranceId)"
+                + " VALUES (" +  insuranceAttribute.getAttributeTypeId()
+                + "," +insuranceAttribute.getAttributeValue()
+                + "," +insuranceAttribute.getInsuranceId()+ ")";
+        executeSQL(sql);
+        //TODO: should set an ID somehow
+    }
+
+    public void  deleteInsuranceAttribute(int insuranceAttributeId)      throws SQLException {
+        String sql = "DELETE FROM INSURANCE_ATTRIBUTES"
+                + " WHERE AttributeId = "  +  insuranceAttributeId;
+        executeSQL(sql);
+        //TODO delete cascade?
     }
     //endregion
     //endregion
