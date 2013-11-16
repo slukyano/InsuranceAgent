@@ -262,19 +262,25 @@ public class ModelController {
 
         stmt.close();
         conn.close();
-        //TODO: should set an ID somehow
     }
 
     public void  deleteAgent(int AgentId)      throws SQLException {
-        String sql = "DELETE FROM AGENTS"
-                        + " WHERE AgentId = "  +  AgentId;
-        executeSQL(sql);
-        //TODO delete cascade?
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "DELETE FROM AGENTS"
+                        + " WHERE AgentId = ? ");
+        stmt.setInt(1,AgentId);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
     }
     //endregion
 
     //region Company Factories
     public Company getCompany(int companyId) throws SQLException {
+
         String sql = "SELECT CompanyID, CompanyName,ParentCompanyId,CompanyDescription "
                 + " FROM COMPANIES"
                 + " WHERE CompanyId = " + companyId;
@@ -706,19 +712,19 @@ public class ModelController {
                     "system",
                     "1234");
             ModelController instance = ModelController.getInstance();
-            instance.deleteAgent(24);
-            Agent agent = new Agent(25,"william", "john", "smith", (new SimpleDateFormat("dd-M-yyyy")).parse("29-12-2000"),(new SimpleDateFormat("dd-M-yyyy")).parse("03-03-2013")) ;
-            instance.createAgent(agent);
-            Agent newagent = new Agent(25,"fuck", "you", "all", (new SimpleDateFormat("dd-M-yyyy")).parse("03-03-2000"),(new SimpleDateFormat("dd-M-yyyy")).parse("03-03-2013")) ;
+            instance.deleteAgent(27);
+            //Agent agent = new Agent(27,"william", "john", "smith", (new SimpleDateFormat("dd-M-yyyy")).parse("29-12-2000"),(new SimpleDateFormat("dd-M-yyyy")).parse("03-03-2013")) ;
             //instance.createAgent(agent);
-            instance.updateAgent(newagent);
+            //Agent newagent = new Agent(26,"fuck", "you", "all", (new SimpleDateFormat("dd-M-yyyy")).parse("03-03-2000"),(new SimpleDateFormat("dd-M-yyyy")).parse("03-03-2013")) ;
+            //instance.createAgent(agent);
+            //instance.updateAgent(newagent);
             //instance.deleteAgent(21);
 
         }
         catch (SQLException e) {
             e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        //} catch (ParseException e) {
+            //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 }
