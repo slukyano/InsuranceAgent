@@ -207,30 +207,54 @@ public class ModelController {
     }
 
     public void updateLegalPerson(LegalPerson legalPerson)      throws SQLException {
-        String sql = "UPDATE Legal_PERSONS"
-                        + " SET LegalName = " + legalPerson.getName()
-                            +", Address = " + legalPerson.getAddress()
-                            +", vatin = " + legalPerson.getVatin()
-                            +", AgentID = " + legalPerson.getAgentId()
-                        + " wHERE LegalPersonID = " + legalPerson.getClientId();
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
+        PreparedStatement stmt = conn.prepareStatement(
+                "UPDATE Legal_PERSONS"
+                        + " SET LegalName = ?,"
+                        +" Address = ?,"
+                        +" vatin = ?,"
+                        +" AgentID = ?"
+                        + " wHERE LegalPersonID = ? ");
+        stmt.setString(1, legalPerson.getName());
+        stmt.setString(2,legalPerson.getAddress());
+        stmt.setString(3,legalPerson.getVatin());
+        stmt.setInt(4, legalPerson.getAgentId());
+        stmt.setInt(5, legalPerson.getClientId());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
     }
 
     public void createLegalPerson(LegalPerson legalPerson)      throws SQLException {
-        String sql = "INSERT INTO Legal_PERSONS (LegalName, Address, vatin, AgentID)"
-                + " VALUES (" +   legalPerson.getName()
-                + "," +legalPerson.getAddress()
-                + "," +legalPerson.getVatin()
-                + "," +legalPerson.getAgentId()+")";
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "INSERT INTO Legal_PERSONS (LegalName, Address, vatin, AgentID)"
+                    + " VALUES (?,?,?,?)");
+        stmt.setString(1, legalPerson.getName());
+        stmt.setString(2,legalPerson.getAddress());
+        stmt.setString(3,legalPerson.getVatin());
+        stmt.setInt(4, legalPerson.getAgentId());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
         //TODO: should set an ID somehow
     }
 
     public void  deleteLegalPerson(int ClientId)      throws SQLException {
-        String sql = "DELETE FROM Legal_PERSONS"
-                + " WHERE LegalPersonID = "  +  ClientId;
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "DELETE FROM Legal_PERSONS"
+                        + " WHERE LegalPersonID = ?");
+        stmt.setInt(1, ClientId);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
         //TODO delete cascade?
     }
     //endregion
@@ -737,11 +761,12 @@ public class ModelController {
                     "system",
                     "1234");
             ModelController instance = ModelController.getInstance();
-            //NaturalPerson naturalPerson = new NaturalPerson(1,1,"jack","sparrow","pidgeon",(new SimpleDateFormat("dd-M-yyyy")).parse("18-10-1992"));
-            //instance.createNaturalPerson(naturalPerson);
-            //NaturalPerson newnaturalPerson = new NaturalPerson(21,1,"fuck","dat","shit",(new SimpleDateFormat("dd-M-yyyy")).parse("18-10-1991"));
-            //instance.updateNaturalPerson(newnaturalPerson);
-            instance.deleteNaturalPerson(21);
+//            LegalPerson legalPerson = new LegalPerson(1,1,"ОАО РиК","87092-22-33","wallaby way 42, sidney");
+//            instance.createLegalPerson(legalPerson);
+            //LegalPerson newLegalPerson = new LegalPerson(21,2,"ololo","ololo","ololo");
+            //instance.updateLegalPerson(newLegalPerson);
+            //instance.deleteLegalPerson(21);
+            //instance.deleteNaturalPerson(21);
         }
         catch (SQLException e) {
             e.printStackTrace();
