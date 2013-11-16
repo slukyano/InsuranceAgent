@@ -712,19 +712,12 @@ public class ModelController {
                     "system",
                     "1234");
             ModelController instance = ModelController.getInstance();
-            instance.deleteAgent(27);
-            //Agent agent = new Agent(27,"william", "john", "smith", (new SimpleDateFormat("dd-M-yyyy")).parse("29-12-2000"),(new SimpleDateFormat("dd-M-yyyy")).parse("03-03-2013")) ;
-            //instance.createAgent(agent);
-            //Agent newagent = new Agent(26,"fuck", "you", "all", (new SimpleDateFormat("dd-M-yyyy")).parse("03-03-2000"),(new SimpleDateFormat("dd-M-yyyy")).parse("03-03-2013")) ;
-            //instance.createAgent(agent);
-            //instance.updateAgent(newagent);
-            //instance.deleteAgent(21);
 
         }
         catch (SQLException e) {
             e.printStackTrace();
-        //} catch (ParseException e) {
-            //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        } catch (ParseException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 }
