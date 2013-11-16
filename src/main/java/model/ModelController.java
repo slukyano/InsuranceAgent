@@ -696,7 +696,7 @@ public class ModelController {
                 "UPDATE INSURANCE_ATTRIBUTES"
                         + " SET AttributeTypeId = ?," + insuranceAttribute.getAttributeTypeId()
                         +" AttributeValue = ?," + insuranceAttribute.getAttributeValue()
-                        +" InsuranceId = ?," +insuranceAttribute.getInsuranceId()
+                        +" InsuranceId = ?" +insuranceAttribute.getInsuranceId()
                         + " where AttributeId = ?");
         stmt.setInt(1,insuranceAttribute.getTypeId());
         stmt.setString(2,insuranceAttribute.getAttributeValue());
