@@ -11,6 +11,20 @@ public class AttributeType {
         this.description = description;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public String getName() {
+
+        return name;
+    }
+
+    public int getTypeId() {
+
+        return typeId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

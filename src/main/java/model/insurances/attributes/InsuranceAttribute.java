@@ -10,8 +10,18 @@ public class InsuranceAttribute {
     private final String attributeValue;
     private final int attributeTypeId;
 
+    public int getAttributeTypeId() {
+        return attributeTypeId;
+    }
+
+    public String getAttributeValue() {
+
+        return attributeValue;
+    }
+
     public int getAttributeId() {
         return attributeId;
+
     }
 
     public int getInsuranceId() {

@@ -393,45 +393,68 @@ public class ModelController {
 
     //region CompanyByInsuranceType Factories
     public CompanyByInsuranceType getCompanyByInsuranceType(int companyByInsTypeId) throws SQLException {
-        String sql = "SELECT companyByInsuranceTypeID, companyID, insuranceID"
+        String sql = "SELECT companyByInsuranceTypeID, companyID, insuranceTypeID"
                 + " FROM companies_by_insurance_type"
                 + " WHERE companyByInsuranceTypeID = " + companyByInsTypeId;
         return getObject(CompanyByInsuranceTypeFactory.getInstance(), sql);
     }
 
     public ArrayList<CompanyByInsuranceType> getCompaniesByInsuranceTypes() throws SQLException {
-        String sql = "SELECT companyByInsuranceTypeID, companyID, insuranceID"
+        String sql = "SELECT companyByInsuranceTypeID, companyID, insuranceTypeID"
                 + " FROM companies_by_insurance_type";
         return getObjects(CompanyByInsuranceTypeFactory.getInstance(), sql);
     }
 
     public ArrayList<CompanyByInsuranceType> getCompaniesByInsuranceTypes(Company company) throws SQLException {
-        String sql = "SELECT companyByInsuranceTypeID, companyID, insuranceID"
+        String sql = "SELECT companyByInsuranceTypeID, companyID, insuranceTypeID"
                 + " FROM companies_by_insurance_type"
                 + " WHERE companyID = " + company.getCompanyId();
         return getObjects(CompanyByInsuranceTypeFactory.getInstance(), sql);
     }
     public void updateCompanyByInsuranceType(CompanyByInsuranceType companyByInsuranceType)      throws SQLException {
-        String sql = "UPDATE companies_by_insurance_type"
-                        + " SET companyID = " + companyByInsuranceType.getCompanyId()
-                            +" insuranceID = " + companyByInsuranceType.getInsuranceTypeId()
-                        + " where companyByInsuranceTypeID = " + companyByInsuranceType.getCompanyByInsuranceTypeId();
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "UPDATE companies_by_insurance_type"
+                        + " SET companyID = ?,"
+                        +" insuranceTypeID = ?"
+                        + " where companyByInsuranceTypeID = ?");
+        stmt.setInt(1, companyByInsuranceType.getCompanyId());
+        stmt.setInt(2,companyByInsuranceType.getInsuranceTypeId());
+        stmt.setInt(3, companyByInsuranceType.getCompanyByInsuranceTypeId());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
 
     }
 
     public void createCompanyByInsuranceType(CompanyByInsuranceType companyByInsuranceType)      throws SQLException {
-        String sql = "INSERT INTO companies_by_insurance_type (companyID, insuranceID)"
-                + " VALUES (" +  companyByInsuranceType.getCompanyId()
-                + "," +companyByInsuranceType.getInsuranceTypeId()+")";
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "INSERT INTO companies_by_insurance_type (companyID, insuranceTypeID)"
+                        + " VALUES (?,?)");
+        stmt.setInt(1, companyByInsuranceType.getCompanyId());
+        stmt.setInt(2,companyByInsuranceType.getInsuranceTypeId());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
         //TODO: should set an ID somehow
     }
 
     public void  deleteCompanyByInsuranceType(int companyByInsuranceTypeId)      throws SQLException {
-        String sql = "DELETE FROM companies_by_insurance_type"
-                + " WHERE companyByInsuranceTypeID = "  +  companyByInsuranceTypeId;
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "DELETE FROM companies_by_insurance_type"
+                        + " WHERE companyByInsuranceTypeID = ?");
+        stmt.setInt(1,companyByInsuranceTypeId);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
         //TODO delete cascade?
     }
     //endregion
@@ -473,32 +496,57 @@ public class ModelController {
         return getObjects(InsuranceFactory.getInstance(), sql);
     }
     public void updateInsurance(Insurance insurance)      throws SQLException {
-        String sql = "UPDATE INSURANCES"
-                        + "SET ClientID = " + insurance.getClientId()
-                            +", ClientType = " + insurance.getClientType()
-                            +", CompanyByInsuranceTypeID = " +insurance.getCompanyByInsuranceTypeId()
-                            + ", AgentId = " + insurance.getAgentId()
-                            + ", BaseValue = " + insurance.getBaseValue()
-                        + " Where InsuranceId = " +insurance.getInsuranceId();
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
+        PreparedStatement stmt = conn.prepareStatement(
+                "UPDATE INSURANCES"
+                        + "SET ClientID = ?,"
+                        +" ClientType = ?,"
+                        +" CompanyByInsuranceTypeID = ?,"
+                        + " AgentId = ?,"
+                        + " BaseValue = ?"
+                        + " Where InsuranceId = ?");
+        stmt.setInt(1,insurance.getClientId());
+        stmt.setString(2, insurance.getClientType());
+        stmt.setInt(3,insurance.getCompanyByInsuranceTypeId());
+        stmt.setInt(4,insurance.getAgentId());
+        stmt.setDouble(5,insurance.getBaseValue());
+        stmt.setInt(6,insurance.getInsuranceId());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
     }
 
     public void createInsurance(Insurance insurance)      throws SQLException {
-        String sql = "INSERT INTO INSURANCES (ClientID, ClientType, CompanyByInsuranceTypeID, AgentId, BaseValue)"
-                + " VALUES (" +  insurance.getClientId()
-                + "," +insurance.getClientType()
-                + "," +insurance.getCompanyByInsuranceTypeId()
-                + "," +insurance.getAgentId()
-                + "," +insurance.getBaseValue() + ")";
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "INSERT INTO INSURANCES (ClientID, ClientType, CompanyByInsuranceTypeID, AgentId, BaseValue)"
+                        + " VALUES (?,?,?,?,?)");
+        stmt.setInt(1,insurance.getClientId());
+        stmt.setString(2, insurance.getClientType());
+        stmt.setInt(3,insurance.getCompanyByInsuranceTypeId());
+        stmt.setInt(4,insurance.getAgentId());
+        stmt.setDouble(5,insurance.getBaseValue());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
         //TODO: should set an ID somehow
     }
 
     public void  deleteInsurance(int insuranceId)      throws SQLException {
-        String sql = "DELETE FROM INSURANCES"
-                + " WHERE insuranceID = "  +  insuranceId;
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "DELETE FROM INSURANCES"
+                        + " WHERE insuranceID = ?");
+        stmt.setInt(1,insuranceId);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
         //TODO delete cascade?
     }
     //endregion
@@ -517,26 +565,48 @@ public class ModelController {
         return getObjects(InsuranceTypeFactory.getInstance(), sql);
     }
     public void updateInsuranceType(InsuranceType insuranceType)      throws SQLException {
-        String sql = "UPDATE insurance_types"
-                        + " SET InsuranceTypeName = " + insuranceType.getName()
-                            +", InsuranceTypeDescription = " + insuranceType.getDescription()
-                        +" Where InsuranceTypeId = " + insuranceType.getInsuranceTypeId();
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
+        PreparedStatement stmt = conn.prepareStatement(
+                "UPDATE insurance_types"
+                        + " SET InsuranceTypeName = ?,"
+                        +" InsuranceTypeDescription = ?"
+                        +" Where InsuranceTypeId = ?");
+        stmt.setString(1,insuranceType.getName());
+        stmt.setString(2, insuranceType.getDescription());
+        stmt.setInt(3,insuranceType.getInsuranceTypeId());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
     }
 
     public void createInsuranceType(InsuranceType insuranceType)      throws SQLException {
-        String sql = "INSERT INTO insurance_types (InsuranceTypeName,InsuranceTypeDescription)"
-                + " VALUES (" +  insuranceType.getName()
-                + "," +insuranceType.getDescription() + ")";
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "INSERT INTO insurance_types (InsuranceTypeName,InsuranceTypeDescription)"
+                        + " VALUES (?,?)");
+        stmt.setString(1,insuranceType.getName());
+        stmt.setString(2, insuranceType.getDescription());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
         //TODO: should set an ID somehow
     }
 
     public void  deleteInsuranceType(int insuranceTypeId)      throws SQLException {
-        String sql = "DELETE FROM insurance_types"
-                + "WHERE InsuranceTypeId = "  +  insuranceTypeId;
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "DELETE FROM insurance_types"
+                        + "WHERE InsuranceTypeId = ?");
+        stmt.setInt(1,insuranceTypeId);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
         //TODO delete cascade?
     }
     //endregion
@@ -555,26 +625,48 @@ public class ModelController {
         return getObjects(AttributeTypeFactory.getInstance(), sql);
     }
     public void updateAttributeType(AttributeType attributeType)      throws SQLException {
-        String sql = "UPDATE ATTRIBUTE_TYPES"
-                        + " SET AttributeName = " + attributeType.getName()
-                            +", AttributeDescription = " + attributeType.getDescription()
-                        +" Where AttributeTypeId = " +attributeType.getTypeId();
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
+        PreparedStatement stmt = conn.prepareStatement(
+                "UPDATE ATTRIBUTE_TYPES"
+                        + " SET AttributeName = ?,"
+                        +" AttributeDescription = ?"
+                        +" Where AttributeTypeId = ?");
+        stmt.setString(1,attributeType.getName());
+        stmt.setString(2,attributeType.getDescription());
+        stmt.setInt(3,attributeType.getTypeId());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
     }
 
     public void createAttributeType(AttributeType attributeType)      throws SQLException {
-        String sql = "INSERT INTO ATTRIBUTE_TYPES (AttributeName,AttributeDescription)"
-                + " VALUES (" +  attributeType.getName()
-                + "," +attributeType.getDescription() + ")";
-        executeSQL(sql);
-        //TODO: should set an ID somehow
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "INSERT INTO ATTRIBUTE_TYPES (AttributeName,AttributeDescription)"
+                        + " VALUES (??)");
+        stmt.setString(1,attributeType.getName());
+        stmt.setString(2,attributeType.getDescription());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
+       //TODO: should set an ID somehow
     }
 
-    public void  deleteAttributeType(int attribureTypeId)      throws SQLException {
-        String sql = "DELETE FROM ATTRIBUTE_TYPES"
-                + " WHERE AttributeTypeId = "  +  attribureTypeId;
-        executeSQL(sql);
+    public void  deleteAttributeType(int attributeTypeId)      throws SQLException {
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "DELETE FROM ATTRIBUTE_TYPES"
+                        + " WHERE AttributeTypeId = ?");
+        stmt.setInt(1,attributeTypeId);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
         //TODO delete cascade?
     }
 
@@ -598,28 +690,51 @@ public class ModelController {
         return getObjects(InsuranceAttributeFactory.getInstance(), sql);
     }
     public void updateInsuranceAttribute(InsuranceAttribute insuranceAttribute)      throws SQLException {
-        String sql = "UPDATE INSURANCE_ATTRIBUTES"
-                        + " SET AttributeTypeId = " + insuranceAttribute.getAttributeTypeId()
-                            +", AttributeValue = " + insuranceAttribute.getAttributeValue()
-                            +", InsuranceId = " +insuranceAttribute.getInsuranceId()
-                        + " where AttributeId = " + insuranceAttribute.getAttributeId();
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
+        PreparedStatement stmt = conn.prepareStatement(
+                "UPDATE INSURANCE_ATTRIBUTES"
+                        + " SET AttributeTypeId = ?," + insuranceAttribute.getAttributeTypeId()
+                        +" AttributeValue = ?," + insuranceAttribute.getAttributeValue()
+                        +" InsuranceId = ?," +insuranceAttribute.getInsuranceId()
+                        + " where AttributeId = ?");
+        stmt.setInt(1,insuranceAttribute.getTypeId());
+        stmt.setString(2,insuranceAttribute.getAttributeValue());
+        stmt.setInt(3,insuranceAttribute.getInsuranceId());
+        stmt.setInt(4,insuranceAttribute.getAttributeId());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
     }
 
     public void createInsuranceAttribute(InsuranceAttribute insuranceAttribute)      throws SQLException {
-        String sql = "INSERT INTO INSURANCE_ATTRIBUTES (AttributeTypeId,AttributeValue,InsuranceId)"
-                + " VALUES (" +  insuranceAttribute.getAttributeTypeId()
-                + "," +insuranceAttribute.getAttributeValue()
-                + "," +insuranceAttribute.getInsuranceId()+ ")";
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "INSERT INTO INSURANCE_ATTRIBUTES (AttributeTypeId,AttributeValue,InsuranceId)"
+                        + " VALUES (?,?,?)");
+        stmt.setInt(1,insuranceAttribute.getTypeId());
+        stmt.setString(2,insuranceAttribute.getAttributeValue());
+        stmt.setInt(3,insuranceAttribute.getInsuranceId());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
         //TODO: should set an ID somehow
     }
 
     public void  deleteInsuranceAttribute(int insuranceAttributeId)      throws SQLException {
-        String sql = "DELETE FROM INSURANCE_ATTRIBUTES"
-                + " WHERE AttributeId = "  +  insuranceAttributeId;
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "DELETE FROM INSURANCE_ATTRIBUTES"
+                        + " WHERE AttributeId = ?");
+        stmt.setInt(1,insuranceAttributeId);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
         //TODO delete cascade?
     }
     //endregion
@@ -784,23 +899,11 @@ public class ModelController {
                     "system",
                     "1234");
             ModelController instance = ModelController.getInstance();
-            //instance.deleteCompany(21);
-           // Company company = new Company(1,"myName",1,null);
-            //instance.createCompany(company);
-            //Company newcompany = new Company(22,"0l0l0",1,"olololo");
-            //instance.updateCompany(newcompany);
-//            LegalPerson legalPerson = new LegalPerson(1,1,"ОАО РиК","87092-22-33","wallaby way 42, sidney");
-//            instance.createLegalPerson(legalPerson);
-            //LegalPerson newLegalPerson = new LegalPerson(21,2,"ololo","ololo","ololo");
-            //instance.updateLegalPerson(newLegalPerson);
-            //instance.deleteLegalPerson(21);
-            //instance.deleteNaturalPerson(21);
+
             //TODO make nullable ints (like in base)
         }
         catch (SQLException e) {
             e.printStackTrace();
-//        } catch (ParseException e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 }
