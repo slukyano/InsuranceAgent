@@ -36,6 +36,20 @@ public class ModelController {
         DriverManager.getConnection(connectionUrl, username, password).close();
 
         ourInstance = new ModelController(connectionUrl, username, password, UserType.ADMIN);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement("select Role from session_roles");
+        ResultSet rSet = stmt.executeQuery();
+
+        if (!rSet.next()) {
+            //this shuold never actually happened
+            return;
+        }
+        String role = rSet.getString("Role");
+        //TODO set enum or smth
+
+        stmt.close();
+        conn.close();
     }
     //endregion
 
