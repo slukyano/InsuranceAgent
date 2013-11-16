@@ -342,28 +342,51 @@ public class ModelController {
         return getObjects(CompanyFactory.getInstance(), sql);
     }
     public void updateCompany(Company company)      throws SQLException {
-        String sql = "UPDATE COMPANIES"
-                        + " SET CompanyName = " + company.getName()
-                                +", ParentCompanyId = " + company.getParentCompanyId()
-                                +", CompanyDescription = " + company.getDescription()
-                        + " WHERE CompanyId = " +company.getCompanyId();
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
+        PreparedStatement stmt = conn.prepareStatement(
+                "UPDATE COMPANIES"
+                        + " SET CompanyName = ?,"
+                        +" ParentCompanyId = ?,"
+                        +" CompanyDescription = ?"
+                        + " WHERE CompanyId = ?");
+        stmt.setString(1,company.getName());
+        stmt.setInt(2, company.getParentCompanyId());
+        stmt.setString(3,company.getDescription());
+        stmt.setInt(4,company.getCompanyId());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
     }
 
     public void createCompany(Company company)      throws SQLException {
-        String sql = "INSERT INTO COMPANIES (CompanyName,ParentCompanyId,CompanyDescription)"
-                + " VALUES (" +  company.getName()
-                + "," +company.getParentCompanyId()
-                + "," +company.getDescription()+")";
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "INSERT INTO COMPANIES (CompanyName,ParentCompanyId,CompanyDescription)"
+                        + " VALUES (?,?,?)");
+        stmt.setString(1,company.getName());
+        stmt.setInt(2,company.getParentCompanyId());
+        stmt.setString(3,company.getDescription());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
         //TODO: should set an ID somehow
     }
 
     public void  deleteCompany(int companyId)      throws SQLException {
-        String sql = "DELETE FROM COMPANIES"
-                + " WHERE CompanyId = "  +  companyId;
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "DELETE FROM COMPANIES"
+                        + " WHERE CompanyId = ?");
+        stmt.setInt(1,companyId);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
         //TODO delete cascade?
     }
     //endregion
@@ -761,12 +784,18 @@ public class ModelController {
                     "system",
                     "1234");
             ModelController instance = ModelController.getInstance();
+            //instance.deleteCompany(21);
+           // Company company = new Company(1,"myName",1,null);
+            //instance.createCompany(company);
+            //Company newcompany = new Company(22,"0l0l0",1,"olololo");
+            //instance.updateCompany(newcompany);
 //            LegalPerson legalPerson = new LegalPerson(1,1,"ОАО РиК","87092-22-33","wallaby way 42, sidney");
 //            instance.createLegalPerson(legalPerson);
             //LegalPerson newLegalPerson = new LegalPerson(21,2,"ololo","ololo","ololo");
             //instance.updateLegalPerson(newLegalPerson);
             //instance.deleteLegalPerson(21);
             //instance.deleteNaturalPerson(21);
+            //TODO make nullable ints (like in base)
         }
         catch (SQLException e) {
             e.printStackTrace();
