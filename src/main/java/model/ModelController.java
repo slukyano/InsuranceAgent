@@ -1,5 +1,10 @@
 package model;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
 import model.insurances.CompanyByInsuranceType;
@@ -8,9 +13,14 @@ import model.insurances.InsuranceType;
 import model.insurances.attributes.AttributeType;
 import model.insurances.attributes.InsuranceAttribute;
 
+import java.io.IOException;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 public class ModelController {
     //region Static Members
@@ -215,25 +225,43 @@ public class ModelController {
     }
 
     public void updateAgent(Agent agent)      throws SQLException {
-        String sql = "UPDATE AGENTS"
-                        + " SET FirstName = " + agent.getFirstName()
-                            +", SecondName = " + agent.getSecondName()
-                            +", LastName = " + agent.getLastName()
-                            +", HiringDate = " + agent.getHiringDate()
-                            +", QuitDate = " + agent.getQuitDate()
-                        + " wHERE AgentId = " + agent.getAgentId();
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
+        PreparedStatement stmt = conn.prepareStatement(
+                "UPDATE AGENTS"
+                        + " SET FirstName = ?,"
+                        +"SecondName = ?,"
+                        +"LastName = ?,"
+                        +"HiringDate = ?,"
+                        +"QuitDate = ?"
+                        + "WHERE AgentId = ?");
+        stmt.setString(1,agent.getFirstName());
+        stmt.setString(2,agent.getSecondName());
+        stmt.setString(3,agent.getLastName());
+        stmt.setDate(4,new java.sql.Date(agent.getHiringDate().getTime()));
+        stmt.setDate(5,new java.sql.Date(agent.getQuitDate().getTime()));
+        stmt.setInt(6,agent.getAgentId());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
     }
 
     public void createAgent(Agent agent)      throws SQLException {
-        String sql = "INSERT INTO AGENTS (FirstName,SecondName,LastName,HiringDate,QuitDate)"
-                + "VALUES (" +  agent.getFirstName()
-                + "," +agent.getSecondName()
-                + "," +agent.getLastName()
-                + "," +agent.getHiringDate()
-                +"," +agent.getQuitDate()+")";
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "INSERT INTO AGENTS (FirstName,SecondName,LastName,HiringDate,QuitDate)"
+                + "VALUES (?,?,?,?,?)");
+        stmt.setString(1,agent.getFirstName());
+        stmt.setString(2,agent.getSecondName());
+        stmt.setString(3,agent.getLastName());
+        stmt.setDate(4,new java.sql.Date(agent.getHiringDate().getTime()));
+        stmt.setDate(5,new java.sql.Date(agent.getQuitDate().getTime()));
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
         //TODO: should set an ID somehow
     }
 
@@ -414,7 +442,7 @@ public class ModelController {
         String sql = "UPDATE insurance_types"
                         + " SET InsuranceTypeName = " + insuranceType.getName()
                             +", InsuranceTypeDescription = " + insuranceType.getDescription()
-                        +" Where InsuranceTypeId = " insuranceType.getInsuranceTypeId();
+                        +" Where InsuranceTypeId = " + insuranceType.getInsuranceTypeId();
         executeSQL(sql);
 
     }
@@ -668,6 +696,29 @@ public class ModelController {
                     rSet.getInt("AttributeTypeId"),
                     rSet.getString("AttributeValue"),
                     rSet.getInt("InsuranceId"));
+        }
+    }
+      //TODO delete while debug overs and crear package list
+    public static void main(String[] args) {
+        try {
+            // will throw exception if fail to log in
+            ModelController.initializeInstance("jdbc:oracle:thin:@5.19.237.145:65432:xe",
+                    "system",
+                    "1234");
+            ModelController instance = ModelController.getInstance();
+            instance.deleteAgent(24);
+            Agent agent = new Agent(25,"william", "john", "smith", (new SimpleDateFormat("dd-M-yyyy")).parse("29-12-2000"),(new SimpleDateFormat("dd-M-yyyy")).parse("03-03-2013")) ;
+            instance.createAgent(agent);
+            Agent newagent = new Agent(25,"fuck", "you", "all", (new SimpleDateFormat("dd-M-yyyy")).parse("03-03-2000"),(new SimpleDateFormat("dd-M-yyyy")).parse("03-03-2013")) ;
+            //instance.createAgent(agent);
+            instance.updateAgent(newagent);
+            //instance.deleteAgent(21);
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 }
