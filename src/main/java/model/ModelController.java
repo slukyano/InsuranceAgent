@@ -130,32 +130,57 @@ public class ModelController {
     }
 
     public void updateNaturalPerson(NaturalPerson naturalPerson)      throws SQLException {
-        String sql = "UPDATE NATURAL_PERSONS"
-                        + " SET FirstName = " + naturalPerson.getFirstName()
-                            +", SecondName = " + naturalPerson.getSecondName()
-                            +", LastName = " + naturalPerson.getLastName()
-                            +", DateOfBirth = " + naturalPerson.getDateOfBirth() //TODO:Check if valid string
-                            +", AgentID = " + naturalPerson.getAgentId()
-                        + " WHERE NaturalPersonID = " + naturalPerson.getClientId();
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
+        PreparedStatement stmt = conn.prepareStatement(
+                "UPDATE NATURAL_PERSONS"
+                        + " SET FirstName = ?,"
+                        +" SecondName = ?,"
+                        +" LastName = ?,"
+                        +" DateOfBirth = ?,"
+                        +" AgentID = ?"
+                        +" WHERE NaturalPersonID = ?");
+        stmt.setString(1,naturalPerson.getFirstName());
+        stmt.setString(2,naturalPerson.getSecondName());
+        stmt.setString(3,naturalPerson.getLastName());
+        stmt.setDate(4,new java.sql.Date(naturalPerson.getDateOfBirth().getTime()));
+        stmt.setInt(5, naturalPerson.getAgentId());
+        stmt.setInt(6,naturalPerson.getClientId());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
     }
 
     public void createNaturalPerson(NaturalPerson naturalPerson)      throws SQLException {
-        String sql = "INSERT INTO NATURAL_PERSONS (FirstName, SecondName, LastName, DateOfBirth, AgentID)"
-                        + " VALUES (" +   naturalPerson.getFirstName()
-                                     + "," +naturalPerson.getSecondName()
-                                     + "," +naturalPerson.getLastName()
-                                     + "," +naturalPerson.getDateOfBirth()
-                                     + "," +naturalPerson.getAgentId()+")";
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "INSERT INTO NATURAL_PERSONS (FirstName, SecondName, LastName, DateOfBirth, AgentID)"
+                        + " VALUES ( ?,?,?,?,?)");
+        stmt.setString(1,naturalPerson.getFirstName());
+        stmt.setString(2,naturalPerson.getSecondName());
+        stmt.setString(3,naturalPerson.getLastName());
+        stmt.setDate(4,new java.sql.Date(naturalPerson.getDateOfBirth().getTime()));
+        stmt.setInt(5,naturalPerson.getAgentId());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
         //TODO: should set an ID somehow
     }
 
     public void  deleteNaturalPerson(int ClientId)      throws SQLException {
-        String sql = "DELETE FROM NATURAL_PERSONS"
-                        + " WHERE NaturalPersonID = "  +  ClientId;
-        executeSQL(sql);
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "DELETE FROM NATURAL_PERSONS"
+                        + " WHERE NaturalPersonID = ?");
+        stmt.setInt(1, ClientId);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
         //TODO delete cascade?
     }
     //endregion
@@ -238,7 +263,7 @@ public class ModelController {
         stmt.setString(1,agent.getFirstName());
         stmt.setString(2,agent.getSecondName());
         stmt.setString(3,agent.getLastName());
-        stmt.setDate(4,new java.sql.Date(agent.getHiringDate().getTime()));
+        stmt.setDate(4, new java.sql.Date(agent.getHiringDate().getTime()));
         stmt.setDate(5,new java.sql.Date(agent.getQuitDate().getTime()));
         stmt.setInt(6,agent.getAgentId());
         stmt.executeUpdate();
@@ -256,8 +281,8 @@ public class ModelController {
         stmt.setString(1,agent.getFirstName());
         stmt.setString(2,agent.getSecondName());
         stmt.setString(3,agent.getLastName());
-        stmt.setDate(4,new java.sql.Date(agent.getHiringDate().getTime()));
-        stmt.setDate(5,new java.sql.Date(agent.getQuitDate().getTime()));
+        stmt.setDate(4, new java.sql.Date(agent.getHiringDate().getTime()));
+        stmt.setDate(5, new java.sql.Date(agent.getQuitDate().getTime()));
         stmt.executeUpdate();
 
         stmt.close();
@@ -270,7 +295,7 @@ public class ModelController {
         PreparedStatement stmt = conn.prepareStatement(
                 "DELETE FROM AGENTS"
                         + " WHERE AgentId = ? ");
-        stmt.setInt(1,AgentId);
+        stmt.setInt(1, AgentId);
         stmt.executeUpdate();
 
         stmt.close();
@@ -704,7 +729,7 @@ public class ModelController {
                     rSet.getInt("InsuranceId"));
         }
     }
-      //TODO delete while debug overs and crear package list
+      //TODO delete when debug done and crear package list
     public static void main(String[] args) {
         try {
             // will throw exception if fail to log in
@@ -712,7 +737,11 @@ public class ModelController {
                     "system",
                     "1234");
             ModelController instance = ModelController.getInstance();
-
+            //NaturalPerson naturalPerson = new NaturalPerson(1,1,"jack","sparrow","pidgeon",(new SimpleDateFormat("dd-M-yyyy")).parse("18-10-1992"));
+            //instance.createNaturalPerson(naturalPerson);
+            //NaturalPerson newnaturalPerson = new NaturalPerson(21,1,"fuck","dat","shit",(new SimpleDateFormat("dd-M-yyyy")).parse("18-10-1991"));
+            //instance.updateNaturalPerson(newnaturalPerson);
+            instance.deleteNaturalPerson(21);
         }
         catch (SQLException e) {
             e.printStackTrace();
