@@ -11,6 +11,7 @@ public class LegalPerson extends Client {
     private final String vatin;
     private final String address;
 
+    @Override
     public String getName() {
         return name;
     }

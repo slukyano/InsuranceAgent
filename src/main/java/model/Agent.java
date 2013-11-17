@@ -41,6 +41,10 @@ public class Agent {
         return quitDate;
     }
 
+    public String getFullName() {
+        return getLastName() + " " + getFirstName() + " " + getSecondName();
+    }
+
     public Agent(int agentId, String firstName, String secondName, String lastName, Date hiringDate, Date quitDate) {
         this.agentId = agentId;
         this.firstName = firstName;

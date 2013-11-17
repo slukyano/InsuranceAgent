@@ -30,6 +30,8 @@ public abstract class Client {
 
     public abstract ArrayList<Insurance> getInsurances() throws SQLException;
 
+    public abstract String getName();
+
     @Override
     public int hashCode() {
         return clientId;

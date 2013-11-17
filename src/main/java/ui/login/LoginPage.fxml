@@ -22,7 +22,7 @@
                   text="Username"/>
             <TextField fx:id="usernameField"
                        GridPane.rowIndex="1" GridPane.columnIndex="1"
-                       text="system"/>
+                       text="insurance_admin"/>
 
             <Text GridPane.rowIndex="2" GridPane.columnIndex="0"
                   text="Password"/>

@@ -1,10 +1,5 @@
 package model;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
 import model.insurances.CompanyByInsuranceType;
@@ -13,14 +8,9 @@ import model.insurances.InsuranceType;
 import model.insurances.attributes.AttributeType;
 import model.insurances.attributes.InsuranceAttribute;
 
-import java.io.IOException;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Calendar;
-import java.text.SimpleDateFormat;
 
 public class ModelController {
     //region Static Members
@@ -35,46 +25,41 @@ public class ModelController {
     public static void initializeInstance(String connectionUrl, String username, String password) throws SQLException {
         // will throw exception, if fail to log in
         Locale.setDefault(Locale.ENGLISH);
-        DriverManager.getConnection(connectionUrl, username, password).close();
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         UserType userType = UserType.UNAUTHORIZED;
         Integer dataId = null;
 
-        PreparedStatement selectRole = conn.prepareStatement("select Role from session_roles where role like 'INSURANCE_%'");
+        PreparedStatement selectRole = conn.prepareStatement(
+                "select Role from session_roles where role like 'INSURANCE_%'");
         ResultSet roleResultSet = selectRole.executeQuery();
         //Если есть нужная роль
         if (roleResultSet.next()) {
             String role = roleResultSet.getString("Role");
-            selectRole.close();
             userType = UserType.fromRoleName(role);
 
             if (userType == UserType.AGENT
                     ||userType == UserType.MANAGER
                     ||userType == UserType.LEGAL
-                    ||userType == UserType.NATURAL){
-
+                    ||userType == UserType.NATURAL)
+            {
                 PreparedStatement selectType = conn.prepareStatement(
                         "SELECT dataId,userType from USERS_AND_USERDATA" +
-                                "  where userId = SYS_CONTEXT ('USERENV', 'SESSION_USERID')");
+                                " where userId = SYS_CONTEXT ('USERENV', 'SESSION_USERID')");
                 ResultSet selectTypeRSet = selectType.executeQuery();
 
-                if (selectTypeRSet.next()) {
+                if (selectTypeRSet.next())
                     dataId = selectTypeRSet.getInt("dataId");
-                }
-                else{
-                    userType =UserType.UNAUTHORIZED;
-                }
-                selectTypeRSet.close();
+                else
+                    userType = UserType.UNAUTHORIZED;
+
                 selectType.close();
             }
         }
 
-        ourInstance = new  ModelController(connectionUrl, username,password,userType,dataId);
+        ourInstance = new  ModelController(connectionUrl, username, password, userType, dataId);
         selectRole.close();
-        roleResultSet.close();
         conn.close();
-
     }
     //endregion
 
@@ -83,7 +68,7 @@ public class ModelController {
     private final String username;
     private final String password;
     private final UserType userType;
-    private Integer dataId;
+    private final Integer dataId;
     //endregion
 
     //region Getters
@@ -672,14 +657,14 @@ public class ModelController {
 
     //region Attribute Factories
     public AttributeType getAttributeType(int attributeTypeId) throws SQLException {
-        String sql = "SELECT AttributeId,AttributeName,AttributeDescription"
+        String sql = "SELECT AttributeTypeID,AttributeTypeName,AttributeTypeDescription"
                 + " FROM ATTRIBUTE_TYPES"
-                + " WHERE AttributeTypeId = " + attributeTypeId;
+                + " WHERE AttributeTypeID = " + attributeTypeId;
         return getObject(AttributeTypeFactory.getInstance(), sql);
     }
 
     public ArrayList<AttributeType> getAttributeTypes() throws SQLException {
-        String sql = "SELECT AttributeId,AttributeName,AttributeDescription"
+        String sql = "SELECT AttributeTypeID,AttributeTypeName,AttributeTypeDescription"
                 + " FROM ATTRIBUTE_TYPES";
         return getObjects(AttributeTypeFactory.getInstance(), sql);
     }
@@ -688,8 +673,8 @@ public class ModelController {
 
         PreparedStatement stmt = conn.prepareStatement(
                 "UPDATE ATTRIBUTE_TYPES"
-                        + " SET AttributeName = ?,"
-                        +" AttributeDescription = ?"
+                        + " SET AttributeTypeName = ?,"
+                        +" AttributeTypeDescription = ?"
                         +" Where AttributeTypeId = ?");
         stmt.setString(1,attributeType.getName());
         stmt.setString(2,attributeType.getDescription());
@@ -704,7 +689,7 @@ public class ModelController {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO ATTRIBUTE_TYPES (AttributeName,AttributeDescription)"
+                "INSERT INTO ATTRIBUTE_TYPES (AttributeTypeName,AttributeTypeDescription)"
                         + " VALUES (??)");
         stmt.setString(1,attributeType.getName());
         stmt.setString(2,attributeType.getDescription());
@@ -881,9 +866,9 @@ public class ModelController {
 
         @Override
         public CompanyByInsuranceType createObject(ResultSet rSet) throws SQLException {
-            return new CompanyByInsuranceType(rSet.getInt("companyByInsuranceTypeID"),
-                    rSet.getInt("companyID"),
-                    rSet.getInt("insuranceID"));
+            return new CompanyByInsuranceType(rSet.getInt("CompanyByInsuranceTypeID"),
+                    rSet.getInt("CompanyID"),
+                    rSet.getInt("InsuranceTypeID"));
         }
     }
 
@@ -929,8 +914,8 @@ public class ModelController {
 
         @Override
         public AttributeType createObject(ResultSet rSet) throws SQLException {
-            return new AttributeType(rSet.getInt("AttributeId"),
-                    rSet.getString("AttributeName"),
+            return new AttributeType(rSet.getInt("AttributeTypeID"),
+                    rSet.getString("AttributeTypeName"),
                     rSet.getString("AttributeDescription"));
         }
     }

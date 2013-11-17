@@ -27,7 +27,15 @@ public class NaturalPerson extends Client {
 
     public String getLastName() {
         return lastName;
+    }
 
+    public String getFullName() {
+        return getLastName() + " " + getFirstName() + " " + getSecondName();
+    }
+
+    @Override
+    public String getName() {
+        return getFullName();
     }
 
     public NaturalPerson(int clientId, int agentId, String firstName, String secondName, String lastName, Date dateOfBirth) {

@@ -11,6 +11,6 @@
         <RadioButton fx:id="naturalRadioButton" text="Natural" onAction="controller.showNatural();"/>
         <RadioButton fx:id="legalRadioButton" text="Legal" onAction="controller.showLegal();"/>
     </HBox>
-    <ListView fx:id="naturalListView"/>
-    <ListView fx:id="legalListView"/>
+    <ListView fx:id="naturalListView" VBox.vgrow="ALWAYS"/>
+    <ListView fx:id="legalListView" VBox.vgrow="ALWAYS"/>
 </VBox>

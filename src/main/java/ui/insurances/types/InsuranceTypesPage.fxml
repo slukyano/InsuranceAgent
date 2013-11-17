@@ -1,0 +1,6 @@
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+<VBox fx:controller="ui.insurances.types.InsuranceTypesPageController"
+      xmlns:fx="http://javafx.com/fxml">
+    <ListView fx:id="typesListView" VBox.vgrow="ALWAYS"/>
+</VBox>

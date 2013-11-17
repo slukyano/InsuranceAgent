@@ -15,21 +15,20 @@ public class InsuranceAttribute {
     }
 
     public String getAttributeValue() {
-
         return attributeValue;
     }
 
     public int getAttributeId() {
         return attributeId;
-
     }
 
     public int getInsuranceId() {
         return insuranceId;
     }
 
-    public String getAttributeName() {
-        return attributeValue;
+    public String getAttributeTypeName() throws SQLException {
+        AttributeType type = getType();
+        return type != null ? type.getName() : null;
     }
 
     public int getTypeId() {
