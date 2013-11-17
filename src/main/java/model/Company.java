@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Company {
     private final int companyId;
     private final String name;
-    private final int parentCompanyId;
+    private final Integer parentCompanyId;
     private final String description;
 
     public int getCompanyId() {
@@ -40,7 +40,7 @@ public class Company {
         return list;
     }
 
-    public Company(int companyId, String name, int parentCompanyId, String description) {
+    public Company(int companyId, String name, Integer parentCompanyId, String description) {
         this.companyId = companyId;
         this.name = name;
         this.parentCompanyId = parentCompanyId;
