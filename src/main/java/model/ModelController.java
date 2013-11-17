@@ -36,42 +36,42 @@ public class ModelController {
         // will throw exception, if fail to log in
         Locale.setDefault(Locale.ENGLISH);
         DriverManager.getConnection(connectionUrl, username, password).close();
-
-
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
+        UserType userType = UserType.UNAUTHORIZED;
+        Integer dataId = null;
+
         PreparedStatement selectRole = conn.prepareStatement("select Role from session_roles where role like 'INSURANCE_%'");
-        ResultSet rSet = selectRole.executeQuery();
+        ResultSet roleResultSet = selectRole.executeQuery();
+        //Если есть нужная роль
+        if (roleResultSet.next()) {
+            String role = roleResultSet.getString("Role");
+            selectRole.close();
+            userType = UserType.fromRoleName(role);
 
-        if (!rSet.next()) {
-            ourInstance = new ModelController(connectionUrl, username, password, UserType.UNAUTHORIZED);
-            return;
-        }
-        String role = rSet.getString("Role");
-        selectRole.close();
-        UserType userType = UserType.fromRoleName(role);
-        switch (userType) {
-            case ADMIN:
-                ourInstance = new ModelController(connectionUrl, username, password, UserType.ADMIN);
-                break;
-            case UNAUTHORIZED:
-                ourInstance = new ModelController(connectionUrl, username, password, UserType.UNAUTHORIZED);
-                break;
-            default:
+            if (userType == UserType.AGENT
+                    ||userType == UserType.MANAGER
+                    ||userType == UserType.LEGAL
+                    ||userType == UserType.NATURAL){
+
                 PreparedStatement selectType = conn.prepareStatement(
-                    "SELECT dataId,userType from USERS_AND_USERDATA" +
-                            "  where userId = SYS_CONTEXT ('USERENV', 'SESSION_USERID')");
+                        "SELECT dataId,userType from USERS_AND_USERDATA" +
+                                "  where userId = SYS_CONTEXT ('USERENV', 'SESSION_USERID')");
                 ResultSet selectTypeRSet = selectType.executeQuery();
-                if (!selectTypeRSet.next()) {
-                    ourInstance = new ModelController(connectionUrl, username, password, UserType.UNAUTHORIZED);
-                    break;
+
+                if (selectTypeRSet.next()) {
+                    dataId = selectTypeRSet.getInt("dataId");
                 }
-                int dataId = selectTypeRSet.getInt("dataId");
-                ourInstance = new ModelController(connectionUrl, username, password, userType, dataId);
-
+                else{
+                    userType =UserType.UNAUTHORIZED;
+                }
                 selectTypeRSet.close();
-
+                selectType.close();
+            }
         }
+
+        selectRole.close();
+        roleResultSet.close();
         conn.close();
 
     }
@@ -82,7 +82,7 @@ public class ModelController {
     private final String username;
     private final String password;
     private final UserType userType;
-    private int dataId;
+    private Integer dataId;
     //endregion
 
     //region Getters
@@ -92,14 +92,11 @@ public class ModelController {
     //endregion
 
     //region Constructors
-    private ModelController(String connectionUrl, String username, String password, UserType userType) {
+    public ModelController(String connectionUrl, String username, String password, UserType userType, Integer dataId) {
         this.connectionUrl = connectionUrl;
         this.username = username;
         this.password = password;
         this.userType = userType;
-    }
-    public ModelController(String connectionUrl, String username, String password, UserType userType, int dataId) {
-        this(connectionUrl,username,password,userType);
         this.dataId = dataId;
     }
     //endregion
