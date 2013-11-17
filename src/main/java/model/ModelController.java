@@ -70,6 +70,7 @@ public class ModelController {
             }
         }
 
+        ourInstance = new  ModelController(connectionUrl, username,password,userType,dataId);
         selectRole.close();
         roleResultSet.close();
         conn.close();
