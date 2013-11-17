@@ -26,6 +26,8 @@ public class ModelController {
     //region Static Members
     private static ModelController ourInstance;
 
+
+
     public static ModelController getInstance() {
         return ourInstance;
     }
@@ -35,39 +37,43 @@ public class ModelController {
         Locale.setDefault(Locale.ENGLISH);
         DriverManager.getConnection(connectionUrl, username, password).close();
 
-        ourInstance = new ModelController(connectionUrl, username, password, UserType.ADMIN);
+
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         PreparedStatement selectRole = conn.prepareStatement("select Role from session_roles");
         ResultSet rSet = selectRole.executeQuery();
 
         if (!rSet.next()) {
-            //this shuold never actually happened
+            ourInstance = new ModelController(connectionUrl, username, password, UserType.UNAUTHORIZED);
             return;
         }
         String role = rSet.getString("Role");
         selectRole.close();
-        //TODO not authorized exception if have no INSURANCE prefix
-        if(role.equals("INSURANCE_ADMINS"))  {
-            //TODO set admin Attribute
-        }
-        else{
-            PreparedStatement selectType = conn.prepareStatement(
+        UserType userType = UserType.fromRoleName(role);
+        switch (userType) {
+            case ADMIN:
+                ourInstance = new ModelController(connectionUrl, username, password, UserType.ADMIN);
+                break;
+            case UNAUTHORIZED:
+                ourInstance = new ModelController(connectionUrl, username, password, UserType.UNAUTHORIZED);
+                break;
+            default:
+                PreparedStatement selectType = conn.prepareStatement(
                     "SELECT dataId,userType from USERS_AND_USERDATA" +
                             "  where userId = SYS_CONTEXT ('USERENV', 'SESSION_USERID')");
-            ResultSet selectTypeRSet = selectType.executeQuery();
-            if (!selectTypeRSet.next()) {
-                //TODO not authorized exception
-                return;
-            }
-            String userType = selectTypeRSet.getString("userType");
-            int dataId = selectTypeRSet.getInt("dataId");
-            //TODO set userType, dataID Attributes
+                ResultSet selectTypeRSet = selectType.executeQuery();
+                if (!selectTypeRSet.next()) {
+                    ourInstance = new ModelController(connectionUrl, username, password, UserType.UNAUTHORIZED);
+                    break;
+                }
+                int dataId = selectTypeRSet.getInt("dataId");
+                ourInstance = new ModelController(connectionUrl, username, password, userType, dataId);
 
-            selectTypeRSet.close();
+                selectTypeRSet.close();
 
         }
         conn.close();
+
     }
     //endregion
 
@@ -76,6 +82,7 @@ public class ModelController {
     private final String username;
     private final String password;
     private final UserType userType;
+    private int dataId;
     //endregion
 
     //region Getters
@@ -90,6 +97,10 @@ public class ModelController {
         this.username = username;
         this.password = password;
         this.userType = userType;
+    }
+    public ModelController(String connectionUrl, String username, String password, UserType userType, int dataId) {
+        this(connectionUrl,username,password,userType);
+        this.dataId = dataId;
     }
     //endregion
 
