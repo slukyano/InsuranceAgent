@@ -38,17 +38,35 @@ public class ModelController {
         ourInstance = new ModelController(connectionUrl, username, password, UserType.ADMIN);
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
-        PreparedStatement stmt = conn.prepareStatement("select Role from session_roles");
-        ResultSet rSet = stmt.executeQuery();
+        PreparedStatement selectRole = conn.prepareStatement("select Role from session_roles");
+        ResultSet rSet = selectRole.executeQuery();
 
         if (!rSet.next()) {
             //this shuold never actually happened
             return;
         }
         String role = rSet.getString("Role");
-        //TODO set enum or smth
+        selectRole.close();
+        //TODO not authorized exception if have no INSURANCE prefix
+        if(role.equals("INSURANCE_ADMINS"))  {
+            //TODO set admin Attribute
+        }
+        else{
+            PreparedStatement selectType = conn.prepareStatement(
+                    "SELECT dataId,userType from USERS_AND_USERDATA" +
+                            "  where userId = SYS_CONTEXT ('USERENV', 'SESSION_USERID')");
+            ResultSet selectTypeRSet = selectType.executeQuery();
+            if (!selectTypeRSet.next()) {
+                //TODO not authorized exception
+                return;
+            }
+            String userType = selectTypeRSet.getString("userType");
+            int dataId = selectTypeRSet.getInt("dataId");
+            //TODO set userType, dataID Attributes
 
-        stmt.close();
+            selectTypeRSet.close();
+
+        }
         conn.close();
     }
     //endregion
