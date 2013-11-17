@@ -104,6 +104,24 @@ public class ModelController {
     }
     //endregion
 
+
+
+    public Object getUserObject() throws SQLException {
+        switch (userType) {
+            case AGENT:
+            case MANAGER:
+                return getAgent(dataId);
+            case NATURAL:
+                return getNaturalPerson(dataId);
+            case LEGAL:
+                return getLegalPerson(dataId);
+            default:
+                return null;
+        }
+    }
+
+
+
     //region Factory Methods
     //region Generic Factories
     private <T> T getObject(ObjectFactory<T> factory, String sqlQuery) throws SQLException {
