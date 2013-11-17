@@ -15,9 +15,9 @@ public enum UserType {
             return UserType.MANAGER;
         else if (roleName.compareToIgnoreCase("insurance_agents") == 0)
             return UserType.AGENT;
-        else if (roleName.compareToIgnoreCase("insurance_legal") == 0)
+        else if (roleName.compareToIgnoreCase("insurance_legals") == 0)
             return UserType.LEGAL;
-        else if (roleName.compareToIgnoreCase("insurance_natural") == 0)
+        else if (roleName.compareToIgnoreCase("insurance_naturals") == 0)
             return UserType.NATURAL;
             //TODO do we need unauthorized?
         else

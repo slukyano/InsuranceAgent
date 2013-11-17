@@ -40,7 +40,7 @@ public class ModelController {
 
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
-        PreparedStatement selectRole = conn.prepareStatement("select Role from session_roles");
+        PreparedStatement selectRole = conn.prepareStatement("select Role from session_roles where role like 'INSURANCE_%'");
         ResultSet rSet = selectRole.executeQuery();
 
         if (!rSet.next()) {
