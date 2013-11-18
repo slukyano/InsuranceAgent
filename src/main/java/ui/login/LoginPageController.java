@@ -45,6 +45,7 @@ public class LoginPageController implements Initializable, ChangeListener<String
             ModelController.initializeInstance(connectionField.getText(),
                     usernameField.getText(),
                     passwordField.getText());
+            UiRootController.getInstance().PresentHomeView();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -52,6 +53,6 @@ public class LoginPageController implements Initializable, ChangeListener<String
             infoText.setFill(Color.RED);
         }
 
-        UiRootController.getInstance().PresentHomeView();
+
     }
 }
