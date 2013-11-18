@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import model.ModelController;
+import ui.UiRootController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -51,12 +52,6 @@ public class LoginPageController implements Initializable, ChangeListener<String
             infoText.setFill(Color.RED);
         }
 
-        try {
-            Scene scene = ((Node)actionEvent.getSource()).getScene();
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/UiRoot.fxml"));
-            scene.setRoot(root);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        UiRootController.getInstance().PresentHomeView();
     }
 }

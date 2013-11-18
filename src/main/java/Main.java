@@ -3,6 +3,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ui.UiRootController;
+
+import java.util.ArrayList;
 
 public class Main extends Application {
 
@@ -12,7 +15,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent loginRoot = FXMLLoader.load(getClass().getResource("/ui/login/LoginPage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Parent loginRoot = FXMLLoader.load(getClass().getResource("/ui/UiRoot.fxml"));
 
         primaryStage.setScene(new Scene(loginRoot, 640, 480));
         primaryStage.sizeToScene();
@@ -22,4 +26,5 @@ public class Main extends Application {
         primaryStage.setMinWidth(primaryStage.getWidth());
         primaryStage.setMinHeight(primaryStage.getHeight());
     }
+
 }
