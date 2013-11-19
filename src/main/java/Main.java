@@ -15,10 +15,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        Parent loginRoot = FXMLLoader.load(getClass().getResource("/ui/UiRoot.fxml"));
+        Parent rootView = FXMLLoader.load(getClass().getResource("/ui/UiRoot.fxml"));
 
-        primaryStage.setScene(new Scene(loginRoot, 640, 480));
+        primaryStage.setScene(new Scene(rootView, 640, 480));
         primaryStage.sizeToScene();
         primaryStage.setTitle("Insurance");
         primaryStage.show();

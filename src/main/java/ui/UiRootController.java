@@ -4,16 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
-import javafx.util.Callback;
-import ui.agents.AgentsPageController;
-import ui.clients.ClientsPageController;
-import ui.companies.CompaniesPageController;
-import ui.insurances.InsurancesPageController;
-import ui.insurances.attributes.AttributesPageController;
-import ui.insurances.types.InsuranceTypesPageController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,24 +14,12 @@ import java.util.ResourceBundle;
 public class UiRootController implements Initializable {
 
     @FXML public BorderPane rootTabPane;
-    private ArrayList<Parent> rootsArray = new ArrayList<Parent>();
+    private ArrayList<Parent> pages = new ArrayList<Parent>();
     private static UiRootController instance;
 
     public static UiRootController getInstance() {
         return instance;
     }
-
-    //private UiRootController uiRootController;
-
-//    private static void addTab(TabPane tabPane, String fxmlPath, String tabCaption,
-//                               Callback<Class<?>, Object> controllerFactory) throws IOException {
-//        FXMLLoader loader = new FXMLLoader(UiRootController.class.getResource(fxmlPath));
-//        loader.setControllerFactory(controllerFactory);
-//        Parent root = (Parent)loader.load();
-//        Tab tab = new Tab(tabCaption);
-//        tab.setContent(root);
-//        tabPane.getTabs().add(tab);
-//    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -59,27 +38,34 @@ public class UiRootController implements Initializable {
         rootTabPane.setCenter(parent);
     }
     public int ViewsCount(){
-        return rootsArray.size();
+        return pages.size();
     }
 
     public void NavigateForward(Parent rootView){
-        rootsArray.add(rootView);
+        pages.add(rootView);
+        rootTabPane.getTop().setVisible(true);
         this.setViewingParent(rootView);
     }
 
     public void NavigateBack (int index){
-        for (int i=rootsArray.size()-1; i>=index+1 ;i--) {
-            rootsArray.remove(i);
+        //TODO back from homepage (1-2=-1)
+        if (index==0)
+            rootTabPane.getTop().setVisible(false);
+        if  (index==-1)
+            return;
+        for (int i= pages.size()-1; i>=index+1 ;i--) {
+            pages.remove(i);
         }
-        this.setViewingParent(rootsArray.get(index));
+        this.setViewingParent(pages.get(index));
     }
 
     public void PresentHomeView(){
         try {
             Parent home = FXMLLoader.load(getClass().getResource("/ui/mainControls/Home.fxml"));
             Parent navigateBar =  FXMLLoader.load(getClass().getResource("/ui/mainControls/NavigateBar.fxml"));
-            rootsArray.add(home);
+            pages.add(home);
             rootTabPane.setTop(navigateBar);
+            rootTabPane.getTop().setVisible(false);
             rootTabPane.setCenter(home);
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
