@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<VBox fx:controller="ui.mainControls.HomeController"
+<VBox fx:controller="ui.main.HomeController"
       xmlns:fx="http://javafx.com/fxml" alignment="center">
     <padding><Insets top="10" right="10" bottom="20" left="10"/></padding>
     <children>

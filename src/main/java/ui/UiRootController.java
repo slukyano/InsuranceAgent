@@ -58,8 +58,8 @@ public class UiRootController implements Initializable {
 
     public void PresentHomeView(){
         try {
-            Parent home = FXMLLoader.load(getClass().getResource("/ui/mainControls/Home.fxml"));
-            Parent navigateBar =  FXMLLoader.load(getClass().getResource("/ui/mainControls/NavigateBar.fxml"));
+            Parent home = FXMLLoader.load(getClass().getResource("/ui/main/Home.fxml"));
+            Parent navigateBar =  FXMLLoader.load(getClass().getResource("/ui/main/NavigateBar.fxml"));
             pages.add(home);
             rootTabPane.setTop(navigateBar);
             rootTabPane.getTop().setVisible(false);

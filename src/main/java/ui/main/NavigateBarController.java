@@ -1,4 +1,4 @@
-package ui.mainControls;
+package ui.main;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
