@@ -48,11 +48,8 @@ public class UiRootController implements Initializable {
     }
 
     public void NavigateBack (int index){
-        //TODO back from homepage (1-2=-1)
         if (index==0)
             rootTabPane.getTop().setVisible(false);
-        if  (index==-1)
-            return;
         for (int i= pages.size()-1; i>=index+1 ;i--) {
             pages.remove(i);
         }
