@@ -1,0 +1,10 @@
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
+    <VBox>
+        <Text fx:id="insuranceType"/>
+        <Text fx:id="clientName"/>
+        <Text fx:id="agentName"/>
+        <Text fx:id="companyName"/>
+    </VBox>
+</fx:root>

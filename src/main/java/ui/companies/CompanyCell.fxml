@@ -1,5 +1,0 @@
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
-<VBox fx:id="rootVBox" xmlns:fx="http://javafx.com/fxml">
-    <Text fx:id="nameField"/>
-</VBox>
