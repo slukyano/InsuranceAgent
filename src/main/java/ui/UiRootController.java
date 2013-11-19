@@ -31,7 +31,7 @@ public class UiRootController implements Initializable {
 
         rootTabPane.setCenter(parent);
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
     }
     public void setViewingParent(Parent parent){
@@ -65,7 +65,7 @@ public class UiRootController implements Initializable {
             rootTabPane.getTop().setVisible(false);
             rootTabPane.setCenter(home);
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
     }
 }
