@@ -43,6 +43,7 @@ public class UiRootController implements Initializable {
         pages.add(rootView);
         rootBorderPane.getTop().setVisible(true);
         this.setViewingParent(rootView);
+        NavigateBarController.getInstance().AddButton(pages.size()-1,"Test");
     }
 
     public void NavigateBack (int index){
