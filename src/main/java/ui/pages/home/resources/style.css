@@ -1,0 +1,40 @@
+#main {
+  -fx-padding: 5 0;
+  -fx-spacing: 5;
+}
+
+.breadcrumbs {
+  -fx-padding: 0 50 0 0;
+}
+
+.breadcrumbs .item {
+  -fx-background-color: red;
+  -fx-background-radius: 0;
+  -fx-background-insets: 0;
+  -fx-border-color: null;
+  -fx-border-insets: 0;
+  -fx-shape: "M 0 0 L 200 0 L 210 15 L 200 30 L 0 30 z";
+  -fx-background-insets: 0 -2 0 0;
+  -fx-font-size: 18px;
+}
+
+.breadcrumbs .item:hover {
+  -fx-background-color: grey;
+}
+
+.breadcrumbs .alone {
+  -fx-border-insets: 0 0 1 0, 1;
+}
+
+.breadcrumbs .first {
+}
+
+.breadcrumbs .middle {
+    -fx-background-insets: 0 -2 0 -2;
+    -fx-shape:"M 0 0 L 200 0 L 210 15 L 200 30 L 0 30 L 10 15 z"
+}
+
+.breadcrumbs .last {
+  -fx-background-insets: 0 0 0 -2;
+  -fx-shape:"M 0 0 L 200 0 L 210 15 L 200 30 L 0 30 L 10 15 z"
+}
