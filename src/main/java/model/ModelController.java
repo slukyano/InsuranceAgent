@@ -201,7 +201,9 @@ public class ModelController {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         PreparedStatement selectSequence = conn.prepareStatement("select natural_persons_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
-        //TODO return dat shit or the whole object
+        if(!resultSet.next()){
+            //TODO place your exception here
+        }
         int naturalPersonId = resultSet.getInt("seqVal");
         resultSet.close();
         selectSequence.close();
@@ -284,7 +286,9 @@ public class ModelController {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         PreparedStatement selectSequence = conn.prepareStatement("select legal_persons_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
-        //TODO return dat shit or the whole object
+        if(!resultSet.next()){
+            //TODO place your exception here
+        }
         int legalPersonId = resultSet.getInt("seqVal");
         resultSet.close();
         selectSequence.close();
@@ -361,7 +365,9 @@ public class ModelController {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         PreparedStatement selectSequence = conn.prepareStatement("select agents_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
-        //TODO return dat shit or the whole object
+        if(!resultSet.next()){
+            //TODO place your exception here
+        }
         int agentId = resultSet.getInt("seqVal");
         resultSet.close();
         selectSequence.close();
@@ -434,7 +440,9 @@ public class ModelController {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         PreparedStatement selectSequence = conn.prepareStatement("select companies_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
-        //TODO return dat shit or the whole object
+        if(!resultSet.next()){
+            //TODO place your exception here
+        }
         int companyId = resultSet.getInt("seqVal");
         resultSet.close();
         selectSequence.close();
@@ -511,7 +519,9 @@ public class ModelController {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         PreparedStatement selectSequence = conn.prepareStatement("select companies_by_insurance_types_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
-        //TODO return dat shit or the whole object
+        if(!resultSet.next()){
+            //TODO place your exception here
+        }
         int cbitId = resultSet.getInt("seqVal");
         resultSet.close();
         selectSequence.close();
@@ -739,6 +749,9 @@ public class ModelController {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         PreparedStatement selectSequence = conn.prepareStatement("select insurances_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
+        if(!resultSet.next()){
+            //TODO place your exception here
+        }
         int insuranceId = resultSet.getInt("seqVal");
         resultSet.close();
         selectSequence.close();
@@ -808,7 +821,9 @@ public class ModelController {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         PreparedStatement selectSequence = conn.prepareStatement("select insurance_types_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
-        //TODO return dat shit or the whole object
+        if(!resultSet.next()){
+            //TODO place your exception here
+        }
         int insuranceTypeId = resultSet.getInt("seqVal");
         resultSet.close();
         selectSequence.close();
@@ -876,7 +891,9 @@ public class ModelController {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         PreparedStatement selectSequence = conn.prepareStatement("select attribute_types_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
-        //TODO return dat shit or the whole object
+        if(!resultSet.next()){
+            //TODO place your exception here
+        }
         int attributeTypeId = resultSet.getInt("seqVal");
         resultSet.close();
         selectSequence.close();
@@ -951,7 +968,9 @@ public class ModelController {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         PreparedStatement selectSequence = conn.prepareStatement("select insurance_attributes_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
-        //TODO return dat shit or the whole object
+        if(!resultSet.next()){
+            //TODO place your exception here
+        }
         int attributeId = resultSet.getInt("seqVal");
         resultSet.close();
         selectSequence.close();
