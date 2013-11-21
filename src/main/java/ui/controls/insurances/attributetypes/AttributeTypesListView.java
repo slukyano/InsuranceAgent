@@ -1,21 +1,21 @@
-package ui.controls.insurances.types;
+package ui.controls.insurances.attributetypes;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import model.insurances.InsuranceType;
 import ui.controls.AbstractListView;
 
-public class InsuranceTypesListView extends AbstractListView<InsuranceType> {
-    public InsuranceTypesListView() {
+public class AttributeTypesListView extends AbstractListView<InsuranceType> {
+    public AttributeTypesListView() {
     }
 
-    public InsuranceTypesListView(ObservableList<InsuranceType> insuranceTypes) {
+    public AttributeTypesListView(ObservableList<InsuranceType> insuranceTypes) {
         super();
         setItems(insuranceTypes);
     }
 
     @Override
     protected Node cellGraphicFactory(InsuranceType dataObject) {
-        return new InsuranceTypeView(dataObject);
+        return new AttributeTypeView(dataObject);
     }
 }

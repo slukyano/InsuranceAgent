@@ -24,6 +24,11 @@ public class LegalPerson extends Client {
         return vatin;
     }
 
+    @Override
+    public String getClientType() {
+        return "LEGAL";
+    }
+
     public LegalPerson(int clientId, int agentId, String name, String vatin, String address) {
         super(clientId, agentId);
         this.name = name;

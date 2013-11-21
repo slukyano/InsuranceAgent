@@ -22,6 +22,17 @@
         <jarDirectory url="file://$USER_HOME$/libs" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Загрузки/schudt-javafx-datepicker-0.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/Загрузки/schudt-javafx-datepicker-0.0.2.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
 

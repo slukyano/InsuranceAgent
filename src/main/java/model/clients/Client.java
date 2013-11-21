@@ -20,6 +20,8 @@ public abstract class Client {
         return clientId;
     }
 
+    public abstract String getClientType();
+
     public int getAgentId() {
         return agentId;
     }

@@ -38,6 +38,11 @@ public class NaturalPerson extends Client {
         return getFullName();
     }
 
+    @Override
+    public String getClientType() {
+        return "NATURAL";
+    }
+
     public NaturalPerson(int clientId, int agentId, String firstName, String secondName, String lastName, Date dateOfBirth) {
         super(clientId, agentId);
         this.firstName = firstName;

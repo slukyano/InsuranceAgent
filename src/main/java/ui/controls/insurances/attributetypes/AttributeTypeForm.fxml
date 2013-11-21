@@ -1,0 +1,22 @@
+<?import eu.schudt.javafx.controls.calendar.DatePicker?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
+    <GridPane>
+        <Text GridPane.rowIndex="0" GridPane.columnIndex="0" text="First Name"/>
+        <TextField GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="firstNameField"/>
+
+        <Text GridPane.rowIndex="1" GridPane.columnIndex="0" text="Second Name"/>
+        <TextField GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="secondNameField"/>
+
+        <Text GridPane.rowIndex="2" GridPane.columnIndex="0" text="Last Name"/>
+        <TextField GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="lastNameField"/>
+
+        <Text GridPane.rowIndex="3" GridPane.columnIndex="0" text="Hiring Date"/>
+        <DatePicker GridPane.rowIndex="3" GridPane.columnIndex="1" fx:id="hireDatePicker"/>
+
+        <Text GridPane.rowIndex="4" GridPane.columnIndex="0" text="Quit Date"/>
+        <DatePicker GridPane.rowIndex="4" GridPane.columnIndex="1" fx:id="quitDatePicker"/>
+    </GridPane>
+</fx:root>

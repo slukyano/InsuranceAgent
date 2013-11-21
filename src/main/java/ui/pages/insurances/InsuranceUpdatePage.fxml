@@ -1,0 +1,8 @@
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+<?import ui.controls.insurances.InsuranceForm?>
+<VBox fx:controller="ui.pages.insurances.InsuranceUpdatePageController"
+          xmlns:fx="http://javafx.com/fxml">
+    <InsuranceForm fx:id="form"/>
+    <Button fx:id="createButton" text="Create" onAction="#createClick"/>
+</VBox>

@@ -2,13 +2,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import ui.UiRootController;
-
-import java.util.ArrayList;
 
 public class Main extends Application {
     private ToolBar bc1;
@@ -23,7 +18,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent rootView = FXMLLoader.load(getClass().getResource("/ui/UiRoot.fxml"));
         Scene scene =  new Scene(rootView, 640, 480);
-        scene.getStylesheets().add("/ui/pages/home/resources/style.css");
+        scene.getStylesheets().add("/ui/resources/styles/style.css");
 
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();

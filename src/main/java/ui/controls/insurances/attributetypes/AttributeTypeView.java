@@ -1,4 +1,4 @@
-package ui.controls.insurances.types;
+package ui.controls.insurances.attributetypes;
 
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
@@ -7,13 +7,13 @@ import ui.controls.AbstractView;
 
 import java.net.URL;
 
-public class InsuranceTypeView extends AbstractView<InsuranceType> {
+public class AttributeTypeView extends AbstractView<InsuranceType> {
     @FXML private Text nameField;
 
-    public InsuranceTypeView() {
+    public AttributeTypeView() {
     }
 
-    public InsuranceTypeView(InsuranceType data) {
+    public AttributeTypeView(InsuranceType data) {
         super(data);
     }
 

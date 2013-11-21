@@ -6,7 +6,6 @@ import model.insurances.Insurance;
 import ui.controls.AbstractView;
 
 import java.net.URL;
-import java.sql.SQLException;
 
 public class InsuranceView extends AbstractView<Insurance> {
     @FXML private Text insuranceType;
@@ -24,14 +23,10 @@ public class InsuranceView extends AbstractView<Insurance> {
     @Override
     protected void update() {
         if (data != null) {
-            try {
-                insuranceType.setText(data.getInsuranceType().getName());
-                clientName.setText(data.getClient().getName());
-                agentName.setText(data.getAgent().getFullName());
-                companyName.setText(data.getCompany().getName());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            insuranceType.setText(data.getInsuranceTypeName());
+            clientName.setText(data.getClientName());
+            agentName.setText(data.getAgentName());
+            companyName.setText(data.getCompanyName());
         }
         else {
             insuranceType.setText("");
