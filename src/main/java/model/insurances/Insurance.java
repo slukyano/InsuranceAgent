@@ -17,6 +17,27 @@ public class Insurance {
     private final int companyByInsuranceTypeId;
     private final int agentId;
     private final double baseValue;
+
+    private String clientName;
+    private String companyName;
+    private String AgentName;
+    private String insuranceTypeName;
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setAgentName(String agentName) {
+        AgentName = agentName;
+    }
+
+    public void setInsuranceTypeName(String insuranceTypeName) {
+        this.insuranceTypeName = insuranceTypeName;
+    }
     //endregion
 
     //region Getters

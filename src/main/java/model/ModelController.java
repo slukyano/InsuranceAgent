@@ -545,6 +545,62 @@ public class ModelController {
     //endregion
 
     //region Insurance Factories
+
+    public  Insurance getInsuranceWithAttributes(int insuranceId) throws SQLException{
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+        "SELECT ins.InsuranceID as InsuranceID," +
+                " ins.ClientID as ClientID," +
+                " ins.ClientType as ClientType," +
+                " ins.companybyinsurancetypeid as companybyinsurancetypeid,"+
+                " ins.AgentId as AgentId,"+
+                " ins.BaseValue as BaseValue,"+
+                " comp.companyName as companyName,"+
+                " comp.insuranceTypeName as insuranceTypeName,"+
+                " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
+                " CASE WHEN ClientType like 'NATURAL' THEN natural_persons.firstname||' '||natural_persons.secondName||' '||natural_persons.lastname"+
+                     " when ClientType like 'LEGAL' then legal_persons.legalname"+
+                " end as ClientName"+
+        " FROM INSURANCES ins"+
+        " where ins.InsuranceID = ?"+
+        " inner join (select companies.companyname as companyName,"+
+                " companies_by_insurance_type.companybyinsurancetypeid as companybyinsurancetypeid,"+
+        " insurance_types.insurancetypename as insurancetypename"+
+        " from companies_by_insurance_type"+
+        " left outer join companies"+
+        " on companies.companyid = companies_by_insurance_type.companyid"+
+        " left outer join insurance_types"+
+        " on insurance_types.insurancetypeid=companies_by_insurance_type.insurancetypeid) comp"+
+        " on ins.companybyinsurancetypeid = comp.companybyinsurancetypeid"+
+        " inner join agents"+
+        " on agents.agentId=ins.agentid"+
+        " left outer join legal_persons"+
+        " on legal_persons.legalpersonid = ins.clientid"+
+        " left outer join natural_persons"+
+        " on natural_persons.naturalpersonid = ins.clientid");
+        stmt.setInt(1,insuranceId);
+        ResultSet rSet = stmt.executeQuery();
+
+        if(!rSet.next())
+            return null;
+        Insurance insurance = new Insurance(rSet.getInt("InsuranceID"),
+                rSet.getInt("ClientID"),
+                rSet.getString("ClientType"),
+                rSet.getInt("CompanyByInsuranceTypeID"),
+                rSet.getInt("AgentId"),
+                rSet.getDouble("BaseValue"));
+        insurance.setAgentName(rSet.getString("agentName"));
+        insurance.setClientName(rSet.getString("ClientName"));
+        insurance.setCompanyName(rSet.getString("companyName"));
+        insurance.setInsuranceTypeName(rSet.getString("insuranceTypeName"));
+
+
+        stmt.close();
+        conn.close();
+
+        return  insurance;
+    }
     public Insurance getInsurance(int insuranceId) throws SQLException {
         String sql = "SELECT InsuranceID, ClientID,ClientType,CompanyByInsuranceTypeID,AgentId,BaseValue"
                 + " FROM INSURANCES"
