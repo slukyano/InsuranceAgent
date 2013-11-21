@@ -735,11 +735,10 @@ public class ModelController {
         conn.close();
     }
 
-    public Insurance createInsurance(int clientId, String clientType, int cbitID,int agentId, double baseValue,String insuranceTypeName, String clientName, String agentName, String companyName)      throws SQLException {
+    public Insurance createInsurance(int clientId, String clientType, int cbitID,int agentId, double baseValue)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         PreparedStatement selectSequence = conn.prepareStatement("select insurances_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
-        //TODO return dat shit or the whole object
         int insuranceId = resultSet.getInt("seqVal");
         resultSet.close();
         selectSequence.close();
@@ -757,7 +756,7 @@ public class ModelController {
 
         stmt.close();
         conn.close();
-        return new Insurance(insuranceId,clientId,clientType,cbitID,agentId,baseValue,insuranceTypeName, clientName, agentName, companyName);
+        return new Insurance(insuranceId,clientId,clientType,cbitID,agentId,baseValue);
     }
 
     public void  deleteInsurance(int insuranceId)      throws SQLException {
