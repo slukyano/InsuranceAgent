@@ -9,6 +9,7 @@ import model.insurances.attributes.AttributeType;
 import model.insurances.attributes.InsuranceAttribute;
 
 import java.sql.*;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -196,22 +197,30 @@ public class ModelController {
         conn.close();
     }
 
-    public void createNaturalPerson(NaturalPerson naturalPerson)      throws SQLException {
+    public NaturalPerson createNaturalPerson(String firstName, String secondName,String lastName, Date dateOfBirth, int agentId)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+        PreparedStatement selectSequence = conn.prepareStatement("select natural_persons_s.nextval as seqVal from dual");
+        ResultSet resultSet = selectSequence.executeQuery();
+        //TODO return dat shit or the whole object
+        int naturalPersonId = resultSet.getInt("seqVal");
+        resultSet.close();
+        selectSequence.close();
 
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO NATURAL_PERSONS (FirstName, SecondName, LastName, DateOfBirth, AgentID)"
-                        + " VALUES ( ?,?,?,?,?)");
-        stmt.setString(1,naturalPerson.getFirstName());
-        stmt.setString(2,naturalPerson.getSecondName());
-        stmt.setString(3,naturalPerson.getLastName());
-        stmt.setDate(4,new java.sql.Date(naturalPerson.getDateOfBirth().getTime()));
-        stmt.setInt(5,naturalPerson.getAgentId());
+                "INSERT INTO NATURAL_PERSONS (NaturalPersonID,FirstName, SecondName, LastName, DateOfBirth, AgentID)"
+                        + " VALUES (?, ?,?,?,?,?)");
+        stmt.setInt(1,naturalPersonId);
+        stmt.setString(2,firstName);
+        stmt.setString(3,secondName);
+        stmt.setString(4,lastName);
+        stmt.setDate(5,new java.sql.Date(dateOfBirth.getTime()));
+        stmt.setInt(6,agentId);
         stmt.executeUpdate();
 
         stmt.close();
         conn.close();
-        //TODO: should set an ID somehow
+        return new NaturalPerson(naturalPersonId,agentId,firstName,secondName,lastName,dateOfBirth);
+
     }
 
     public void  deleteNaturalPerson(int ClientId)      throws SQLException {
@@ -271,21 +280,29 @@ public class ModelController {
         conn.close();
     }
 
-    public void createLegalPerson(LegalPerson legalPerson)      throws SQLException {
+    public LegalPerson createLegalPerson(String legalName,String address, String vatin, int agentId)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+        PreparedStatement selectSequence = conn.prepareStatement("select legal_persons_s.nextval as seqVal from dual");
+        ResultSet resultSet = selectSequence.executeQuery();
+        //TODO return dat shit or the whole object
+        int legalPersonId = resultSet.getInt("seqVal");
+        resultSet.close();
+        selectSequence.close();
 
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO Legal_PERSONS (LegalName, Address, vatin, AgentID)"
-                    + " VALUES (?,?,?,?)");
-        stmt.setString(1, legalPerson.getName());
-        stmt.setString(2,legalPerson.getAddress());
-        stmt.setString(3,legalPerson.getVatin());
-        stmt.setInt(4, legalPerson.getAgentId());
+                "INSERT INTO Legal_PERSONS (LegalName, Address, vatin, AgentID,legalPersonId)"
+                    + " VALUES (?,?,?,?,?)");
+        stmt.setString(1,legalName);
+        stmt.setString(2,address);
+        stmt.setString(3,vatin);
+        stmt.setInt(4, agentId);
+        stmt.setInt(5,legalPersonId);
         stmt.executeUpdate();
 
         stmt.close();
         conn.close();
-        //TODO: should set an ID somehow
+
+        return new LegalPerson(legalPersonId,agentId,legalName,vatin,address);
     }
 
     public void  deleteLegalPerson(int ClientId)      throws SQLException {
@@ -340,21 +357,30 @@ public class ModelController {
         conn.close();
     }
 
-    public void createAgent(Agent agent)      throws SQLException {
+    public Agent createAgent(String firstName, String secondName, String lastName, Date hiringDate, Date quitDate)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+        PreparedStatement selectSequence = conn.prepareStatement("select agents_s.nextval as seqVal from dual");
+        ResultSet resultSet = selectSequence.executeQuery();
+        //TODO return dat shit or the whole object
+        int agentId = resultSet.getInt("seqVal");
+        resultSet.close();
+        selectSequence.close();
 
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO AGENTS (FirstName,SecondName,LastName,HiringDate,QuitDate)"
-                + "VALUES (?,?,?,?,?)");
-        stmt.setString(1,agent.getFirstName());
-        stmt.setString(2,agent.getSecondName());
-        stmt.setString(3,agent.getLastName());
-        stmt.setDate(4, new java.sql.Date(agent.getHiringDate().getTime()));
-        stmt.setDate(5, new java.sql.Date(agent.getQuitDate().getTime()));
+                "INSERT INTO AGENTS (FirstName,SecondName,LastName,HiringDate,QuitDate,AgentID)"
+                + "VALUES (?,?,?,?,?,?)");
+        stmt.setString(1,firstName);
+        stmt.setString(2,secondName);
+        stmt.setString(3,lastName);
+        stmt.setDate(4, new java.sql.Date(hiringDate.getTime()));
+        stmt.setDate(5, new java.sql.Date(quitDate.getTime()));
+        stmt.setInt(6,agentId);
         stmt.executeUpdate();
 
         stmt.close();
         conn.close();
+
+        return new Agent(agentId, firstName,secondName,lastName,hiringDate,quitDate);
     }
 
     public void  deleteAgent(int AgentId)      throws SQLException {
@@ -404,20 +430,28 @@ public class ModelController {
         conn.close();
     }
 
-    public void createCompany(Company company)      throws SQLException {
+    public Company createCompany(String companyName, int parentCompanyId, String companyDescription)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+        PreparedStatement selectSequence = conn.prepareStatement("select companies_s.nextval as seqVal from dual");
+        ResultSet resultSet = selectSequence.executeQuery();
+        //TODO return dat shit or the whole object
+        int companyId = resultSet.getInt("seqVal");
+        resultSet.close();
+        selectSequence.close();
 
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO COMPANIES (CompanyName,ParentCompanyId,CompanyDescription)"
-                        + " VALUES (?,?,?)");
-        stmt.setString(1,company.getName());
-        stmt.setInt(2,company.getParentCompanyId());
-        stmt.setString(3,company.getDescription());
+                "INSERT INTO COMPANIES (CompanyName,ParentCompanyId,CompanyDescription,CompanyID)"
+                        + " VALUES (?,?,?,?)");
+        stmt.setString(1,companyName);
+        stmt.setInt(2, parentCompanyId);
+        stmt.setString(3, companyDescription);
+        stmt.setInt(4,companyId);
         stmt.executeUpdate();
 
         stmt.close();
         conn.close();
-        //TODO: should set an ID somehow
+
+        return new Company(companyId,companyName,parentCompanyId,companyDescription);
     }
 
     public void  deleteCompany(int companyId)      throws SQLException {
@@ -473,19 +507,26 @@ public class ModelController {
 
     }
 
-    public void createCompanyByInsuranceType(CompanyByInsuranceType companyByInsuranceType)      throws SQLException {
+    public CompanyByInsuranceType createCompanyByInsuranceType(int companyId, int insuranceId)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+        PreparedStatement selectSequence = conn.prepareStatement("select companies_by_insurance_types_s.nextval as seqVal from dual");
+        ResultSet resultSet = selectSequence.executeQuery();
+        //TODO return dat shit or the whole object
+        int cbitId = resultSet.getInt("seqVal");
+        resultSet.close();
+        selectSequence.close();
 
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO companies_by_insurance_type (companyID, insuranceTypeID)"
-                        + " VALUES (?,?)");
-        stmt.setInt(1, companyByInsuranceType.getCompanyId());
-        stmt.setInt(2,companyByInsuranceType.getInsuranceTypeId());
+                "INSERT INTO companies_by_insurance_type (companyID, insuranceTypeID,CompanyByInsuranceTypeID)"
+                        + " VALUES (?,?,?)");
+        stmt.setInt(1,companyId);
+        stmt.setInt(2,insuranceId);
+        stmt.setInt(3,cbitId);
         stmt.executeUpdate();
 
         stmt.close();
         conn.close();
-        //TODO: should set an ID somehow
+        return new CompanyByInsuranceType(cbitId,companyId,insuranceId);
     }
 
     public void  deleteCompanyByInsuranceType(int companyByInsuranceTypeId)      throws SQLException {
@@ -562,22 +603,30 @@ public class ModelController {
         conn.close();
     }
 
-    public void createInsurance(Insurance insurance)      throws SQLException {
+    public Insurance createInsurance(int clientId, String clientType, int cbitID,int agentId, double baseValue)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+        PreparedStatement selectSequence = conn.prepareStatement("select insurances_s.nextval as seqVal from dual");
+        ResultSet resultSet = selectSequence.executeQuery();
+        //TODO return dat shit or the whole object
+        int insuranceId = resultSet.getInt("seqVal");
+        resultSet.close();
+        selectSequence.close();
 
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO INSURANCES (ClientID, ClientType, CompanyByInsuranceTypeID, AgentId, BaseValue)"
-                        + " VALUES (?,?,?,?,?)");
-        stmt.setInt(1,insurance.getClientId());
-        stmt.setString(2, insurance.getClientType());
-        stmt.setInt(3,insurance.getCompanyByInsuranceTypeId());
-        stmt.setInt(4,insurance.getAgentId());
-        stmt.setDouble(5,insurance.getBaseValue());
+                "INSERT INTO INSURANCES (ClientID, ClientType, CompanyByInsuranceTypeID, AgentId, BaseValue, InsuranceID)"
+                        + " VALUES (?,?,?,?,?,?)");
+        stmt.setInt(1,clientId);
+        stmt.setString(2, clientType);
+        stmt.setInt(3, cbitID);
+        stmt.setInt(4,agentId);
+        stmt.setDouble(5,baseValue);
+        stmt.setInt(6,insuranceId);
         stmt.executeUpdate();
 
         stmt.close();
         conn.close();
-        //TODO: should set an ID somehow
+
+        return new Insurance(insuranceId,clientId,clientType,cbitID,agentId,baseValue);
     }
 
     public void  deleteInsurance(int insuranceId)      throws SQLException {
@@ -625,19 +674,27 @@ public class ModelController {
         conn.close();
     }
 
-    public void createInsuranceType(InsuranceType insuranceType)      throws SQLException {
+    public InsuranceType createInsuranceType(String insuranceTypeName, String insuranceTypeDescription)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+        PreparedStatement selectSequence = conn.prepareStatement("select insurance_types_s.nextval as seqVal from dual");
+        ResultSet resultSet = selectSequence.executeQuery();
+        //TODO return dat shit or the whole object
+        int insuranceTypeId = resultSet.getInt("seqVal");
+        resultSet.close();
+        selectSequence.close();
 
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO insurance_types (InsuranceTypeName,InsuranceTypeDescription)"
-                        + " VALUES (?,?)");
-        stmt.setString(1,insuranceType.getName());
-        stmt.setString(2, insuranceType.getDescription());
+                "INSERT INTO insurance_types (InsuranceTypeName,InsuranceTypeDescription,InsuranceTypeID)"
+                        + " VALUES (?,?,?)");
+        stmt.setString(1,insuranceTypeName);
+        stmt.setString(2, insuranceTypeDescription);
+        stmt.setInt(3,insuranceTypeId);
         stmt.executeUpdate();
 
         stmt.close();
         conn.close();
-        //TODO: should set an ID somehow
+
+        return new InsuranceType(insuranceTypeId, insuranceTypeName,insuranceTypeDescription);
     }
 
     public void  deleteInsuranceType(int insuranceTypeId)      throws SQLException {
@@ -685,19 +742,27 @@ public class ModelController {
         conn.close();
     }
 
-    public void createAttributeType(AttributeType attributeType)      throws SQLException {
+    public AttributeType createAttributeType(String attributeTypeName, String attributeTypeDescription)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+        PreparedStatement selectSequence = conn.prepareStatement("select attribute_types_s.nextval as seqVal from dual");
+        ResultSet resultSet = selectSequence.executeQuery();
+        //TODO return dat shit or the whole object
+        int attributeTypeId = resultSet.getInt("seqVal");
+        resultSet.close();
+        selectSequence.close();
 
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO ATTRIBUTE_TYPES (AttributeTypeName,AttributeTypeDescription)"
-                        + " VALUES (??)");
-        stmt.setString(1,attributeType.getName());
-        stmt.setString(2,attributeType.getDescription());
+                "INSERT INTO ATTRIBUTE_TYPES (AttributeTypeName,AttributeTypeDescription,AttributeTypeID)"
+                        + " VALUES (?,?,?)");
+        stmt.setString(1,attributeTypeName);
+        stmt.setString(2,attributeTypeDescription);
+        stmt.setInt(3,attributeTypeId);
         stmt.executeUpdate();
 
         stmt.close();
         conn.close();
-       //TODO: should set an ID somehow
+
+        return new AttributeType(attributeTypeId,attributeTypeName,attributeTypeDescription);
     }
 
     public void  deleteAttributeType(int attributeTypeId)      throws SQLException {
@@ -752,20 +817,28 @@ public class ModelController {
         conn.close();
     }
 
-    public void createInsuranceAttribute(InsuranceAttribute insuranceAttribute)      throws SQLException {
+    public InsuranceAttribute createInsuranceAttribute(int attributeTypeId,String attributeValue,int insuranceId)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+        PreparedStatement selectSequence = conn.prepareStatement("select insurance_attributes_s.nextval as seqVal from dual");
+        ResultSet resultSet = selectSequence.executeQuery();
+        //TODO return dat shit or the whole object
+        int attributeId = resultSet.getInt("seqVal");
+        resultSet.close();
+        selectSequence.close();
 
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO INSURANCE_ATTRIBUTES (AttributeTypeId,AttributeValue,InsuranceId)"
-                        + " VALUES (?,?,?)");
-        stmt.setInt(1,insuranceAttribute.getTypeId());
-        stmt.setString(2,insuranceAttribute.getAttributeValue());
-        stmt.setInt(3,insuranceAttribute.getInsuranceId());
+                "INSERT INTO INSURANCE_ATTRIBUTES (AttributeTypeId,AttributeValue,InsuranceId,AttributeID)"
+                        + " VALUES (?,?,?,?)");
+        stmt.setInt(1,attributeTypeId);
+        stmt.setString(2, attributeValue);
+        stmt.setInt(3, insuranceId);
+        stmt.setInt(4,attributeId);
         stmt.executeUpdate();
 
         stmt.close();
         conn.close();
-        //TODO: should set an ID somehow
+
+        return new InsuranceAttribute(attributeId,insuranceId,attributeValue,attributeTypeId);
     }
 
     public void  deleteInsuranceAttribute(int insuranceAttributeId)      throws SQLException {
