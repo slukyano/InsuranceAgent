@@ -17,10 +17,10 @@ public class Insurance {
     private final int companyByInsuranceTypeId;
     private final int agentId;
     private final double baseValue;
-    private final String clientName;
-    private final String companyName;
-    private final String agentName;
-    private final String insuranceTypeName;
+    private String clientName;
+    private String companyName;
+    private String agentName;
+    private String insuranceTypeName;
 
 
     //endregion
@@ -93,17 +93,20 @@ public class Insurance {
     //endregion
 
     //region Constructors
-    public Insurance(int insuranceId, int clientId, String clientType, int companyByInsuranceTypeId, int agentId, double baseValue, String insuranceTypeName, String clientName, String agentName, String companyName) {
-        this.insuranceTypeName = insuranceTypeName;
-        this.clientName = clientName;
-        this.agentName = agentName;
-        this.companyName = companyName;
+    public Insurance(int insuranceId, int clientId, String clientType, int companyByInsuranceTypeId, int agentId, double baseValue) {
         this.insuranceId = insuranceId;
         this.clientId = clientId;
         this.clientType = clientType;
         this.agentId = agentId;
         this.baseValue = baseValue;
         this.companyByInsuranceTypeId = companyByInsuranceTypeId;
+    }
+    public Insurance(int insuranceId, int clientId, String clientType, int companyByInsuranceTypeId, int agentId, double baseValue, String insuranceTypeName, String clientName, String agentName, String companyName) {
+        this(insuranceId,clientId,clientType,companyByInsuranceTypeId,agentId,baseValue);
+        this.insuranceTypeName = insuranceTypeName;
+        this.clientName = clientName;
+        this.agentName = agentName;
+        this.companyName = companyName;
     }
     //endregion
 
