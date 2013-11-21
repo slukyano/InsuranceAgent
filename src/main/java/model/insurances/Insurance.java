@@ -17,42 +17,12 @@ public class Insurance {
     private final int companyByInsuranceTypeId;
     private final int agentId;
     private final double baseValue;
-    private String clientName;
-    private String companyName;
-    private String AgentName;
-    private String insuranceTypeName;
+    private final String clientName;
+    private final String companyName;
+    private final String agentName;
+    private final String insuranceTypeName;
 
-    public String getClientName() {
-        return clientName;
-    }
 
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public String getAgentName() {
-        return AgentName;
-    }
-
-    public String getInsuranceTypeName() {
-        return insuranceTypeName;
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public void setAgentName(String agentName) {
-        AgentName = agentName;
-    }
-
-    public void setInsuranceTypeName(String insuranceTypeName) {
-        this.insuranceTypeName = insuranceTypeName;
-    }
     //endregion
 
     //region Getters
@@ -105,10 +75,29 @@ public class Insurance {
     public ArrayList<InsuranceAttribute> getAttributes() throws SQLException {
         return ModelController.getInstance().getInsuranceAttributes(this);
     }
+    public String getClientName() {
+        return clientName;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getAgentName() {
+        return agentName;
+    }
+
+    public String getInsuranceTypeName() {
+        return insuranceTypeName;
+    }
     //endregion
 
     //region Constructors
-    public Insurance(int insuranceId, int clientId, String clientType, int companyByInsuranceTypeId, int agentId, double baseValue) {
+    public Insurance(int insuranceId, int clientId, String clientType, int companyByInsuranceTypeId, int agentId, double baseValue, String insuranceTypeName, String clientName, String agentName, String companyName) {
+        this.insuranceTypeName = insuranceTypeName;
+        this.clientName = clientName;
+        this.agentName = agentName;
+        this.companyName = companyName;
         this.insuranceId = insuranceId;
         this.clientId = clientId;
         this.clientType = clientType;
