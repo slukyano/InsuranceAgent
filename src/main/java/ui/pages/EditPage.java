@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import ui.UiRootController;
 import ui.controls.AbstractForm;
 import ui.controls.SelectionListener;
 import ui.controls.SelectionProvider;
@@ -71,8 +70,6 @@ public abstract class EditPage<T> extends Pane implements SelectionProvider<T>, 
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-
-                UiRootController.getInstance().navigateBack();
             }
         });
     }

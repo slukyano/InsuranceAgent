@@ -1,7 +1,8 @@
 <?import eu.schudt.javafx.controls.calendar.DatePicker?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.*?>
+<?import ui.controls.agents.AgentPicker?>
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
     <GridPane>
         <Text GridPane.rowIndex="0" GridPane.columnIndex="0" text="First Name"/>
@@ -15,5 +16,8 @@
 
         <Text GridPane.rowIndex="3" GridPane.columnIndex="0" text="Date of Birth"/>
         <DatePicker GridPane.rowIndex="3" GridPane.columnIndex="1" fx:id="dateOfBirthPicker"/>
+
+        <Text GridPane.rowIndex="4" GridPane.columnIndex="0" text="Agent"/>
+        <AgentPicker GridPane.rowIndex="4" GridPane.columnIndex="1" fx:id="agentPicker"/>
     </GridPane>
 </fx:root>

@@ -29,7 +29,7 @@ public class AgentPicker extends AbstractPicker<Agent> {
             listView.setItems(FXCollections.observableArrayList(list));
             listView.addSelectionListener(this);
 
-            UiRootController.getInstance().navigateForward(listView);
+            UiRootController.getInstance().navigateForward(listView, "Agent select");
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -21,7 +21,7 @@ public class InsuranceTypePicker extends AbstractPicker<InsuranceType> {
             listView.setItems(FXCollections.observableArrayList(ModelController.getInstance().getInsuranceTypes()));
             listView.addSelectionListener(this);
 
-            UiRootController.getInstance().navigateForward(listView);
+            UiRootController.getInstance().navigateForward(listView, "Insurance type select");
         } catch (SQLException e) {
             e.printStackTrace();
         }

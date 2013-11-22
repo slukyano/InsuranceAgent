@@ -21,7 +21,7 @@ public class CompanyPicker extends AbstractPicker<Company> {
             listView.setItems(FXCollections.observableArrayList(ModelController.getInstance().getCompanies()));
             listView.addSelectionListener(this);
 
-            UiRootController.getInstance().navigateForward(listView);
+            UiRootController.getInstance().navigateForward(listView, "Company select");
         } catch (SQLException e) {
             e.printStackTrace();
         }

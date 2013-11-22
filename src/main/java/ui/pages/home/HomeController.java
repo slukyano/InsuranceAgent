@@ -2,7 +2,6 @@ package ui.pages.home;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.fxml.Initializable;
 import model.Agent;
 import model.Company;
 import model.ModelController;
@@ -11,33 +10,43 @@ import model.clients.NaturalPerson;
 import model.insurances.Insurance;
 import ui.UiRootController;
 import ui.controls.AbstractForm;
+import ui.controls.AbstractListView;
 import ui.controls.agents.AgentForm;
 import ui.controls.agents.AgentsListView;
 import ui.controls.clients.legal.LegalPersonForm;
 import ui.controls.clients.legal.LegalPersonListView;
 import ui.controls.clients.natural.NaturalPersonForm;
+import ui.controls.clients.natural.NaturalPersonView;
 import ui.controls.clients.natural.NaturalPersonsListView;
 import ui.controls.companies.CompaniesListView;
 import ui.controls.companies.CompanyForm;
 import ui.controls.insurances.InsuranceForm;
 import ui.controls.insurances.InsurancesListView;
 import ui.pages.EditPage;
+import ui.pages.SelectPage;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
-public class HomeController implements Initializable {
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+import java.util.List;
 
-    }
-
+public class HomeController {
     public void naturalsClick(ActionEvent actionEvent) throws IOException {
         try {
-            UiRootController.getInstance().navigateForward(
-                    new NaturalPersonsListView(
-                            FXCollections.observableArrayList(ModelController.getInstance().getNaturalPersons())));
+            final List<NaturalPerson> list = ModelController.getInstance().getNaturalPersons();
+            SelectPage<NaturalPerson> page = new SelectPage<NaturalPerson>() {
+                @Override
+                protected void onObjectSelected(NaturalPerson selectedObject) {
+                    UiRootController.getInstance().navigateForward(new NaturalPersonView(selectedObject),
+                            selectedObject.getName());
+                }
+
+                @Override
+                protected AbstractListView<NaturalPerson> listViewFactory() {
+                    return new NaturalPersonsListView(list);
+                }
+            };
+
+            UiRootController.getInstance().navigateForward(page, "Natural persons");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -47,7 +56,8 @@ public class HomeController implements Initializable {
         try {
             UiRootController.getInstance().navigateForward(
                     new LegalPersonListView(
-                            FXCollections.observableArrayList(ModelController.getInstance().getLegalPersons())));
+                            FXCollections.observableArrayList(ModelController.getInstance().getLegalPersons())),
+                    "Legal persons");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -57,7 +67,8 @@ public class HomeController implements Initializable {
         try {
             UiRootController.getInstance().navigateForward(
                     new AgentsListView(
-                            FXCollections.observableArrayList(ModelController.getInstance().getAgents())));
+                            FXCollections.observableArrayList(ModelController.getInstance().getAgents())),
+                    "Agents");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,7 +78,8 @@ public class HomeController implements Initializable {
         try {
             UiRootController.getInstance().navigateForward(
                     new CompaniesListView(
-                            FXCollections.observableArrayList(ModelController.getInstance().getCompanies())));
+                            FXCollections.observableArrayList(ModelController.getInstance().getCompanies())),
+                    "Companies");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -81,14 +93,16 @@ public class HomeController implements Initializable {
             }
         };
 
-        UiRootController.getInstance().navigateForward(editPage);
+        UiRootController.getInstance().navigateForward(editPage,
+                "New agent");
     }
 
     public void insurancesClick(ActionEvent actionEvent) {
         try {
             UiRootController.getInstance().navigateForward(
                     new InsurancesListView(
-                            FXCollections.observableArrayList(ModelController.getInstance().getInsurances())));
+                            FXCollections.observableArrayList(ModelController.getInstance().getInsurances())),
+                    "Insurances");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -102,7 +116,8 @@ public class HomeController implements Initializable {
             }
         };
 
-        UiRootController.getInstance().navigateForward(editPage);
+        UiRootController.getInstance().navigateForward(editPage,
+                "New insurance");
     }
 
     public void newNatural(ActionEvent actionEvent) {
@@ -113,7 +128,8 @@ public class HomeController implements Initializable {
                 return new NaturalPersonForm();
             }
         };
-        UiRootController.getInstance().navigateForward(editPage);
+        UiRootController.getInstance().navigateForward(editPage,
+                "New natural person");
     }
 
     public void newLegal(ActionEvent actionEvent) {
@@ -123,7 +139,8 @@ public class HomeController implements Initializable {
                 return new LegalPersonForm();
             }
         };
-        UiRootController.getInstance().navigateForward(editPage);
+        UiRootController.getInstance().navigateForward(editPage,
+                "New legal person");
     }
 
     public void newCompany(ActionEvent actionEvent) {
@@ -133,6 +150,7 @@ public class HomeController implements Initializable {
                 return new CompanyForm();
             }
         };
-        UiRootController.getInstance().navigateForward(editPage);
+        UiRootController.getInstance().navigateForward(editPage,
+                "New company");
     }
 }

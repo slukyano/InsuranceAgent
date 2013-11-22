@@ -1,17 +1,17 @@
 package ui.controls.agents;
 
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import model.Agent;
 import ui.controls.AbstractListView;
+
+import java.util.Collection;
 
 public class AgentsListView extends AbstractListView<Agent> {
     public AgentsListView() {
     }
 
-    public AgentsListView(ObservableList<Agent> agents) {
-        super();
-        setItems(agents);
+    public AgentsListView(Collection<Agent> agents) {
+        super(agents);
     }
 
     @Override

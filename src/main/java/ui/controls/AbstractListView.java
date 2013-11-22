@@ -1,6 +1,6 @@
 package ui.controls;
 
-import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
@@ -8,6 +8,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,8 +41,9 @@ public abstract class AbstractListView<T> extends ListView<T> implements Selecti
         });
     }
 
-    public AbstractListView(ObservableList<T> ts) {
-        super();
+    public AbstractListView(Collection<T> ts) {
+        this();
+        setItems(FXCollections.observableArrayList(ts));
     }
 
     public void addSelectionListener(SelectionListener<T> listener) {

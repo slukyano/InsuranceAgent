@@ -1,16 +1,17 @@
 package ui.controls.clients;
 
-import javafx.collections.FXCollections;
 import model.ModelController;
 import model.clients.Client;
+import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
 import ui.UiRootController;
 import ui.controls.AbstractPicker;
 import ui.controls.SelectionListener;
 import ui.controls.SelectionProvider;
-import ui.controls.clients.natural.NaturalPersonsListView;
+import ui.pages.clients.ClientsPage;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class ClientPicker extends AbstractPicker<Client> {
     @Override
@@ -21,16 +22,18 @@ public class ClientPicker extends AbstractPicker<Client> {
     @Override
     public void pickObject() {
         try {
-            NaturalPersonsListView listView = new NaturalPersonsListView();
-            listView.setItems(FXCollections.observableArrayList(ModelController.getInstance().getNaturalPersons()));
-            listView.addSelectionListener(new SelectionListener<NaturalPerson>() {
+            List<NaturalPerson> naturals = ModelController.getInstance().getNaturalPersons();
+            List<LegalPerson> legals = ModelController.getInstance().getLegalPersons();
+            ClientsPage page = new ClientsPage(naturals, legals);
+            page.addSelectionListener(new SelectionListener<Client>() {
                 @Override
-                public void objectSelected(SelectionProvider<NaturalPerson> provider, NaturalPerson selectedObject) {
+                public void objectSelected(SelectionProvider<Client> provider, Client selectedObject) {
                     setData(selectedObject);
+                    UiRootController.getInstance().navigateBack();
                 }
             });
 
-            UiRootController.getInstance().navigateForward(listView);
+            UiRootController.getInstance().navigateForward(page, "Client select");
         } catch (SQLException e) {
             e.printStackTrace();
         }
