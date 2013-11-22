@@ -44,7 +44,7 @@ public class NaturalPersonForm extends AbstractForm<NaturalPerson> {
 
     @Override
     protected URL getFxmlUrl() {
-        return getClass().getResource("AgentForm.fxml");
+        return getClass().getResource("NaturalPersonForm.fxml");
     }
 
     @Override
