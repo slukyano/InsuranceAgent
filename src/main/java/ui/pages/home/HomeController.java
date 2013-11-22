@@ -113,6 +113,7 @@ public class HomeController implements Initializable {
                 return new NaturalPersonForm();
             }
         };
+        UiRootController.getInstance().navigateForward(editPage);
     }
 
     public void newLegal(ActionEvent actionEvent) {
@@ -122,6 +123,7 @@ public class HomeController implements Initializable {
                 return new LegalPersonForm();
             }
         };
+        UiRootController.getInstance().navigateForward(editPage);
     }
 
     public void newCompany(ActionEvent actionEvent) {
@@ -131,5 +133,6 @@ public class HomeController implements Initializable {
                 return new CompanyForm();
             }
         };
+        UiRootController.getInstance().navigateForward(editPage);
     }
 }
