@@ -9,8 +9,8 @@ import model.insurances.attributes.AttributeType;
 import model.insurances.attributes.InsuranceAttribute;
 
 import java.sql.*;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class ModelController {
@@ -335,6 +335,15 @@ public class ModelController {
     public ArrayList<Agent> getAgents() throws SQLException {
         String sql = "SELECT AgentId,FirstName,SecondName,LastName,HiringDate,QuitDate"
                 + " FROM AGENTS";
+        return getObjects(AgentFactory.getInstance(), sql);
+    }
+
+    public ArrayList<Agent> getAgents(boolean currentlyWorking) throws SQLException {
+        String sql = "SELECT AgentId,FirstName,SecondName,LastName,HiringDate,QuitDate"
+                + " FROM AGENTS";
+        if (currentlyWorking)
+            sql += " WHERE QuitDate IS NULL";
+
         return getObjects(AgentFactory.getInstance(), sql);
     }
 
