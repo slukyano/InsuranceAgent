@@ -3,15 +3,22 @@ package ui.pages.home;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import model.Agent;
+import model.Company;
 import model.ModelController;
+import model.clients.LegalPerson;
+import model.clients.NaturalPerson;
 import model.insurances.Insurance;
 import ui.UiRootController;
 import ui.controls.AbstractForm;
 import ui.controls.agents.AgentForm;
 import ui.controls.agents.AgentsListView;
+import ui.controls.clients.legal.LegalPersonForm;
 import ui.controls.clients.legal.LegalPersonListView;
+import ui.controls.clients.natural.NaturalPersonForm;
 import ui.controls.clients.natural.NaturalPersonsListView;
 import ui.controls.companies.CompaniesListView;
+import ui.controls.companies.CompanyForm;
 import ui.controls.insurances.InsuranceForm;
 import ui.controls.insurances.InsurancesListView;
 import ui.pages.EditPage;
@@ -67,7 +74,14 @@ public class HomeController implements Initializable {
     }
 
     public void newAgentClick(ActionEvent actionEvent) {
-        UiRootController.getInstance().navigateForward(new AgentForm());
+        EditPage<Agent> editPage = new EditPage<Agent>() {
+            @Override
+            protected AbstractForm<Agent> formFactory() {
+                return new AgentForm();
+            }
+        };
+
+        UiRootController.getInstance().navigateForward(editPage);
     }
 
     public void insurancesClick(ActionEvent actionEvent) {
@@ -89,5 +103,33 @@ public class HomeController implements Initializable {
         };
 
         UiRootController.getInstance().navigateForward(editPage);
+    }
+
+    public void newNatural(ActionEvent actionEvent) {
+
+        EditPage<NaturalPerson> editPage = new EditPage<NaturalPerson>() {
+            @Override
+            protected AbstractForm<NaturalPerson> formFactory() {
+                return new NaturalPersonForm();
+            }
+        };
+    }
+
+    public void newLegal(ActionEvent actionEvent) {
+        EditPage<LegalPerson> editPage = new EditPage<LegalPerson>() {
+            @Override
+            protected AbstractForm<LegalPerson> formFactory() {
+                return new LegalPersonForm();
+            }
+        };
+    }
+
+    public void newCompany(ActionEvent actionEvent) {
+        EditPage<Company> editPage = new EditPage<Company>() {
+            @Override
+            protected AbstractForm<Company> formFactory() {
+                return new CompanyForm();
+            }
+        };
     }
 }
