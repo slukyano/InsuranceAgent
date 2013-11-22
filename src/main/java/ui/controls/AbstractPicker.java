@@ -9,8 +9,12 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public abstract class AbstractPicker<T> extends AbstractView<T> implements Initializable {
+public abstract class AbstractPicker<T> extends AbstractView<T> implements Initializable, SelectionListener<T> {
     @FXML protected TextField valueField;
+
+    protected abstract String getValueString();
+
+    public abstract void pickObject();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -32,7 +36,8 @@ public abstract class AbstractPicker<T> extends AbstractView<T> implements Initi
         valueField.setText(getValueString());
     }
 
-    protected abstract String getValueString();
-
-    public abstract void pickObject();
+    @Override
+    public final void objectSelected(SelectionProvider<T> provider, T selectedObject) {
+        setData(selectedObject);
+    }
 }

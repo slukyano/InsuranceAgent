@@ -1,5 +1,5 @@
 package ui.controls;
 
 public interface SelectionListener<T> {
-    void objectSelected(T selectedT);
+    void objectSelected(SelectionProvider<T> provider, T selectedObject);
 }

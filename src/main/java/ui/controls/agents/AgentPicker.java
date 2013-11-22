@@ -5,9 +5,9 @@ import model.Agent;
 import model.ModelController;
 import ui.UiRootController;
 import ui.controls.AbstractPicker;
-import ui.controls.SelectionListener;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class AgentPicker extends AbstractPicker<Agent> {
     @Override
@@ -17,17 +17,19 @@ public class AgentPicker extends AbstractPicker<Agent> {
 
     @Override
     public void pickObject() {
+        pickObject(false);
+    }
+
+    public void pickObject(boolean currentlyWorking) {
         try {
             AgentsListView listView = new AgentsListView();
-            listView.setItems(FXCollections.observableArrayList(ModelController.getInstance().getAgents()));
-            listView.addSelectionListener(new SelectionListener<Agent>() {
-                @Override
-                public void objectSelected(Agent selectedT) {
-                    setData(selectedT);
-                }
-            });
+            List<Agent> list = currentlyWorking
+                    ? ModelController.getInstance().getAgents(true)
+                    : ModelController.getInstance().getAgents(false);
+            listView.setItems(FXCollections.observableArrayList(list));
+            listView.addSelectionListener(this);
 
-            UiRootController.getInstance().NavigateForward(listView);
+            UiRootController.getInstance().navigateForward(listView);
         } catch (SQLException e) {
             e.printStackTrace();
         }

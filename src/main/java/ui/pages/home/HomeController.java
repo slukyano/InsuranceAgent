@@ -2,17 +2,19 @@ package ui.pages.home;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import model.ModelController;
+import model.insurances.Insurance;
 import ui.UiRootController;
+import ui.controls.AbstractForm;
 import ui.controls.agents.AgentForm;
 import ui.controls.agents.AgentsListView;
 import ui.controls.clients.legal.LegalPersonListView;
 import ui.controls.clients.natural.NaturalPersonsListView;
 import ui.controls.companies.CompaniesListView;
+import ui.controls.insurances.InsuranceForm;
 import ui.controls.insurances.InsurancesListView;
+import ui.pages.EditPage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,7 +28,7 @@ public class HomeController implements Initializable {
 
     public void naturalsClick(ActionEvent actionEvent) throws IOException {
         try {
-            UiRootController.getInstance().NavigateForward(
+            UiRootController.getInstance().navigateForward(
                     new NaturalPersonsListView(
                             FXCollections.observableArrayList(ModelController.getInstance().getNaturalPersons())));
         } catch (SQLException e) {
@@ -36,7 +38,7 @@ public class HomeController implements Initializable {
 
     public void legalsClick(ActionEvent actionEvent) throws IOException {
         try {
-            UiRootController.getInstance().NavigateForward(
+            UiRootController.getInstance().navigateForward(
                     new LegalPersonListView(
                             FXCollections.observableArrayList(ModelController.getInstance().getLegalPersons())));
         } catch (SQLException e) {
@@ -46,7 +48,7 @@ public class HomeController implements Initializable {
 
     public void agentsClick(ActionEvent actionEvent) throws IOException {
         try {
-            UiRootController.getInstance().NavigateForward(
+            UiRootController.getInstance().navigateForward(
                     new AgentsListView(
                             FXCollections.observableArrayList(ModelController.getInstance().getAgents())));
         } catch (SQLException e) {
@@ -56,7 +58,7 @@ public class HomeController implements Initializable {
 
     public void companiesClick(ActionEvent actionEvent) throws IOException {
         try {
-            UiRootController.getInstance().NavigateForward(
+            UiRootController.getInstance().navigateForward(
                     new CompaniesListView(
                             FXCollections.observableArrayList(ModelController.getInstance().getCompanies())));
         } catch (SQLException e) {
@@ -65,12 +67,12 @@ public class HomeController implements Initializable {
     }
 
     public void newAgentClick(ActionEvent actionEvent) {
-        UiRootController.getInstance().NavigateForward(new AgentForm());
+        UiRootController.getInstance().navigateForward(new AgentForm());
     }
 
     public void insurancesClick(ActionEvent actionEvent) {
         try {
-            UiRootController.getInstance().NavigateForward(
+            UiRootController.getInstance().navigateForward(
                     new InsurancesListView(
                             FXCollections.observableArrayList(ModelController.getInstance().getInsurances())));
         } catch (SQLException e) {
@@ -79,12 +81,13 @@ public class HomeController implements Initializable {
     }
 
     public void newInsuranceClick(ActionEvent actionEvent) {
-        try {
-            UiRootController.getInstance().NavigateForward(
-                    (Parent) FXMLLoader.load(
-                            getClass().getResource("/ui/pages/insurances/InsuranceUpdatePage.fxml")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        EditPage<Insurance> editPage = new EditPage<Insurance>() {
+            @Override
+            protected AbstractForm<Insurance> formFactory() {
+                return new InsuranceForm();
+            }
+        };
+
+        UiRootController.getInstance().navigateForward(editPage);
     }
 }

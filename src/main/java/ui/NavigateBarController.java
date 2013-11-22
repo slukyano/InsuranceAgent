@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ public class NavigateBarController implements Initializable {
     public void backClick(ActionEvent actionEvent) {
         breadCrumbsPane.getChildren().remove(breadCrumbsPane.getChildren().size()-1);
         UiRootController uiRootController = UiRootController.getInstance();
-        uiRootController.NavigateBack(uiRootController.ViewsCount()-2);
+        uiRootController.navigateBack(uiRootController.viewsCount() - 2);
     }
 
     public void AddButton(final int index, String text){
@@ -68,13 +67,13 @@ public class NavigateBarController implements Initializable {
                         for (int i= breadCrumbsPane.getChildren().size()-1; i>=index+1 ;i--) {
                             breadCrumbsPane.getChildren().remove(i);
                         }
-                        UiRootController.getInstance().NavigateBack(index);
+                        UiRootController.getInstance().navigateBack(index);
                     }
                 });
     }
 
     public void homeClick(ActionEvent actionEvent) {
-        UiRootController.getInstance().NavigateBack(0);
+        UiRootController.getInstance().navigateBack(0);
     }
 
 }

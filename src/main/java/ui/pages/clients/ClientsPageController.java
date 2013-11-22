@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import model.ModelController;
 import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
@@ -15,10 +16,10 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ClientsPageController implements Initializable {
-    @FXML public RadioButton naturalRadioButton;
-    @FXML public RadioButton legalRadioButton;
-    @FXML public ListView<NaturalPerson> naturalListView;
-    @FXML public ListView<LegalPerson> legalListView;
+    @FXML private RadioButton naturalRadioButton;
+    @FXML private RadioButton legalRadioButton;
+    @FXML private ListView<NaturalPerson> naturalListView;
+    @FXML private ListView<LegalPerson> legalListView;
 
     public void showNatural() {
         try {
@@ -52,24 +53,11 @@ public class ClientsPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        naturalListView.setCellFactory(new Callback<ListView<NaturalPerson>, ListCell<NaturalPerson>>() {
-//            @Override
-//            public ListCell<NaturalPerson> call(ListView<NaturalPerson> listView) {
-//                return new NaturalPersonCell();
-//            }
-//        });
-//        legalListView.setCellFactory(new Callback<ListView<LegalPerson>, ListCell<LegalPerson>>() {
-//            @Override
-//            public ListCell<LegalPerson> call(ListView<LegalPerson> listView) {
-//                return new LegalPersonCell();
-//            }
-//        });
-//
-//        ToggleGroup group = new ToggleGroup();
-//        naturalRadioButton.setToggleGroup(group);
-//        legalRadioButton.setToggleGroup(group);
-//
-//        naturalRadioButton.setSelected(true);
-//        showNatural();
+        ToggleGroup group = new ToggleGroup();
+        naturalRadioButton.setToggleGroup(group);
+        legalRadioButton.setToggleGroup(group);
+
+        naturalRadioButton.setSelected(true);
+        showNatural();
     }
 }

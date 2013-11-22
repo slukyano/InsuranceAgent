@@ -35,24 +35,28 @@ public class UiRootController implements Initializable {
     public void setViewingParent(Parent parent){
         rootBorderPane.setCenter(parent);
     }
-    public int ViewsCount(){
+    public int viewsCount(){
         return pages.size();
     }
 
-    public void NavigateForward(Parent rootView){
+    public void navigateForward(Parent rootView){
         pages.add(rootView);
         rootBorderPane.getTop().setVisible(true);
         this.setViewingParent(rootView);
         NavigateBarController.getInstance().AddButton(pages.size()-1,"Test");
     }
 
-    public void NavigateBack (int index){
+    public void navigateBack(int index){
         if (index==0)
             rootBorderPane.getTop().setVisible(false);
         for (int i= pages.size()-1; i>=index+1 ;i--) {
             pages.remove(i);
         }
         this.setViewingParent(pages.get(index));
+    }
+
+    public void navigateBack() {
+        navigateBack(viewsCount() - 2);
     }
 
     public void PresentHomeView(){

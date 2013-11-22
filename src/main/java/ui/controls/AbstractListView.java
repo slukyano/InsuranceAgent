@@ -11,7 +11,7 @@ import javafx.util.Callback;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class AbstractListView<T> extends ListView<T> {
+public abstract class AbstractListView<T> extends ListView<T> implements SelectionProvider<T> {
     private final List<SelectionListener<T>> listeners = new LinkedList<SelectionListener<T>>();
 
     public AbstractListView()
@@ -41,7 +41,7 @@ public abstract class AbstractListView<T> extends ListView<T> {
     }
 
     public AbstractListView(ObservableList<T> ts) {
-        super(ts);
+        super();
     }
 
     public void addSelectionListener(SelectionListener<T> listener) {
@@ -54,7 +54,7 @@ public abstract class AbstractListView<T> extends ListView<T> {
 
     private void notifyListeners(T selectedItem) {
         for (SelectionListener<T> listener : listeners)
-            listener.objectSelected(selectedItem);
+            listener.objectSelected(this, selectedItem);
     }
 
     protected abstract Node cellGraphicFactory(T dataObject);

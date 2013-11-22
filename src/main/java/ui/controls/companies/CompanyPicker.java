@@ -5,7 +5,6 @@ import model.Company;
 import model.ModelController;
 import ui.UiRootController;
 import ui.controls.AbstractPicker;
-import ui.controls.SelectionListener;
 
 import java.sql.SQLException;
 
@@ -20,14 +19,9 @@ public class CompanyPicker extends AbstractPicker<Company> {
         try {
             CompaniesListView listView = new CompaniesListView();
             listView.setItems(FXCollections.observableArrayList(ModelController.getInstance().getCompanies()));
-            listView.addSelectionListener(new SelectionListener<Company>() {
-                @Override
-                public void objectSelected(Company selectedT) {
-                    setData(selectedT);
-                }
-            });
+            listView.addSelectionListener(this);
 
-            UiRootController.getInstance().NavigateForward(listView);
+            UiRootController.getInstance().navigateForward(listView);
         } catch (SQLException e) {
             e.printStackTrace();
         }

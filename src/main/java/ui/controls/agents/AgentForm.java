@@ -18,7 +18,7 @@ public class AgentForm extends AbstractForm<Agent> {
     @FXML private DatePicker quitDatePicker;
 
     @Override
-    public Agent createObject() throws SQLException {
+    protected Agent createObject() throws SQLException {
         return ModelController.getInstance().createAgent(
                 firstNameField.getText(),
                 secondNameField.getText(),
@@ -28,7 +28,7 @@ public class AgentForm extends AbstractForm<Agent> {
     }
 
     @Override
-    public Agent updateObject() throws SQLException {
+    protected Agent updateObject() throws SQLException {
         return null;
     }
 

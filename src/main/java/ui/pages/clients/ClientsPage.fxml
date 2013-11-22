@@ -1,9 +1,10 @@
 <?language javascript?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import ui.controls.clients.legal.LegalPersonListView?>
+<?import ui.controls.clients.natural.NaturalPersonsListView?>
 <VBox fx:controller="ui.pages.clients.ClientsPageController"
       xmlns:fx="http://javafx.com/fxml" alignment="center">
     <HBox alignment="CENTER_LEFT">
@@ -11,6 +12,6 @@
         <RadioButton fx:id="naturalRadioButton" text="Natural" onAction="controller.showNatural();"/>
         <RadioButton fx:id="legalRadioButton" text="Legal" onAction="controller.showLegal();"/>
     </HBox>
-    <ListView fx:id="naturalListView" VBox.vgrow="ALWAYS"/>
-    <ListView fx:id="legalListView" VBox.vgrow="ALWAYS"/>
+    <NaturalPersonsListView fx:id="naturalListView" VBox.vgrow="ALWAYS"/>
+    <LegalPersonListView fx:id="legalListView" VBox.vgrow="ALWAYS"/>
 </VBox>

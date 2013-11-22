@@ -5,7 +5,6 @@ import model.ModelController;
 import model.insurances.InsuranceType;
 import ui.UiRootController;
 import ui.controls.AbstractPicker;
-import ui.controls.SelectionListener;
 
 import java.sql.SQLException;
 
@@ -20,14 +19,9 @@ public class InsuranceTypePicker extends AbstractPicker<InsuranceType> {
         try {
             InsuranceTypesListView listView = new InsuranceTypesListView();
             listView.setItems(FXCollections.observableArrayList(ModelController.getInstance().getInsuranceTypes()));
-            listView.addSelectionListener(new SelectionListener<InsuranceType>() {
-                @Override
-                public void objectSelected(InsuranceType selectedT) {
-                    setData(selectedT);
-                }
-            });
+            listView.addSelectionListener(this);
 
-            UiRootController.getInstance().NavigateForward(listView);
+            UiRootController.getInstance().navigateForward(listView);
         } catch (SQLException e) {
             e.printStackTrace();
         }

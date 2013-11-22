@@ -15,7 +15,7 @@
                   text="Connection string"/>
             <TextField fx:id="connectionField"
                        GridPane.rowIndex="0" GridPane.columnIndex="1"
-                       text="jdbc:oracle:thin:@5.19.237.145:65432:xe"
+                       text="jdbc:oracle:thin:@5.19.237.145:54321:xe"
                        onAction="java.lang.System.out.println('blabla')"/>
 
             <Text GridPane.rowIndex="1" GridPane.columnIndex="0"
