@@ -748,10 +748,10 @@ public class ModelController {
 
         PreparedStatement stmt = conn.prepareStatement(
                 "UPDATE INSURANCES"
-                        + "SET ClientID = ?,"
-                        +" ClientType = ?,"
-                        +" CompanyByInsuranceTypeID = ?,"
-                        + " AgentId = ?,"
+                        + " SET ClientID = ?,"
+                        + " ClientType = ?,"
+                        + " CompanyByInsuranceTypeID = ?,"
+                        + " AgentId = ?"
                         + " Where InsuranceId = ?");
         stmt.setInt(1,clientId);
         stmt.setString(2, clientType);
@@ -975,19 +975,15 @@ public class ModelController {
                 + " WHERE InsuranceId = " + insurance.getInsuranceId();
         return getObjects(InsuranceAttributeFactory.getInstance(), sql);
     }
-    public InsuranceAttribute updateInsuranceAttribute(int attributeTypeId, String attributeValue, int insuranceId, int attributeId )      throws SQLException {
+    public InsuranceAttribute updateInsuranceAttribute(int attributeTypeId, String attributeValue, int insuranceId, int attributeId ) throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         PreparedStatement stmt = conn.prepareStatement(
                 "UPDATE INSURANCE_ATTRIBUTES"
-                        + " SET AttributeTypeId = ?,"
-                        +" AttributeValue = ?,"
-                        +" InsuranceId = ?"
+                        + " SET AttributeValue = ?"
                         + " where AttributeId = ?");
-        stmt.setInt(1,attributeTypeId);
-        stmt.setString(2,attributeValue);
-        stmt.setInt(3,insuranceId);
-        stmt.setInt(4,attributeId);
+        stmt.setString(1, attributeValue);
+        stmt.setInt(2, attributeId);
         stmt.executeUpdate();
 
         stmt.close();
