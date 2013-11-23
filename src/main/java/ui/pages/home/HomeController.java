@@ -11,6 +11,8 @@ import model.insurances.Insurance;
 import ui.UiRootController;
 import ui.controls.AbstractForm;
 import ui.controls.AbstractListView;
+import ui.controls.SelectionListener;
+import ui.controls.SelectionProvider;
 import ui.controls.agents.AgentForm;
 import ui.controls.agents.AgentsListView;
 import ui.controls.clients.legal.LegalPersonForm;
@@ -33,18 +35,21 @@ public class HomeController {
     public void naturalsClick(ActionEvent actionEvent) throws IOException {
         try {
             final List<NaturalPerson> list = ModelController.getInstance().getNaturalPersons();
-            SelectPage<NaturalPerson> page = new SelectPage<NaturalPerson>() {
-                @Override
-                protected void onObjectSelected(NaturalPerson selectedObject) {
-                    UiRootController.getInstance().navigateForward(new NaturalPersonView(selectedObject),
-                            selectedObject.getName());
-                }
 
+            SelectPage<NaturalPerson> page = new SelectPage<NaturalPerson>() {
                 @Override
                 protected AbstractListView<NaturalPerson> listViewFactory() {
                     return new NaturalPersonsListView(list);
                 }
             };
+            page.addSelectionListener(new SelectionListener<NaturalPerson>() {
+                @Override
+                public void objectSelected(SelectionProvider<NaturalPerson> provider,
+                                           NaturalPerson selectedObject) {
+                    UiRootController.getInstance().navigateForward(new NaturalPersonView(selectedObject),
+                            selectedObject.getName());
+                }
+            });
 
             UiRootController.getInstance().navigateForward(page, "Natural persons");
         } catch (SQLException e) {

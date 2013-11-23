@@ -17,13 +17,9 @@ public abstract class SelectPage<T> extends Pane implements SelectionProvider<T>
             @Override
             public void objectSelected(SelectionProvider<T> provider, T selectedObject) {
                 notifyListeners(selectedObject);
-
-                onObjectSelected(selectedObject);
             }
         });
     }
-
-    protected abstract void onObjectSelected(T selectedObject);
 
     protected abstract AbstractListView<T> listViewFactory();
 
