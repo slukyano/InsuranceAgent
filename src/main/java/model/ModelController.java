@@ -1129,10 +1129,10 @@ public class ModelController {
                     rSet.getInt("CompanyByInsuranceTypeID"),
                     rSet.getInt("AgentId"),
                     rSet.getDouble("BaseValue"),
-                    rSet.getString("agentName"),
+                    rSet.getString("insuranceTypeName"),
                     rSet.getString("ClientName"),
-                    rSet.getString("companyName"),
-                    rSet.getString("insuranceTypeName"));
+                    rSet.getString("agentName"),
+                    rSet.getString("companyName"));
         }
     }
 
