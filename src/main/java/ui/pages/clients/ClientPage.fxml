@@ -2,10 +2,14 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import ui.controls.agents.AgentReferenceView?>
+<?import javafx.scene.layout.HBox?>
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
-    <VBox xmlns:fx="http://javafx.com/fxml">
-        <Button fx:id="updateButton" text="edit"/>
-        <Pane fx:id="viewContainer"/>
-        <AgentReferenceView fx:id="agentReferenceView"/>
-    </VBox>
+    <HBox>
+        <VBox xmlns:fx="http://javafx.com/fxml">
+            <Button fx:id="updateButton" text="edit"/>
+            <Pane fx:id="viewContainer"/>
+            <AgentReferenceView fx:id="agentReferenceView"/>
+        </VBox>
+        <Pane fx:id="insurancesContainer"/>
+    </HBox>
 </fx:root>

@@ -652,8 +652,6 @@ public class ModelController {
                 " when ClientType like 'LEGAL' then legal_persons.legalname"+
                 " end as ClientName"+
                 " FROM INSURANCES ins"+
-                " WHERE ClientID = " + person.getClientId()  +
-                " AND ClientType = 'NATURAL'"+
                 " inner join (select companies.companyname as companyName,"+
                 " companies_by_insurance_type.companybyinsurancetypeid as companybyinsurancetypeid,"+
                 " insurance_types.insurancetypename as insurancetypename"+
@@ -668,7 +666,9 @@ public class ModelController {
                 " left outer join legal_persons"+
                 " on legal_persons.legalpersonid = ins.clientid"+
                 " left outer join natural_persons"+
-                " on natural_persons.naturalpersonid = ins.clientid";
+                " on natural_persons.naturalpersonid = ins.clientid" +
+                " WHERE ins.ClientID = " + person.getClientId()  +
+                " AND ins.ClientType = 'NATURAL'";
         return getObjects(InsuranceFactory.getInstance(), sql);
     }
 
@@ -686,8 +686,6 @@ public class ModelController {
                 " when ClientType like 'LEGAL' then legal_persons.legalname"+
                 " end as ClientName"+
                 " FROM INSURANCES ins"+
-                " WHERE ClientID = " + person.getClientId() +
-                " AND ClientType = 'LEGAL'" +
                 " inner join (select companies.companyname as companyName,"+
                 " companies_by_insurance_type.companybyinsurancetypeid as companybyinsurancetypeid,"+
                 " insurance_types.insurancetypename as insurancetypename"+
@@ -702,7 +700,9 @@ public class ModelController {
                 " left outer join legal_persons"+
                 " on legal_persons.legalpersonid = ins.clientid"+
                 " left outer join natural_persons"+
-                " on natural_persons.naturalpersonid = ins.clientid";
+                " on natural_persons.naturalpersonid = ins.clientid"+
+                " WHERE ins.ClientID = " + person.getClientId() +
+                " AND ins.ClientType = 'LEGAL'";
         return getObjects(InsuranceFactory.getInstance(), sql);
     }
 
@@ -720,7 +720,6 @@ public class ModelController {
                 " when ClientType like 'LEGAL' then legal_persons.legalname"+
                 " end as ClientName"+
                 " FROM INSURANCES ins"+
-                "  WHERE AgentID = " + agent.getAgentId() +
                 " inner join (select companies.companyname as companyName,"+
                 " companies_by_insurance_type.companybyinsurancetypeid as companybyinsurancetypeid,"+
                 " insurance_types.insurancetypename as insurancetypename"+
@@ -735,7 +734,8 @@ public class ModelController {
                 " left outer join legal_persons"+
                 " on legal_persons.legalpersonid = ins.clientid"+
                 " left outer join natural_persons"+
-                " on natural_persons.naturalpersonid = ins.clientid";
+                " on natural_persons.naturalpersonid = ins.clientid"+
+                "  WHERE ins.AgentID = " + agent.getAgentId();
         return getObjects(InsuranceFactory.getInstance(), sql);
     }
     public Insurance updateInsurance(int clientId, String clientType,int CBITID, int agentId, double basevalue,int insuranceId)      throws SQLException {
