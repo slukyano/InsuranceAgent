@@ -25,12 +25,11 @@ import ui.controls.insurances.InsurancesListView;
 import ui.pages.EditPage;
 import ui.pages.SelectPage;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
 public class HomeController {
-    public void naturalsClick(ActionEvent actionEvent) throws IOException {
+    public void naturalsClick(ActionEvent actionEvent) {
         try {
             final List<NaturalPerson> list = ModelController.getInstance().getNaturalPersons();
 
@@ -50,7 +49,7 @@ public class HomeController {
         }
     }
 
-    public void legalsClick(ActionEvent actionEvent) throws IOException {
+    public void legalsClick(ActionEvent actionEvent) {
         try {
             UiRootController.getInstance().navigateForward(
                     new LegalPersonListView(
@@ -61,7 +60,7 @@ public class HomeController {
         }
     }
 
-    public void agentsClick(ActionEvent actionEvent) throws IOException {
+    public void agentsClick(ActionEvent actionEvent) {
         try {
             UiRootController.getInstance().navigateForward(
                     new AgentsListView(
@@ -72,7 +71,7 @@ public class HomeController {
         }
     }
 
-    public void companiesClick(ActionEvent actionEvent) throws IOException {
+    public void companiesClick(ActionEvent actionEvent) {
         try {
             UiRootController.getInstance().navigateForward(
                     new CompaniesListView(
