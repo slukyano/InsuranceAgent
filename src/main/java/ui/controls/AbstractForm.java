@@ -7,6 +7,13 @@ public abstract class AbstractForm<T> extends AbstractView<T> {
 
     protected abstract T updateObject() throws SQLException;
 
+    protected AbstractForm() {
+    }
+
+    protected AbstractForm(T data) {
+        super(data);
+    }
+
     public T commitObject() throws SQLException {
         if (data == null)
             setData(createObject());

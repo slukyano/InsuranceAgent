@@ -4,6 +4,7 @@
 <?import ui.controls.agents.AgentReferenceView?>
 <?import ui.controls.clients.ClientReferenceView?>
 <?import ui.controls.companies.CompanyReferenceView?>
+<?import ui.controls.insurances.attributes.AttributesListView?>
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
     <VBox xmlns:fx="http://javafx.com/fxml">
         <Button fx:id="updateButton" text="edit"/>
@@ -11,5 +12,6 @@
         <ClientReferenceView fx:id="clientReferenceView"/>
         <AgentReferenceView fx:id="agentReferenceView"/>
         <CompanyReferenceView fx:id="companyReferenceView"/>
+        <AttributesListView fx:id="attributesListView"/>
     </VBox>
 </fx:root>

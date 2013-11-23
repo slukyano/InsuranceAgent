@@ -1,17 +1,17 @@
 package ui.controls.insurances.attributes;
 
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import model.insurances.attributes.InsuranceAttribute;
 import ui.controls.AbstractListView;
+
+import java.util.Collection;
 
 public class AttributesListView extends AbstractListView<InsuranceAttribute> {
     public AttributesListView() {
     }
 
-    public AttributesListView(ObservableList<InsuranceAttribute> insuranceAttributes) {
-        super();
-        setItems(insuranceAttributes);
+    public AttributesListView(Collection<InsuranceAttribute> insuranceAttributes) {
+        super(insuranceAttributes);
     }
 
     @Override

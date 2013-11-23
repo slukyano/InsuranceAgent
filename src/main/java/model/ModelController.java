@@ -500,6 +500,16 @@ public class ModelController {
         return getObject(CompanyByInsuranceTypeFactory.getInstance(), sql);
     }
 
+    public CompanyByInsuranceType getCompanyByInsuranceType(int companyId, int insuranceTypeId)
+            throws SQLException
+    {
+        String sql = "SELECT companyByInsuranceTypeID, companyID, insuranceTypeID"
+                + " FROM companies_by_insurance_type"
+                + " WHERE companyID = " + companyId
+                + " AND insuranceTypeID = " + insuranceTypeId;
+        return getObject(CompanyByInsuranceTypeFactory.getInstance(), sql);
+    }
+
     public ArrayList<CompanyByInsuranceType> getCompaniesByInsuranceTypes() throws SQLException {
         String sql = "SELECT companyByInsuranceTypeID, companyID, insuranceTypeID"
                 + " FROM companies_by_insurance_type";
@@ -578,7 +588,6 @@ public class ModelController {
                 " ins.ClientType as ClientType," +
                 " ins.companybyinsurancetypeid as companybyinsurancetypeid,"+
                 " ins.AgentId as AgentId,"+
-                " ins.BaseValue as BaseValue,"+
                 " comp.companyName as companyName,"+
                 " comp.insuranceTypeName as insuranceTypeName,"+
                 " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
@@ -612,7 +621,6 @@ public class ModelController {
                 " ins.ClientType as ClientType," +
                 " ins.companybyinsurancetypeid as companybyinsurancetypeid,"+
                 " ins.AgentId as AgentId,"+
-                " ins.BaseValue as BaseValue,"+
                 " comp.companyName as companyName,"+
                 " comp.insuranceTypeName as insuranceTypeName,"+
                 " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
@@ -644,7 +652,6 @@ public class ModelController {
                 " ins.ClientType as ClientType," +
                 " ins.companybyinsurancetypeid as companybyinsurancetypeid,"+
                 " ins.AgentId as AgentId,"+
-                " ins.BaseValue as BaseValue,"+
                 " comp.companyName as companyName,"+
                 " comp.insuranceTypeName as insuranceTypeName,"+
                 " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
@@ -678,7 +685,6 @@ public class ModelController {
                 " ins.ClientType as ClientType," +
                 " ins.companybyinsurancetypeid as companybyinsurancetypeid,"+
                 " ins.AgentId as AgentId,"+
-                " ins.BaseValue as BaseValue,"+
                 " comp.companyName as companyName,"+
                 " comp.insuranceTypeName as insuranceTypeName,"+
                 " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
@@ -712,7 +718,6 @@ public class ModelController {
                 " ins.ClientType as ClientType," +
                 " ins.companybyinsurancetypeid as companybyinsurancetypeid,"+
                 " ins.AgentId as AgentId,"+
-                " ins.BaseValue as BaseValue,"+
                 " comp.companyName as companyName,"+
                 " comp.insuranceTypeName as insuranceTypeName,"+
                 " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
@@ -738,7 +743,7 @@ public class ModelController {
                 "  WHERE ins.AgentID = " + agent.getAgentId();
         return getObjects(InsuranceFactory.getInstance(), sql);
     }
-    public Insurance updateInsurance(int clientId, String clientType,int CBITID, int agentId, double basevalue,int insuranceId)      throws SQLException {
+    public Insurance updateInsurance(int clientId, String clientType,int CBITID, int agentId,int insuranceId)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         PreparedStatement stmt = conn.prepareStatement(
@@ -747,22 +752,20 @@ public class ModelController {
                         +" ClientType = ?,"
                         +" CompanyByInsuranceTypeID = ?,"
                         + " AgentId = ?,"
-                        + " BaseValue = ?"
                         + " Where InsuranceId = ?");
         stmt.setInt(1,clientId);
         stmt.setString(2, clientType);
         stmt.setInt(3,CBITID);
         stmt.setInt(4,agentId);
-        stmt.setDouble(5,basevalue);
-        stmt.setInt(6,insuranceId);
+        stmt.setInt(5,insuranceId);
         stmt.executeUpdate();
 
         stmt.close();
         conn.close();
-        return new Insurance(insuranceId,clientId,clientType,CBITID,agentId,basevalue);
+        return new Insurance(insuranceId,clientId,clientType,CBITID,agentId);
     }
 
-    public Insurance createInsurance(int clientId, String clientType, int cbitID,int agentId, double baseValue)      throws SQLException {
+    public Insurance createInsurance(int clientId, String clientType, int cbitID,int agentId) throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         PreparedStatement selectSequence = conn.prepareStatement("select insurances_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
@@ -774,19 +777,18 @@ public class ModelController {
         selectSequence.close();
 
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO INSURANCES (ClientID, ClientType, CompanyByInsuranceTypeID, AgentId, BaseValue, InsuranceID)"
-                        + " VALUES (?,?,?,?,?,?)");
+                "INSERT INTO INSURANCES (ClientID, ClientType, CompanyByInsuranceTypeID, AgentId, InsuranceID)"
+                        + " VALUES (?,?,?,?,?)");
         stmt.setInt(1,clientId);
         stmt.setString(2, clientType);
         stmt.setInt(3, cbitID);
         stmt.setInt(4,agentId);
-        stmt.setDouble(5,baseValue);
-        stmt.setInt(6,insuranceId);
+        stmt.setInt(5,insuranceId);
         stmt.executeUpdate();
 
         stmt.close();
         conn.close();
-        return new Insurance(insuranceId,clientId,clientType,cbitID,agentId,baseValue);
+        return new Insurance(insuranceId,clientId,clientType,cbitID,agentId);
     }
 
     public void  deleteInsurance(int insuranceId)      throws SQLException {
@@ -1137,7 +1139,6 @@ public class ModelController {
                     rSet.getString("ClientType"),
                     rSet.getInt("CompanyByInsuranceTypeID"),
                     rSet.getInt("AgentId"),
-                    rSet.getDouble("BaseValue"),
                     rSet.getString("insuranceTypeName"),
                     rSet.getString("ClientName"),
                     rSet.getString("agentName"),
@@ -1171,7 +1172,7 @@ public class ModelController {
         public AttributeType createObject(ResultSet rSet) throws SQLException {
             return new AttributeType(rSet.getInt("AttributeTypeID"),
                     rSet.getString("AttributeTypeName"),
-                    rSet.getString("AttributeDescription"),
+                    rSet.getString("AttributeTypeDescription"),
                     rSet.getInt("COMPANYBYINSURANCETYPEID"));
         }
     }

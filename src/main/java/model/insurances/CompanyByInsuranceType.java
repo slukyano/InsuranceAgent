@@ -2,8 +2,10 @@ package model.insurances;
 
 import model.Company;
 import model.ModelController;
+import model.insurances.attributes.AttributeType;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class CompanyByInsuranceType {
     private final int companyByInsuranceTypeId;
@@ -28,6 +30,10 @@ public class CompanyByInsuranceType {
 
     public InsuranceType getInsuranceType() throws SQLException {
         return ModelController.getInstance().getInsuranceType(insuranceTypeId);
+    }
+
+    public List<AttributeType> getAttributeTypes() throws SQLException {
+        return ModelController.getInstance().getAttributeTypes(this);
     }
 
     public CompanyByInsuranceType(int companyByInsuranceTypeId, int companyId, int insuranceTypeId) {

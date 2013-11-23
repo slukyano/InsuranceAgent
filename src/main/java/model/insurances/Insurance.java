@@ -16,7 +16,6 @@ public class Insurance {
     private final String clientType;
     private final int companyByInsuranceTypeId;
     private final int agentId;
-    private final double baseValue;
     private String clientName;
     private String companyName;
     private String agentName;
@@ -38,10 +37,6 @@ public class Insurance {
         return clientType.equals("LEGAL")
                 ? ModelController.getInstance().getLegalPerson(clientId)
                 : ModelController.getInstance().getNaturalPerson(clientId);
-    }
-
-    public double getBaseValue() {
-        return baseValue;
     }
 
     public int getCompanyByInsuranceTypeId() {
@@ -93,16 +88,15 @@ public class Insurance {
     //endregion
 
     //region Constructors
-    public Insurance(int insuranceId, int clientId, String clientType, int companyByInsuranceTypeId, int agentId, double baseValue) {
+    public Insurance(int insuranceId, int clientId, String clientType, int companyByInsuranceTypeId, int agentId) {
         this.insuranceId = insuranceId;
         this.clientId = clientId;
         this.clientType = clientType;
         this.agentId = agentId;
-        this.baseValue = baseValue;
         this.companyByInsuranceTypeId = companyByInsuranceTypeId;
     }
-    public Insurance(int insuranceId, int clientId, String clientType, int companyByInsuranceTypeId, int agentId, double baseValue, String insuranceTypeName, String clientName, String agentName, String companyName) {
-        this(insuranceId,clientId,clientType,companyByInsuranceTypeId,agentId,baseValue);
+    public Insurance(int insuranceId, int clientId, String clientType, int companyByInsuranceTypeId, int agentId, String insuranceTypeName, String clientName, String agentName, String companyName) {
+        this(insuranceId,clientId,clientType,companyByInsuranceTypeId,agentId);
         this.insuranceTypeName = insuranceTypeName;
         this.clientName = clientName;
         this.agentName = agentName;
@@ -136,7 +130,6 @@ public class Insurance {
         sb.append(", clientType=").append(clientType);
         sb.append(", CompanyByInsuranceTypeID =").append(companyByInsuranceTypeId);
         sb.append(", agentId=").append(agentId);
-        sb.append(", baseValue=").append(baseValue);
         sb.append("} ");
         sb.append(super.toString());
 

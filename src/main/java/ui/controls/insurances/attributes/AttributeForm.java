@@ -1,56 +1,76 @@
 package ui.controls.insurances.attributes;
 
-import eu.schudt.javafx.controls.calendar.DatePicker;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import model.Agent;
-import ui.controls.AbstractForm;
+import javafx.scene.text.Text;
+import model.ModelController;
+import model.insurances.attributes.AttributeType;
+import model.insurances.attributes.InsuranceAttribute;
+import ui.controls.AbstractView;
 
 import java.net.URL;
 import java.sql.SQLException;
 
-public class AttributeForm extends AbstractForm<Agent> {
-    @FXML private TextField firstNameField;
-    @FXML private TextField secondNameField;
-    @FXML private TextField lastNameField;
-    @FXML private DatePicker hireDatePicker;
-    @FXML private DatePicker quitDatePicker;
+public class AttributeForm extends AbstractView<InsuranceAttribute> {
+    @FXML private Text nameText;
+    @FXML private TextField valueField;
+    private AttributeType attributeType;
 
-    @Override
-    public Agent createObject() {
-        return null;
+    public AttributeForm(AttributeType attributeType) {
+        this.attributeType = attributeType;
     }
 
-    @Override
-    public Agent updateObject() throws SQLException {
-        return null;
+    public AttributeForm(InsuranceAttribute data) {
+        super(data);
+        setData(data);
     }
 
-    @Override
+    public InsuranceAttribute commitObject(int insuranceId) throws SQLException {
+        if (data == null)
+            setData(createObject(insuranceId));
+        else
+            setData(updateObject());
+
+        return data;
+    }
+
+    private InsuranceAttribute createObject(int insuranceId) throws SQLException {
+        return ModelController.getInstance().createInsuranceAttribute(
+                attributeType.getAttributeTypeId(),
+                valueField.getText(),
+                insuranceId);
+    }
+
+    private InsuranceAttribute updateObject() throws SQLException {
+        return ModelController.getInstance().updateInsuranceAttribute(
+                data.getTypeId(),
+                valueField.getText(),
+                data.getInsuranceId(),
+                data.getAttributeId());
+    }
+
     public void clearForm() {
-        firstNameField.setText("");
-        secondNameField.setText("");
-        lastNameField.setText("");
-        hireDatePicker.setSelectedDate(null);
-        quitDatePicker.setSelectedDate(null);
+        valueField.setText("");
     }
 
     @Override
     protected URL getFxmlUrl() {
-        return getClass().getResource("AgentForm.fxml");
+        return getClass().getResource("AttributeForm.fxml");
     }
 
     @Override
     protected void update() {
         if (data != null) {
-            firstNameField.setText(data.getFirstName());
-            secondNameField.setText(data.getSecondName());
-            lastNameField.setText(data.getLastName());
-            hireDatePicker.setSelectedDate(data.getHiringDate());
-            quitDatePicker.setSelectedDate(data.getQuitDate());
+            try {
+                nameText.setText(data.getAttributeTypeName());
+                valueField.setText(data.getAttributeValue());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         else {
-            clearForm();
+            nameText.setText(attributeType.getName());
+            valueField.setText("");
         }
     }
 }

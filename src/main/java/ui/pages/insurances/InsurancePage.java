@@ -1,5 +1,6 @@
 package ui.pages.insurances;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 import model.insurances.Insurance;
@@ -7,6 +8,7 @@ import ui.controls.agents.AgentReferenceView;
 import ui.controls.clients.ClientReferenceView;
 import ui.controls.companies.CompanyReferenceView;
 import ui.controls.insurances.InsuranceForm;
+import ui.controls.insurances.attributes.AttributesListView;
 import ui.pages.EditPage;
 import ui.pages.ViewPage;
 
@@ -18,6 +20,7 @@ public class InsurancePage extends ViewPage<Insurance> {
     @FXML private AgentReferenceView agentReferenceView;
     @FXML private CompanyReferenceView companyReferenceView;
     @FXML private ClientReferenceView clientReferenceView;
+    @FXML private AttributesListView attributesListView;
 
     public InsurancePage(Insurance data) {
         super(data);
@@ -46,6 +49,7 @@ public class InsurancePage extends ViewPage<Insurance> {
                 agentReferenceView.setData(data.getAgent());
                 companyReferenceView.setData(data.getCompany());
                 clientReferenceView.setData(data.getClient());
+                attributesListView.setItems(FXCollections.observableArrayList(data.getAttributes()));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -55,6 +59,7 @@ public class InsurancePage extends ViewPage<Insurance> {
             agentReferenceView.setData(null);
             companyReferenceView.setData(null);
             clientReferenceView.setData(null);
+            attributesListView.setItems(null);
         }
     }
 }

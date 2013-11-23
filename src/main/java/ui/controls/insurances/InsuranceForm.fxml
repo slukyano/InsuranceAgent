@@ -18,5 +18,7 @@
 
         <Text GridPane.rowIndex="3" GridPane.columnIndex="0" text="Agent"/>
         <AgentPicker GridPane.rowIndex="3" GridPane.columnIndex="1" fx:id="agentPicker"/>
+
+        <Pane GridPane.rowIndex="4" GridPane.columnSpan="2" fx:id="attributeFormsContainer"/>
     </GridPane>
 </fx:root>

@@ -6,8 +6,6 @@ import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
 import ui.UiRootController;
 import ui.controls.AbstractPicker;
-import ui.controls.SelectionListener;
-import ui.controls.SelectionProvider;
 import ui.pages.clients.ClientsPage;
 
 import java.sql.SQLException;
@@ -25,13 +23,7 @@ public class ClientPicker extends AbstractPicker<Client> {
             List<NaturalPerson> naturals = ModelController.getInstance().getNaturalPersons();
             List<LegalPerson> legals = ModelController.getInstance().getLegalPersons();
             ClientsPage page = new ClientsPage(naturals, legals);
-            page.addSelectionListener(new SelectionListener<Client>() {
-                @Override
-                public void objectSelected(SelectionProvider<Client> provider, Client selectedObject) {
-                    setData(selectedObject);
-                    UiRootController.getInstance().navigateBack();
-                }
-            });
+            page.addSelectionListener(this);
 
             UiRootController.getInstance().navigateForward(page, "Client select");
         } catch (SQLException e) {
