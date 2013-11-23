@@ -13,6 +13,10 @@ public class AttributeType {
         this.cbitID = cbitID;
     }
 
+    public int getCbitID() {
+        return cbitID;
+    }
+
     public String getDescription() {
         return description;
     }

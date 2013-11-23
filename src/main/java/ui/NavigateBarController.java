@@ -11,13 +11,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-/**
- * Created with IntelliJ IDEA.
- * User: nik
- * Date: 19.11.13
- * Time: 2:01
- * To change this template use File | Settings | File Templates.
- */
 public class NavigateBarController implements Initializable {
 
     @FXML public FlowPane breadCrumbsPane;

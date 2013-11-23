@@ -451,7 +451,7 @@ public class ModelController {
         return new Company(companyID,companyName,parentCompanyId,companyDescription);
     }
 
-    public Company createCompany(String companyName, int parentCompanyId, String companyDescription)      throws SQLException {
+    public Company createCompany(String companyName, Integer parentCompanyId, String companyDescription)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         PreparedStatement selectSequence = conn.prepareStatement("select companies_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
