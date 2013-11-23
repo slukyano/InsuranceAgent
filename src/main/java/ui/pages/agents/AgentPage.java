@@ -5,12 +5,15 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import model.Agent;
 import model.ModelController;
+import model.clients.LegalPerson;
+import model.clients.NaturalPerson;
 import model.insurances.Insurance;
 import ui.controls.agents.AgentForm;
 import ui.controls.agents.AgentView;
 import ui.controls.insurances.InsurancesListView;
 import ui.pages.EditPage;
 import ui.pages.ViewPage;
+import ui.pages.clients.ClientsPage;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -19,6 +22,7 @@ import java.util.List;
 public class AgentPage extends ViewPage<Agent> {
     @FXML private AgentView agentView;
     @FXML private Pane insurancesContainer;
+    @FXML private Pane clientsContainer;
 
     public AgentPage(Agent data) {
         super(data);
@@ -31,6 +35,15 @@ public class AgentPage extends ViewPage<Agent> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        try {
+            List<NaturalPerson> naturals = ModelController.getInstance().getNaturalPersons();
+            List<LegalPerson> legals = ModelController.getInstance().getLegalPersons();
+            ClientsPage page = new ClientsPage(naturals, legals);
+            clientsContainer.getChildren().add(page);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
     }
 

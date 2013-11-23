@@ -10,5 +10,6 @@
             <AgentView fx:id="agentView"/>
         </VBox>
         <Pane fx:id="insurancesContainer"/>
+        <Pane fx:id="clientsContainer"/>
     </HBox>
 </fx:root>
