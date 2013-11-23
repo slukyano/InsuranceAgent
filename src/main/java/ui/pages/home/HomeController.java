@@ -14,6 +14,7 @@ import ui.controls.AbstractView;
 import ui.controls.SelectionListener;
 import ui.controls.SelectionProvider;
 import ui.controls.agents.AgentForm;
+import ui.controls.agents.AgentView;
 import ui.controls.agents.AgentsListView;
 import ui.controls.clients.legal.LegalPersonForm;
 import ui.controls.clients.legal.LegalPersonView;
@@ -21,7 +22,9 @@ import ui.controls.clients.natural.NaturalPersonForm;
 import ui.controls.clients.natural.NaturalPersonView;
 import ui.controls.companies.CompaniesListView;
 import ui.controls.companies.CompanyForm;
+import ui.controls.companies.CompanyView;
 import ui.controls.insurances.InsuranceForm;
+import ui.controls.insurances.InsuranceView;
 import ui.controls.insurances.InsurancesListView;
 import ui.pages.EditPage;
 import ui.pages.clients.ClientPage;
@@ -57,10 +60,17 @@ public class HomeController {
 
     public void agentsClick(ActionEvent actionEvent) {
         try {
-            UiRootController.getInstance().navigateForward(
-                    new AgentsListView(
-                            FXCollections.observableArrayList(ModelController.getInstance().getAgents())),
-                    "Agents");
+            AgentsListView listView = new AgentsListView();
+            List<Agent> list = ModelController.getInstance().getAgents();
+            listView.setItems(FXCollections.observableArrayList(list));
+            listView.addSelectionListener(new SelectionListener<Agent>() {
+                @Override
+                public void objectSelected(SelectionProvider<Agent> provider, Agent selectedObject) {
+                    UiRootController.getInstance().navigateForward(new AgentView(selectedObject),
+                            selectedObject.getFullName());
+                }
+            });
+            UiRootController.getInstance().navigateForward(listView, "Agent select");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -68,10 +78,17 @@ public class HomeController {
 
     public void companiesClick(ActionEvent actionEvent) {
         try {
-            UiRootController.getInstance().navigateForward(
-                    new CompaniesListView(
-                            FXCollections.observableArrayList(ModelController.getInstance().getCompanies())),
-                    "Companies");
+            CompaniesListView listView = new CompaniesListView();
+            List<Company> list = ModelController.getInstance().getCompanies();
+            listView.setItems(FXCollections.observableArrayList(list));
+            listView.addSelectionListener(new SelectionListener<Company>() {
+                @Override
+                public void objectSelected(SelectionProvider<Company> provider, Company selectedObject) {
+                    UiRootController.getInstance().navigateForward(new CompanyView(selectedObject),
+                            selectedObject.getName());
+                }
+            });
+            UiRootController.getInstance().navigateForward(listView, "Agent select");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,10 +103,17 @@ public class HomeController {
 
     public void insurancesClick(ActionEvent actionEvent) {
         try {
-            UiRootController.getInstance().navigateForward(
-                    new InsurancesListView(
-                            FXCollections.observableArrayList(ModelController.getInstance().getInsurances())),
-                    "Insurances");
+            InsurancesListView listView = new InsurancesListView();
+            List<Insurance> list = ModelController.getInstance().getInsurances();
+            listView.setItems(FXCollections.observableArrayList(list));
+            listView.addSelectionListener(new SelectionListener<Insurance>() {
+                @Override
+                public void objectSelected(SelectionProvider<Insurance> provider, Insurance selectedObject) {
+                    UiRootController.getInstance().navigateForward(new InsuranceView(selectedObject),
+                            selectedObject.getInsuranceTypeName());
+                }
+            });
+            UiRootController.getInstance().navigateForward(listView, "Insurances");
         } catch (SQLException e) {
             e.printStackTrace();
         }
