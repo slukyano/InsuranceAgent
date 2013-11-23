@@ -9,8 +9,6 @@ import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
 import model.insurances.Insurance;
 import ui.UiRootController;
-import ui.controls.AbstractForm;
-import ui.controls.AbstractListView;
 import ui.controls.SelectionListener;
 import ui.controls.SelectionProvider;
 import ui.controls.agents.AgentForm;
@@ -36,12 +34,7 @@ public class HomeController {
         try {
             final List<NaturalPerson> list = ModelController.getInstance().getNaturalPersons();
 
-            SelectPage<NaturalPerson> page = new SelectPage<NaturalPerson>() {
-                @Override
-                protected AbstractListView<NaturalPerson> listViewFactory() {
-                    return new NaturalPersonsListView(list);
-                }
-            };
+            SelectPage<NaturalPerson> page = new SelectPage<NaturalPerson>(new NaturalPersonsListView(list));
             page.addSelectionListener(new SelectionListener<NaturalPerson>() {
                 @Override
                 public void objectSelected(SelectionProvider<NaturalPerson> provider,
@@ -91,12 +84,7 @@ public class HomeController {
     }
 
     public void newAgentClick(ActionEvent actionEvent) {
-        EditPage<Agent> editPage = new EditPage<Agent>() {
-            @Override
-            protected AbstractForm<Agent> formFactory() {
-                return new AgentForm();
-            }
-        };
+        EditPage<Agent> editPage = new EditPage<Agent>(new AgentForm());
 
         UiRootController.getInstance().navigateForward(editPage,
                 "New agent");
@@ -114,47 +102,29 @@ public class HomeController {
     }
 
     public void newInsuranceClick(ActionEvent actionEvent) {
-        EditPage<Insurance> editPage = new EditPage<Insurance>() {
-            @Override
-            protected AbstractForm<Insurance> formFactory() {
-                return new InsuranceForm();
-            }
-        };
+        EditPage<Insurance> editPage = new EditPage<Insurance>(new InsuranceForm());
 
         UiRootController.getInstance().navigateForward(editPage,
                 "New insurance");
     }
 
     public void newNatural(ActionEvent actionEvent) {
+        EditPage<NaturalPerson> editPage = new EditPage<NaturalPerson>(new NaturalPersonForm());
 
-        EditPage<NaturalPerson> editPage = new EditPage<NaturalPerson>() {
-            @Override
-            protected AbstractForm<NaturalPerson> formFactory() {
-                return new NaturalPersonForm();
-            }
-        };
         UiRootController.getInstance().navigateForward(editPage,
                 "New natural person");
     }
 
     public void newLegal(ActionEvent actionEvent) {
-        EditPage<LegalPerson> editPage = new EditPage<LegalPerson>() {
-            @Override
-            protected AbstractForm<LegalPerson> formFactory() {
-                return new LegalPersonForm();
-            }
-        };
+        EditPage<LegalPerson> editPage = new EditPage<LegalPerson>(new LegalPersonForm());
+
         UiRootController.getInstance().navigateForward(editPage,
                 "New legal person");
     }
 
     public void newCompany(ActionEvent actionEvent) {
-        EditPage<Company> editPage = new EditPage<Company>() {
-            @Override
-            protected AbstractForm<Company> formFactory() {
-                return new CompanyForm();
-            }
-        };
+        EditPage<Company> editPage = new EditPage<Company>(new CompanyForm());
+
         UiRootController.getInstance().navigateForward(editPage,
                 "New company");
     }

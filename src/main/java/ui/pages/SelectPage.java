@@ -7,11 +7,10 @@ import ui.controls.SelectionProvider;
 
 import java.util.HashSet;
 
-public abstract class SelectPage<T> extends Pane implements SelectionProvider<T> {
+public class SelectPage<T> extends Pane implements SelectionProvider<T> {
     private HashSet<SelectionListener<T>> listeners = new HashSet<SelectionListener<T>>();
 
-    public SelectPage() {
-        AbstractListView<T> listView = listViewFactory();
+    public SelectPage(AbstractListView<T> listView) {
         getChildren().add(listView);
         listView.addSelectionListener(new SelectionListener<T>() {
             @Override
@@ -20,8 +19,6 @@ public abstract class SelectPage<T> extends Pane implements SelectionProvider<T>
             }
         });
     }
-
-    protected abstract AbstractListView<T> listViewFactory();
 
     private void notifyListeners(T selectedObject) {
         for (SelectionListener<T> listener : listeners)

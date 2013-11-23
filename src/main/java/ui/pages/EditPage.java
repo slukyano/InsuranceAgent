@@ -17,13 +17,14 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 
-public abstract class EditPage<T> extends Pane implements SelectionProvider<T>, Initializable {
+public class EditPage<T> extends Pane implements SelectionProvider<T>, Initializable {
     @FXML protected Pane formContainer;
     @FXML protected Button submitButton;
-    private final AbstractForm<T> form = formFactory();
+    private final AbstractForm<T> form;
     private final HashSet<SelectionListener<T>> listeners = new HashSet<SelectionListener<T>>();
 
-    public EditPage() {
+    public EditPage(AbstractForm<T> form) {
+        this.form = form;
         URL fxmlUrl = getClass().getResource("/ui/pages/EditPage.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
         fxmlLoader.setController(this);
@@ -35,12 +36,10 @@ public abstract class EditPage<T> extends Pane implements SelectionProvider<T>, 
         }
     }
 
-    public EditPage(T data) {
-        this();
+    public EditPage(AbstractForm<T> form, T data) {
+        this(form);
         form.setData(data);
     }
-
-    protected abstract AbstractForm<T> formFactory();
 
     @Override
     public void addSelectionListener(SelectionListener<T> listener) {

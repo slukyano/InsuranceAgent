@@ -13,7 +13,6 @@ import model.clients.Client;
 import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
 import ui.UiRootController;
-import ui.controls.AbstractForm;
 import ui.controls.SelectionListener;
 import ui.controls.SelectionProvider;
 import ui.controls.clients.legal.LegalPersonForm;
@@ -100,25 +99,9 @@ public class ClientsPage extends Pane implements SelectionProvider<Client> {
         newClientButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                EditPage editPage;
-                if (naturalRadioButton.isSelected()) {
-                    final AbstractForm<NaturalPerson> form = new NaturalPersonForm();
-                    editPage = new EditPage<NaturalPerson>() {
-                        @Override
-                        protected AbstractForm<NaturalPerson> formFactory() {
-                            return form;
-                        }
-                    };
-                }
-                else {
-                    final AbstractForm<LegalPerson> form = new LegalPersonForm();
-                    editPage = new EditPage<LegalPerson>() {
-                        @Override
-                        protected AbstractForm<LegalPerson> formFactory() {
-                            return form;
-                        }
-                    };
-                }
+                EditPage editPage = naturalRadioButton.isSelected()
+                        ? new EditPage<NaturalPerson>(new NaturalPersonForm())
+                        : new EditPage<LegalPerson>(new LegalPersonForm());
 
                 editPage.addSelectionListener(new SelectionListener() {
                     @Override
