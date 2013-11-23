@@ -35,7 +35,7 @@ public class UiRootController implements Initializable {
     public void setViewingParent(Parent parent){
         rootBorderPane.setCenter(parent);
     }
-    public int viewsCount(){
+    private int viewsCount(){
         return pages.size();
     }
 
@@ -53,6 +53,7 @@ public class UiRootController implements Initializable {
             pages.remove(i);
         }
         this.setViewingParent(pages.get(index));
+        NavigateBarController.getInstance().removeButtons(index);
     }
 
     public void navigateBack() {

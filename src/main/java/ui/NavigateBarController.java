@@ -43,7 +43,7 @@ public class NavigateBarController implements Initializable {
     public void backClick(ActionEvent actionEvent) {
         breadCrumbsPane.getChildren().remove(breadCrumbsPane.getChildren().size()-1);
         UiRootController uiRootController = UiRootController.getInstance();
-        uiRootController.navigateBack(uiRootController.viewsCount() - 2);
+        uiRootController.navigateBack();
     }
 
     public void AddButton(final int index, String text){
@@ -64,9 +64,6 @@ public class NavigateBarController implements Initializable {
         button.setOnAction(
                 new EventHandler<ActionEvent>() {
                     public void handle(final ActionEvent event) {
-                        for (int i= breadCrumbsPane.getChildren().size()-1; i>=index+1 ;i--) {
-                            breadCrumbsPane.getChildren().remove(i);
-                        }
                         UiRootController.getInstance().navigateBack(index);
                     }
                 });
@@ -76,4 +73,9 @@ public class NavigateBarController implements Initializable {
         UiRootController.getInstance().navigateBack(0);
     }
 
+    public void removeButtons(int index) {
+        for (int i= breadCrumbsPane.getChildren().size()-1; i>=index+1 ;i--) {
+            breadCrumbsPane.getChildren().remove(i);
+        }
+    }
 }
