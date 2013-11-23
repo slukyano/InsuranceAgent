@@ -347,7 +347,7 @@ public class ModelController {
         return getObjects(AgentFactory.getInstance(), sql);
     }
 
-    public void updateAgent(int agentId, String firstName, String secondName, String lastName, Date hiringDate, Date quitDate)      throws SQLException {
+    public Agent updateAgent(int agentId, String firstName, String secondName, String lastName, Date hiringDate, Date quitDate)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         PreparedStatement stmt = conn.prepareStatement(
@@ -368,6 +368,8 @@ public class ModelController {
 
         stmt.close();
         conn.close();
+
+        return new Agent(agentId, firstName, secondName, lastName, hiringDate, quitDate);
     }
 
     public Agent createAgent(String firstName, String secondName, String lastName, Date hiringDate, Date quitDate)      throws SQLException {

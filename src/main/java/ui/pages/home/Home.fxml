@@ -16,8 +16,7 @@
             <Button text="New agent" onAction="#newAgentClick"/>
             <Button text="New insurance" onAction="#newInsuranceClick"/>
             <Button text="Agents" onAction="#agentsClick"/>
-            <Button text="Naturals" onAction="#naturalsClick"/>
-            <Button text="Legals" onAction="#legalsClick"/>
+            <Button text="Clients" onAction="#clientsClick"/>
             <Button text="Companies" onAction="#companiesClick"/>
             <Button text="Insurances" onAction="#insurancesClick"/>
         </FlowPane>

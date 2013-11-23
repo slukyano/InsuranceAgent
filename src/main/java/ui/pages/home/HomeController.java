@@ -5,56 +5,51 @@ import javafx.event.ActionEvent;
 import model.Agent;
 import model.Company;
 import model.ModelController;
+import model.clients.Client;
 import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
 import model.insurances.Insurance;
 import ui.UiRootController;
+import ui.controls.AbstractView;
 import ui.controls.SelectionListener;
 import ui.controls.SelectionProvider;
 import ui.controls.agents.AgentForm;
 import ui.controls.agents.AgentsListView;
 import ui.controls.clients.legal.LegalPersonForm;
-import ui.controls.clients.legal.LegalPersonListView;
+import ui.controls.clients.legal.LegalPersonView;
 import ui.controls.clients.natural.NaturalPersonForm;
 import ui.controls.clients.natural.NaturalPersonView;
-import ui.controls.clients.natural.NaturalPersonsListView;
 import ui.controls.companies.CompaniesListView;
 import ui.controls.companies.CompanyForm;
 import ui.controls.insurances.InsuranceForm;
 import ui.controls.insurances.InsurancesListView;
 import ui.pages.EditPage;
-import ui.pages.SelectPage;
+import ui.pages.clients.ClientPage;
+import ui.pages.clients.ClientsPage;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class HomeController {
-    public void naturalsClick(ActionEvent actionEvent) {
+    public void clientsClick(ActionEvent actionEvent) {
         try {
-            final List<NaturalPerson> list = ModelController.getInstance().getNaturalPersons();
+            List<NaturalPerson> naturals = ModelController.getInstance().getNaturalPersons();
+            List<LegalPerson>  legals = ModelController.getInstance().getLegalPersons();
+            ClientsPage page = new ClientsPage(naturals, legals);
 
-            SelectPage<NaturalPerson> page = new SelectPage<NaturalPerson>(new NaturalPersonsListView(list));
-            page.addSelectionListener(new SelectionListener<NaturalPerson>() {
+            page.addSelectionListener(new SelectionListener<Client>() {
                 @Override
-                public void objectSelected(SelectionProvider<NaturalPerson> provider,
-                                           NaturalPerson selectedObject) {
-                    UiRootController.getInstance().navigateForward(new NaturalPersonView(selectedObject),
+                public void objectSelected(SelectionProvider<Client> provider,
+                                           Client selectedObject) {
+                    AbstractView view = selectedObject.getClientType() == "NATURAL"
+                            ? new NaturalPersonView()
+                            : new LegalPersonView();
+                    UiRootController.getInstance().navigateForward(new ClientPage(view, selectedObject),
                             selectedObject.getName());
                 }
             });
 
-            UiRootController.getInstance().navigateForward(page, "Natural persons");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void legalsClick(ActionEvent actionEvent) {
-        try {
-            UiRootController.getInstance().navigateForward(
-                    new LegalPersonListView(
-                            FXCollections.observableArrayList(ModelController.getInstance().getLegalPersons())),
-                    "Legal persons");
+            UiRootController.getInstance().navigateForward(page, "Clients");
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -29,7 +29,13 @@ public class AgentForm extends AbstractForm<Agent> {
 
     @Override
     protected Agent updateObject() throws SQLException {
-        return null;
+        return ModelController.getInstance().updateAgent(
+                data.getAgentId(),
+                firstNameField.getText(),
+                secondNameField.getText(),
+                lastNameField.getText(),
+                hireDatePicker.getSelectedDate(),
+                quitDatePicker.getSelectedDate());
     }
 
     @Override
