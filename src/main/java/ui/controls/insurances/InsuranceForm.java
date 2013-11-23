@@ -121,6 +121,9 @@ public class InsuranceForm extends AbstractForm<Insurance> {
                 companyPicker.setData(data.getCompany());
                 agentPicker.setData(data.getAgent());
                 setAttributeFormsList(new AttributeFormsList(data));
+
+                typePicker.setDisable(true);
+                companyPicker.setDisable(true);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
