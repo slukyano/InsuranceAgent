@@ -1,16 +1,19 @@
 package ui.pages.agents;
 
+import javafx.fxml.FXML;
 import model.Agent;
-import ui.controls.AbstractView;
 import ui.controls.agents.AgentForm;
+import ui.controls.agents.AgentView;
 import ui.pages.EditPage;
 import ui.pages.ViewPage;
 
 import java.net.URL;
 
 public class AgentPage extends ViewPage<Agent> {
-    public AgentPage(AbstractView<Agent> objectView, Agent data) {
-        super(objectView, data);
+    @FXML private AgentView agentView;
+
+    public AgentPage(Agent data) {
+        super(data);
     }
 
     @Override
@@ -26,5 +29,10 @@ public class AgentPage extends ViewPage<Agent> {
     @Override
     protected URL getFxmlUrl() {
         return getClass().getResource("AgentPage.fxml");
+    }
+
+    @Override
+    protected void update() {
+        agentView.setData(data);
     }
 }

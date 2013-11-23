@@ -1,9 +1,15 @@
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import ui.controls.agents.AgentReferenceView?>
+<?import ui.controls.clients.ClientReferenceView?>
+<?import ui.controls.companies.CompanyReferenceView?>
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
     <VBox xmlns:fx="http://javafx.com/fxml">
         <Button fx:id="updateButton" text="edit"/>
-        <Pane fx:id="viewContainer"/>
+        <Text fx:id="insuranceTypeName"/>
+        <ClientReferenceView fx:id="clientReferenceView"/>
+        <AgentReferenceView fx:id="agentReferenceView"/>
+        <CompanyReferenceView fx:id="companyReferenceView"/>
     </VBox>
 </fx:root>

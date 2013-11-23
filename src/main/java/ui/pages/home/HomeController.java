@@ -14,7 +14,6 @@ import ui.controls.AbstractView;
 import ui.controls.SelectionListener;
 import ui.controls.SelectionProvider;
 import ui.controls.agents.AgentForm;
-import ui.controls.agents.AgentView;
 import ui.controls.agents.AgentsListView;
 import ui.controls.clients.legal.LegalPersonForm;
 import ui.controls.clients.legal.LegalPersonView;
@@ -22,13 +21,14 @@ import ui.controls.clients.natural.NaturalPersonForm;
 import ui.controls.clients.natural.NaturalPersonView;
 import ui.controls.companies.CompaniesListView;
 import ui.controls.companies.CompanyForm;
-import ui.controls.companies.CompanyView;
 import ui.controls.insurances.InsuranceForm;
-import ui.controls.insurances.InsuranceView;
 import ui.controls.insurances.InsurancesListView;
 import ui.pages.EditPage;
+import ui.pages.agents.AgentPage;
 import ui.pages.clients.ClientPage;
 import ui.pages.clients.ClientsPage;
+import ui.pages.company.CompanyPage;
+import ui.pages.insurances.InsurancePage;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -47,7 +47,7 @@ public class HomeController {
                     AbstractView view = selectedObject.getClientType() == "NATURAL"
                             ? new NaturalPersonView()
                             : new LegalPersonView();
-                    UiRootController.getInstance().navigateForward(new ClientPage(view, selectedObject),
+                    UiRootController.getInstance().navigateForward(new ClientPage(selectedObject),
                             selectedObject.getName());
                 }
             });
@@ -66,7 +66,7 @@ public class HomeController {
             listView.addSelectionListener(new SelectionListener<Agent>() {
                 @Override
                 public void objectSelected(SelectionProvider<Agent> provider, Agent selectedObject) {
-                    UiRootController.getInstance().navigateForward(new AgentView(selectedObject),
+                    UiRootController.getInstance().navigateForward(new AgentPage(selectedObject),
                             selectedObject.getFullName());
                 }
             });
@@ -84,7 +84,7 @@ public class HomeController {
             listView.addSelectionListener(new SelectionListener<Company>() {
                 @Override
                 public void objectSelected(SelectionProvider<Company> provider, Company selectedObject) {
-                    UiRootController.getInstance().navigateForward(new CompanyView(selectedObject),
+                    UiRootController.getInstance().navigateForward(new CompanyPage(selectedObject),
                             selectedObject.getName());
                 }
             });
@@ -92,13 +92,6 @@ public class HomeController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public void newAgentClick(ActionEvent actionEvent) {
-        EditPage<Agent> editPage = new EditPage<Agent>(new AgentForm());
-
-        UiRootController.getInstance().navigateForward(editPage,
-                "New agent");
     }
 
     public void insurancesClick(ActionEvent actionEvent) {
@@ -109,7 +102,7 @@ public class HomeController {
             listView.addSelectionListener(new SelectionListener<Insurance>() {
                 @Override
                 public void objectSelected(SelectionProvider<Insurance> provider, Insurance selectedObject) {
-                    UiRootController.getInstance().navigateForward(new InsuranceView(selectedObject),
+                    UiRootController.getInstance().navigateForward(new InsurancePage(selectedObject),
                             selectedObject.getInsuranceTypeName());
                 }
             });
@@ -145,5 +138,12 @@ public class HomeController {
 
         UiRootController.getInstance().navigateForward(editPage,
                 "New company");
+    }
+
+    public void newAgentClick(ActionEvent actionEvent) {
+        EditPage<Agent> editPage = new EditPage<Agent>(new AgentForm());
+
+        UiRootController.getInstance().navigateForward(editPage,
+                "New agent");
     }
 }

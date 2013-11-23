@@ -1,4 +1,0 @@
-<?import javafx.scene.control.TextField?>
-<fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
-    <TextField editable="false" fx:id="valueField"/>
-</fx:root>

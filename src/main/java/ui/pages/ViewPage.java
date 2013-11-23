@@ -4,21 +4,15 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
 import ui.UiRootController;
 import ui.controls.AbstractView;
 import ui.controls.SelectionListener;
 import ui.controls.SelectionProvider;
 
 public abstract class ViewPage<T> extends AbstractView<T> {
-    @FXML protected Pane viewContainer;
-    protected AbstractView<T> objectView;
     @FXML protected Button updateButton;
 
-    private ViewPage(AbstractView<T> objectView) {
-        this.objectView = objectView;
-
-        viewContainer.getChildren().add(objectView);
+    public ViewPage() {
         updateButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -36,16 +30,11 @@ public abstract class ViewPage<T> extends AbstractView<T> {
         });
     }
 
-    public ViewPage(AbstractView<T> objectView, T data) {
-        this(objectView);
+    public ViewPage(T data) {
+        this();
         setData(data);
     }
 
     protected abstract EditPage<T> editPageFactory(T dataToEdit);
     protected abstract String editPageTitle();
-
-    @Override
-    protected void update() {
-        objectView.setData(data);
-    }
 }
