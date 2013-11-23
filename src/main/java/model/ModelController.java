@@ -877,36 +877,44 @@ public class ModelController {
 
     //region Attribute Factories
     public AttributeType getAttributeType(int attributeTypeId) throws SQLException {
-        String sql = "SELECT AttributeTypeID,AttributeTypeName,AttributeTypeDescription"
+        String sql = "SELECT AttributeTypeID,AttributeTypeName,AttributeTypeDescription,COMPANYBYINSURANCETYPEID"
                 + " FROM ATTRIBUTE_TYPES"
                 + " WHERE AttributeTypeID = " + attributeTypeId;
         return getObject(AttributeTypeFactory.getInstance(), sql);
     }
 
     public ArrayList<AttributeType> getAttributeTypes() throws SQLException {
-        String sql = "SELECT AttributeTypeID,AttributeTypeName,AttributeTypeDescription"
+        String sql = "SELECT AttributeTypeID,AttributeTypeName,AttributeTypeDescription,COMPANYBYINSURANCETYPEID"
                 + " FROM ATTRIBUTE_TYPES";
         return getObjects(AttributeTypeFactory.getInstance(), sql);
     }
-    public AttributeType updateAttributeType(String attributeTypeName, String attributeTypeDescription, int attributeTypeId)      throws SQLException {
+    public ArrayList<AttributeType> getAttributeTypes(CompanyByInsuranceType cbit) throws SQLException {
+        String sql = "SELECT AttributeTypeID,AttributeTypeName,AttributeTypeDescription,COMPANYBYINSURANCETYPEID"
+                + " FROM ATTRIBUTE_TYPES"
+                + " where COMPANYBYINSURANCETYPEID = " +cbit.getCompanyByInsuranceTypeId();
+        return getObjects(AttributeTypeFactory.getInstance(), sql);
+    }
+    public AttributeType updateAttributeType(String attributeTypeName, String attributeTypeDescription, int attributeTypeId, int cbitID)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         PreparedStatement stmt = conn.prepareStatement(
                 "UPDATE ATTRIBUTE_TYPES"
                         + " SET AttributeTypeName = ?,"
-                        +" AttributeTypeDescription = ?"
+                        +" AttributeTypeDescription = ?,"
+                        +" COMPANYBYINSURANCETYPEID = ?"
                         +" Where AttributeTypeId = ?");
         stmt.setString(1,attributeTypeName);
         stmt.setString(2,attributeTypeDescription);
-        stmt.setInt(3,attributeTypeId);
+        stmt.setInt(3,cbitID);
+        stmt.setInt(4,attributeTypeId);
         stmt.executeUpdate();
 
         stmt.close();
         conn.close();
-        return new AttributeType(attributeTypeId,attributeTypeName,attributeTypeDescription);
+        return new AttributeType(attributeTypeId,attributeTypeName,attributeTypeDescription,cbitID);
     }
 
-    public AttributeType createAttributeType(String attributeTypeName, String attributeTypeDescription)      throws SQLException {
+    public AttributeType createAttributeType(String attributeTypeName, String attributeTypeDescription, int cbitID)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         PreparedStatement selectSequence = conn.prepareStatement("select attribute_types_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
@@ -918,17 +926,18 @@ public class ModelController {
         selectSequence.close();
 
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO ATTRIBUTE_TYPES (AttributeTypeName,AttributeTypeDescription,AttributeTypeID)"
-                        + " VALUES (?,?,?)");
+                "INSERT INTO ATTRIBUTE_TYPES (AttributeTypeName,AttributeTypeDescription,AttributeTypeID,COMPANYBYINSURANCETYPEID)"
+                        + " VALUES (?,?,?,?)");
         stmt.setString(1,attributeTypeName);
         stmt.setString(2,attributeTypeDescription);
         stmt.setInt(3,attributeTypeId);
+        stmt.setInt(4,cbitID);
         stmt.executeUpdate();
 
         stmt.close();
         conn.close();
 
-        return new AttributeType(attributeTypeId,attributeTypeName,attributeTypeDescription);
+        return new AttributeType(attributeTypeId,attributeTypeName,attributeTypeDescription,cbitID);
     }
 
     public void  deleteAttributeType(int attributeTypeId)      throws SQLException {
@@ -1162,7 +1171,8 @@ public class ModelController {
         public AttributeType createObject(ResultSet rSet) throws SQLException {
             return new AttributeType(rSet.getInt("AttributeTypeID"),
                     rSet.getString("AttributeTypeName"),
-                    rSet.getString("AttributeDescription"));
+                    rSet.getString("AttributeDescription"),
+                    rSet.getInt("COMPANYBYINSURANCETYPEID"));
         }
     }
 

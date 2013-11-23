@@ -4,11 +4,13 @@ public class AttributeType {
     private final int typeId;
     private final String name;
     private final String description;
+    private final int cbitID;
 
-    public AttributeType(int typeId, String name, String description) {
+    public AttributeType(int typeId, String name, String description, int cbitID) {
         this.typeId = typeId;
         this.name = name;
         this.description = description;
+        this.cbitID = cbitID;
     }
 
     public String getDescription() {
