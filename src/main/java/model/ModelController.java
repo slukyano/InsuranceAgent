@@ -174,7 +174,7 @@ public class ModelController {
         return getObjects(NaturalPersonFactory.getInstance(), sql);
     }
 
-    public void updateNaturalPerson(int clientId, int agentId, String firstName, String secondName, String lastName, Date dateOfBirth)      throws SQLException {
+    public NaturalPerson updateNaturalPerson(int clientId, int agentId, String firstName, String secondName, String lastName, Date dateOfBirth)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         PreparedStatement stmt = conn.prepareStatement(
@@ -195,6 +195,7 @@ public class ModelController {
 
         stmt.close();
         conn.close();
+        return new NaturalPerson(clientId,agentId,firstName,secondName,lastName,dateOfBirth);
     }
 
     public NaturalPerson createNaturalPerson(String firstName, String secondName,String lastName, Date dateOfBirth, int agentId)      throws SQLException {
@@ -261,7 +262,7 @@ public class ModelController {
         return getObjects(LegalPersonFactory.getInstance(), sql);
     }
 
-    public void updateLegalPerson(int clientId, int agentId, String name, String vatin, String address)      throws SQLException {
+    public LegalPerson updateLegalPerson(int clientId, int agentId, String name, String vatin, String address)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         PreparedStatement stmt = conn.prepareStatement(
@@ -280,6 +281,7 @@ public class ModelController {
 
         stmt.close();
         conn.close();
+        return new LegalPerson(clientId,agentId,name,vatin,address);
     }
 
     public LegalPerson createLegalPerson(String legalName,String address, String vatin, int agentId)      throws SQLException {
@@ -400,7 +402,7 @@ public class ModelController {
         return new Agent(agentId, firstName,secondName,lastName,hiringDate,quitDate);
     }
 
-    public void  deleteAgent(int AgentId)      throws SQLException {
+    public void deleteAgent(int AgentId)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         PreparedStatement stmt = conn.prepareStatement(
@@ -428,7 +430,7 @@ public class ModelController {
                 + " FROM COMPANIES";
         return getObjects(CompanyFactory.getInstance(), sql);
     }
-    public void updateCompany(String companyName, Integer parentCompanyId, String companyDescription, int companyID)      throws SQLException {
+    public Company updateCompany(String companyName, Integer parentCompanyId, String companyDescription, int companyID)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         PreparedStatement stmt = conn.prepareStatement(
@@ -445,6 +447,8 @@ public class ModelController {
 
         stmt.close();
         conn.close();
+
+        return new Company(companyID,companyName,parentCompanyId,companyDescription);
     }
 
     public Company createCompany(String companyName, int parentCompanyId, String companyDescription)      throws SQLException {
@@ -508,7 +512,7 @@ public class ModelController {
                 + " WHERE companyID = " + company.getCompanyId();
         return getObjects(CompanyByInsuranceTypeFactory.getInstance(), sql);
     }
-    public void updateCompanyByInsuranceType(int companyId, int insuranceTypeId, int CBITID)      throws SQLException {
+    public CompanyByInsuranceType updateCompanyByInsuranceType(int companyId, int insuranceTypeId, int CBITID)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         PreparedStatement stmt = conn.prepareStatement(
@@ -523,6 +527,7 @@ public class ModelController {
 
         stmt.close();
         conn.close();
+        return new CompanyByInsuranceType(CBITID,companyId,insuranceTypeId);
 
     }
 
@@ -733,7 +738,7 @@ public class ModelController {
                 " on natural_persons.naturalpersonid = ins.clientid";
         return getObjects(InsuranceFactory.getInstance(), sql);
     }
-    public void updateInsurance(int clientId, String clientType,int CBITID, int agentId, double Basevalue,int insuranceId)      throws SQLException {
+    public Insurance updateInsurance(int clientId, String clientType,int CBITID, int agentId, double basevalue,int insuranceId)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         PreparedStatement stmt = conn.prepareStatement(
@@ -748,12 +753,13 @@ public class ModelController {
         stmt.setString(2, clientType);
         stmt.setInt(3,CBITID);
         stmt.setInt(4,agentId);
-        stmt.setDouble(5,Basevalue);
+        stmt.setDouble(5,basevalue);
         stmt.setInt(6,insuranceId);
         stmt.executeUpdate();
 
         stmt.close();
         conn.close();
+        return new Insurance(insuranceId,clientId,clientType,CBITID,agentId,basevalue);
     }
 
     public Insurance createInsurance(int clientId, String clientType, int cbitID,int agentId, double baseValue)      throws SQLException {
@@ -811,7 +817,7 @@ public class ModelController {
                 + " FROM insurance_types";
         return getObjects(InsuranceTypeFactory.getInstance(), sql);
     }
-    public void updateInsuranceType(String insuranceTypeName, String insuranceTypeDescription, int insuranceTypeId)      throws SQLException {
+    public InsuranceType updateInsuranceType(String insuranceTypeName, String insuranceTypeDescription, int insuranceTypeId)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         PreparedStatement stmt = conn.prepareStatement(
@@ -826,6 +832,7 @@ public class ModelController {
 
         stmt.close();
         conn.close();
+        return new InsuranceType(insuranceTypeId,insuranceTypeName,insuranceTypeDescription);
     }
 
     public InsuranceType createInsuranceType(String insuranceTypeName, String insuranceTypeDescription)      throws SQLException {
@@ -881,7 +888,7 @@ public class ModelController {
                 + " FROM ATTRIBUTE_TYPES";
         return getObjects(AttributeTypeFactory.getInstance(), sql);
     }
-    public void updateAttributeType(String attributeTypeName, String attributeTypeDescription, int attributeTypeId)      throws SQLException {
+    public AttributeType updateAttributeType(String attributeTypeName, String attributeTypeDescription, int attributeTypeId)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         PreparedStatement stmt = conn.prepareStatement(
@@ -896,6 +903,7 @@ public class ModelController {
 
         stmt.close();
         conn.close();
+        return new AttributeType(attributeTypeId,attributeTypeName,attributeTypeDescription);
     }
 
     public AttributeType createAttributeType(String attributeTypeName, String attributeTypeDescription)      throws SQLException {
@@ -956,7 +964,7 @@ public class ModelController {
                 + " WHERE InsuranceId = " + insurance.getInsuranceId();
         return getObjects(InsuranceAttributeFactory.getInstance(), sql);
     }
-    public void updateInsuranceAttribute(int attributeTypeId, String attributeValue, int insuranceId, int attributeId )      throws SQLException {
+    public InsuranceAttribute updateInsuranceAttribute(int attributeTypeId, String attributeValue, int insuranceId, int attributeId )      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         PreparedStatement stmt = conn.prepareStatement(
@@ -973,6 +981,7 @@ public class ModelController {
 
         stmt.close();
         conn.close();
+        return new InsuranceAttribute(attributeId,insuranceId,attributeValue,attributeTypeId);
     }
 
     public InsuranceAttribute createInsuranceAttribute(int attributeTypeId,String attributeValue,int insuranceId)      throws SQLException {
