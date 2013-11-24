@@ -1,3 +1,6 @@
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.BorderPane?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:id="rootBorderPane" fx:controller="ui.UiRootController"/>
+            fx:id="rootBorderPane" fx:controller="ui.UiRootController">
+    <padding><Insets top="10" right="10" bottom="20" left="10"/></padding>
+            </BorderPane>

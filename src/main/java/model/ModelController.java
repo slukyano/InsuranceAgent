@@ -655,9 +655,7 @@ public class ModelController {
                 " comp.companyName as companyName,"+
                 " comp.insuranceTypeName as insuranceTypeName,"+
                 " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
-                " CASE WHEN ClientType like 'NATURAL' THEN natural_persons.firstname||' '||natural_persons.secondName||' '||natural_persons.lastname"+
-                " when ClientType like 'LEGAL' then legal_persons.legalname"+
-                " end as ClientName"+
+                " natural_persons.firstname||' '||natural_persons.secondName||' '||natural_persons.lastname as ClientName,"+
                 " FROM INSURANCES ins"+
                 " inner join (select companies.companyname as companyName,"+
                 " companies_by_insurance_type.companybyinsurancetypeid as companybyinsurancetypeid,"+
@@ -670,8 +668,6 @@ public class ModelController {
                 " on ins.companybyinsurancetypeid = comp.companybyinsurancetypeid"+
                 " inner join agents"+
                 " on agents.agentId=ins.agentid"+
-                " left outer join legal_persons"+
-                " on legal_persons.legalpersonid = ins.clientid"+
                 " left outer join natural_persons"+
                 " on natural_persons.naturalpersonid = ins.clientid" +
                 " WHERE ins.ClientID = " + person.getClientId()  +
@@ -688,9 +684,7 @@ public class ModelController {
                 " comp.companyName as companyName,"+
                 " comp.insuranceTypeName as insuranceTypeName,"+
                 " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
-                " CASE WHEN ClientType like 'NATURAL' THEN natural_persons.firstname||' '||natural_persons.secondName||' '||natural_persons.lastname"+
-                " when ClientType like 'LEGAL' then legal_persons.legalname"+
-                " end as ClientName"+
+                " legal_persons.legalname as ClientName,"+
                 " FROM INSURANCES ins"+
                 " inner join (select companies.companyname as companyName,"+
                 " companies_by_insurance_type.companybyinsurancetypeid as companybyinsurancetypeid,"+
@@ -705,8 +699,6 @@ public class ModelController {
                 " on agents.agentId=ins.agentid"+
                 " left outer join legal_persons"+
                 " on legal_persons.legalpersonid = ins.clientid"+
-                " left outer join natural_persons"+
-                " on natural_persons.naturalpersonid = ins.clientid"+
                 " WHERE ins.ClientID = " + person.getClientId() +
                 " AND ins.ClientType = 'LEGAL'";
         return getObjects(InsuranceFactory.getInstance(), sql);

@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.HBox?>
 <HBox fx:controller="ui.NavigateBarController"
       xmlns:fx="http://javafx.com/fxml" alignment="TOP_LEFT" spacing="10">
-    <padding><Insets top="5" right="5" bottom="10" left="5"/></padding>
     <children>
         <Button onAction="#backClick">
             <graphic>
