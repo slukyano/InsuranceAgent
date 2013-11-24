@@ -75,5 +75,9 @@ public class NavigateBarController implements Initializable {
         for (int i= breadCrumbsPane.getChildren().size()-1; i>=index+1 ;i--) {
             breadCrumbsPane.getChildren().remove(i);
         }
+        if(breadCrumbsPane.getChildren().size()!=1) {
+            ((Button)breadCrumbsPane.getChildren().get(breadCrumbsPane.getChildren().size()-1)).getStyleClass().add("last");
+        }
+
     }
 }
