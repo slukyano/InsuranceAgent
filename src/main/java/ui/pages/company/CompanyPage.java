@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import model.Company;
 import model.ModelController;
 import model.insurances.CompanyByInsuranceType;
@@ -25,9 +26,19 @@ import java.sql.SQLException;
 public class CompanyPage extends ViewPage<Company> {
     @FXML private CompanyView companyView;
     @FXML private Button addInsuranceTypeButton;
+    @FXML private Pane insuranceTypeContainer;
 
     public CompanyPage(final Company data) {
         super(data);
+        InsuranceTypesListView listView = new InsuranceTypesListView();
+
+        try {
+            listView.setItems(FXCollections.observableArrayList(
+                    ModelController.getInstance().getInsuranceTypes(data)));
+            insuranceTypeContainer.getChildren().add(listView);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         addInsuranceTypeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override

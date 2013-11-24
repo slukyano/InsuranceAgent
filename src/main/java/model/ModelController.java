@@ -819,6 +819,18 @@ public class ModelController {
                 + " FROM insurance_types";
         return getObjects(InsuranceTypeFactory.getInstance(), sql);
     }
+    public ArrayList<InsuranceType> getInsuranceTypes(Company company) throws SQLException {
+        String sql ="select inst.InsuranceTypeID as InsuranceTypeID,"
+                    +" inst.InsuranceTypeName as InsuranceTypeName,"
+                    +" inst.InsuranceTypeDescription as InsuranceTypeDescription"
+                    +" from companies comp"
+                    +" inner join companies_by_insurance_type cbit"
+                    +" on cbit.companyId = comp.companyId"
+                    +" inner join insurance_types inst"
+                    +" on cbit.insurancetypeid = inst.InsuranceTypeID"
+                    +" where comp.companyId = " +company.getCompanyId();
+        return getObjects(InsuranceTypeFactory.getInstance(), sql);
+    }
     public InsuranceType updateInsuranceType(String insuranceTypeName, String insuranceTypeDescription, int insuranceTypeId)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
