@@ -7,9 +7,13 @@ import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import model.ModelController;
+import model.UserType;
+import model.clients.Client;
+import ui.pages.clients.ClientPage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -65,27 +69,6 @@ public class UiRootController implements Initializable {
 
     public void PresentHomeView(){
         try {
-            String homePage = null;
-
-            switch (ModelController.getInstance().getUserType()) {
-                case NATURAL:
-                case LEGAL:
-                    homePage = "Home_Client.fxml";
-                    break;
-
-                case AGENT:
-                    homePage = "Home_Agent.fxml";
-                    break;
-
-                case MANAGER:
-                    homePage = "Home_Manager.fxml";
-                    break;
-
-                case ADMIN:
-                    homePage = "Home_Admin.fxml";
-                    break;
-            }
-
             Parent navigateBar =  FXMLLoader.load(getClass().getResource("/ui/NavigateBar.fxml"));
             topBox.getChildren().add(navigateBar);
 
@@ -94,7 +77,35 @@ public class UiRootController implements Initializable {
 
             navigateBar.setVisible(false);
 
-            Parent home = FXMLLoader.load(getClass().getResource("/ui/pages/home/" + homePage));
+            Parent home;
+            UserType currentUser = ModelController.getInstance().getUserType();
+            if (currentUser == UserType.LEGAL || currentUser == UserType.NATURAL) {
+                try {
+                    home = new ClientPage((Client)ModelController.getInstance().getUserObject());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    MessageBarController.getInstance().showMessage("Error while loading user object");
+                    return;
+                }
+            }
+            else {
+            String homePage = null;
+                switch (ModelController.getInstance().getUserType()) {
+                    case AGENT:
+                        homePage = "/ui/pages/home/Home_Agent.fxml";
+                        break;
+
+                    case MANAGER:
+                        homePage = "/ui/pages/home/Home_Manager.fxml";
+                        break;
+
+                    case ADMIN:
+                        homePage = "/ui/pages/home/Home_Admin.fxml";
+                        break;
+                }
+                home = FXMLLoader.load(getClass().getResource(homePage));
+            }
+
             pages.add(home);
             rootBorderPane.setCenter(home);
         } catch (IOException e) {
