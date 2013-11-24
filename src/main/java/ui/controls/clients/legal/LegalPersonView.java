@@ -1,16 +1,16 @@
 package ui.controls.clients.legal;
 
 import javafx.fxml.FXML;
-import javafx.scene.text.Text;
+import javafx.scene.control.Label;
 import model.clients.LegalPerson;
 import ui.controls.AbstractView;
 
 import java.net.URL;
 
 public class LegalPersonView extends AbstractView<LegalPerson> {
-    @FXML private Text nameField;
-    @FXML private Text vatinField;
-    @FXML private Text addressField;
+    @FXML private Label nameField;
+    @FXML private Label vatinField;
+    @FXML private Label addressField;
 
     public LegalPersonView() {
     }

@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.text.Text;
+import javafx.scene.control.Label;
 import model.ModelController;
 import model.UserType;
 import model.insurances.Insurance;
@@ -20,7 +20,7 @@ import java.net.URL;
 import java.sql.SQLException;
 
 public class InsurancePage extends ViewPage<Insurance> {
-    @FXML private Text insuranceTypeName;
+    @FXML private Label insuranceTypeName;
     @FXML private AgentReferenceView agentReferenceView;
     @FXML private CompanyReferenceView companyReferenceView;
     @FXML private ClientReferenceView clientReferenceView;

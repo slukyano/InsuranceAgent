@@ -1,12 +1,12 @@
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
     <GridPane>
-        <Text GridPane.rowIndex="0" GridPane.columnIndex="0" text="Name"/>
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Name"/>
         <TextField GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="nameField"/>
 
-        <Text GridPane.rowIndex="1" GridPane.columnIndex="0" text="Description"/>
+        <Label GridPane.rowIndex="1" GridPane.columnIndex="0" text="Description"/>
         <TextField GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="descriptionField"/>
     </GridPane>
 </fx:root>

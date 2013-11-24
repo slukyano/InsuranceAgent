@@ -1,9 +1,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Label?>
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
     <GridPane>
-        <Text GridPane.rowIndex="0" GridPane.columnIndex="0" fx:id="nameText"/>
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0" fx:id="nameText"/>
         <TextField GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="valueField"/>
     </GridPane>
 </fx:root>

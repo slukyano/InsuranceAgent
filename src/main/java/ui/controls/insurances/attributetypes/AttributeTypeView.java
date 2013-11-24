@@ -1,14 +1,14 @@
 package ui.controls.insurances.attributetypes;
 
 import javafx.fxml.FXML;
-import javafx.scene.text.Text;
+import javafx.scene.control.Label;
 import model.insurances.attributes.AttributeType;
 import ui.controls.AbstractView;
 
 import java.net.URL;
 
 public class AttributeTypeView extends AbstractView<AttributeType> {
-    @FXML private Text nameField;
+    @FXML private Label nameField;
 
     public AttributeTypeView() {
     }

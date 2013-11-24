@@ -1,22 +1,22 @@
 <?language javascript?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
 <?import ui.controls.agents.AgentPicker?>
 <?import ui.controls.clients.ClientPicker?>
 <?import ui.controls.companies.CompanyPicker?>
 <?import ui.controls.insurances.insurancetypes.InsuranceTypePicker?>
+<?import javafx.scene.control.Label?>
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
     <GridPane>
-        <Text GridPane.rowIndex="0" GridPane.columnIndex="0" text="Client"/>
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Client"/>
         <ClientPicker GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="clientPicker"/>
 
-        <Text GridPane.rowIndex="1" GridPane.columnIndex="0" text="Insurance type"/>
+        <Label GridPane.rowIndex="1" GridPane.columnIndex="0" text="Insurance type"/>
         <InsuranceTypePicker GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="typePicker"/>
 
-        <Text GridPane.rowIndex="2" GridPane.columnIndex="0" text="Company"/>
+        <Label GridPane.rowIndex="2" GridPane.columnIndex="0" text="Company"/>
         <CompanyPicker GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="companyPicker"/>
 
-        <Text GridPane.rowIndex="3" GridPane.columnIndex="0" text="Agent"/>
+        <Label GridPane.rowIndex="3" GridPane.columnIndex="0" text="Agent"/>
         <AgentPicker GridPane.rowIndex="3" GridPane.columnIndex="1" fx:id="agentPicker"/>
 
         <Pane GridPane.rowIndex="4" GridPane.columnSpan="2" fx:id="attributeFormsContainer"/>

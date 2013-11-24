@@ -5,8 +5,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import model.Company;
 import model.ModelController;
 import model.insurances.CompanyByInsuranceType;
@@ -21,8 +21,8 @@ import java.sql.SQLException;
 import java.util.HashSet;
 
 public class CompanyByInsuranceTypeEditPage extends Pane implements SelectionProvider<CompanyByInsuranceType> {
-    @FXML public Text companyNameText;
-    @FXML public Text insuranceTypeNameText;
+    @FXML public Label companyNameText;
+    @FXML public Label insuranceTypeNameText;
     @FXML public Button addTypeButton;
     @FXML public Button submitButton;
     @FXML public AttributeTypeFormsList formsList;

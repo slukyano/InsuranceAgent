@@ -1,19 +1,19 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
 <?import ui.controls.agents.AgentPicker?>
+<?import javafx.scene.control.Label?>
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
     <GridPane>
-        <Text GridPane.rowIndex="0" GridPane.columnIndex="0" text="Legal Person Name"/>
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Legal Person Name"/>
         <TextField GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="nameField"/>
 
-        <Text GridPane.rowIndex="1" GridPane.columnIndex="0" text="Address"/>
+        <Label GridPane.rowIndex="1" GridPane.columnIndex="0" text="Address"/>
         <TextField GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="addressField"/>
 
-        <Text GridPane.rowIndex="2" GridPane.columnIndex="0" text="VATIN"/>
+        <Label GridPane.rowIndex="2" GridPane.columnIndex="0" text="VATIN"/>
         <TextField GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="vatinField"/>
 
-        <Text GridPane.rowIndex="3" GridPane.columnIndex="0" text="Agent"/>
+        <Label GridPane.rowIndex="3" GridPane.columnIndex="0" text="Agent"/>
         <AgentPicker GridPane.rowIndex="3" GridPane.columnIndex="1" fx:id="agentPicker"/>
     </GridPane>
 </fx:root>

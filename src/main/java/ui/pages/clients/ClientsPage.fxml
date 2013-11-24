@@ -3,15 +3,15 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 <?import ui.controls.clients.legal.LegalPersonListView?>
 <?import ui.controls.clients.natural.NaturalPersonsListView?>
+<?import javafx.scene.control.Label?>
 <fx:root type="javafx.scene.layout.StackPane" xmlns:fx="http://javafx.com/fxml">
     <VBox alignment="CENTER_RIGHT" fx:id="vbox">
         <children>
             <HBox alignment="CENTER_LEFT">
                 <children>
-                    <Text text="Client type:"/>
+                    <Label text="Client type:"/>
                     <RadioButton fx:id="naturalRadioButton" text="Natural"/>
                     <RadioButton fx:id="legalRadioButton" text="Legal"/>
                     <Button fx:id="newClientButton" text="Create new"/>

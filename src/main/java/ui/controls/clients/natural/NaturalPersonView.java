@@ -1,15 +1,15 @@
 package ui.controls.clients.natural;
 
 import javafx.fxml.FXML;
-import javafx.scene.text.Text;
+import javafx.scene.control.Label;
 import model.clients.NaturalPerson;
 import ui.controls.AbstractView;
 
 import java.net.URL;
 
 public class NaturalPersonView extends AbstractView<NaturalPerson> {
-    @FXML private Text nameField;
-    @FXML private Text birthField;
+    @FXML private Label nameField;
+    @FXML private Label birthField;
 
     public NaturalPersonView() {
     }

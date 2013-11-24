@@ -1,7 +1,7 @@
 package ui.controls.insurances.attributes;
 
 import javafx.fxml.FXML;
-import javafx.scene.text.Text;
+import javafx.scene.control.Label;
 import model.insurances.attributes.InsuranceAttribute;
 import ui.controls.AbstractView;
 
@@ -9,8 +9,8 @@ import java.net.URL;
 import java.sql.SQLException;
 
 public class AttributeView extends AbstractView<InsuranceAttribute> {
-    @FXML private Text nameField;
-    @FXML private Text valueField;
+    @FXML private Label nameField;
+    @FXML private Label valueField;
 
     public AttributeView() {
     }

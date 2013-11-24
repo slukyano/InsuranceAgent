@@ -5,9 +5,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,7 +17,7 @@ public class MessageBarController implements Initializable {
     @FXML private Button yesButton;
     @FXML private Button noButton;
     @FXML private BorderPane rootContainer;
-    @FXML private Text messageText;
+    @FXML private Label messageText;
     @FXML private HBox buttonContainer;
     static MessageBarController instance;
 
