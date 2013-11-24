@@ -8,7 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import model.clients.Client;
 import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
@@ -26,12 +27,13 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class ClientsPage extends Pane implements SelectionProvider<Client> {
+public class ClientsPage extends StackPane implements SelectionProvider<Client> {
     @FXML private Button newClientButton;
     @FXML private RadioButton naturalRadioButton;
     @FXML private RadioButton legalRadioButton;
     @FXML private NaturalPersonsListView naturalListView;
     @FXML private LegalPersonListView legalListView;
+    @FXML private VBox vbox;
     private HashSet<SelectionListener<Client>> listeners = new HashSet<SelectionListener<Client>>();
 
     @Override
@@ -54,6 +56,7 @@ public class ClientsPage extends Pane implements SelectionProvider<Client> {
         FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
         fxmlLoader.setController(this);
         fxmlLoader.setRoot(this);
+        //this.setStyle("-fx-background-color: red;");
         try {
             fxmlLoader.load();
         } catch (IOException exception) {
@@ -118,6 +121,7 @@ public class ClientsPage extends Pane implements SelectionProvider<Client> {
 
         naturalRadioButton.setSelected(true);
         showNatural();
+        vbox.setStyle("-fx-background-color: red;");
     }
 
     public void showNatural() {

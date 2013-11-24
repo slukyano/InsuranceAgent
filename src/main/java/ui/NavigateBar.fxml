@@ -11,15 +11,15 @@
       xmlns:fx="http://javafx.com/fxml" alignment="TOP_LEFT" spacing="10">
     <padding><Insets top="5" right="5" bottom="10" left="5"/></padding>
     <children>
-            <Button onAction="#backClick">
-                <graphic>
-                    <ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                            <Image url="/ui/resources/images/back.png" />
-                        </image>
-                    </ImageView>
-                </graphic>
-            </Button>
+        <Button onAction="#backClick">
+            <graphic>
+                <ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="/ui/resources/images/back.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
         <FlowPane hgap="10" vgap="10" alignment="CENTER_LEFT" fx:id="breadCrumbsPane" HBox.hgrow="ALWAYS"/>
     </children>
 </HBox>

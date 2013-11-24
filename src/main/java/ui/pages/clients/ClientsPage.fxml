@@ -6,15 +6,19 @@
 <?import javafx.scene.text.Text?>
 <?import ui.controls.clients.legal.LegalPersonListView?>
 <?import ui.controls.clients.natural.NaturalPersonsListView?>
-<fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
-    <VBox alignment="center">
-        <HBox alignment="CENTER_LEFT">
-            <Text text="Client type:"/>
-            <RadioButton fx:id="naturalRadioButton" text="Natural"/>
-            <RadioButton fx:id="legalRadioButton" text="Legal"/>
-            <Button fx:id="newClientButton" text="Create new"/>
-        </HBox>
-        <NaturalPersonsListView fx:id="naturalListView" VBox.vgrow="ALWAYS"/>
-        <LegalPersonListView fx:id="legalListView" VBox.vgrow="ALWAYS"/>
+<fx:root type="javafx.scene.layout.StackPane" xmlns:fx="http://javafx.com/fxml">
+    <VBox alignment="CENTER_RIGHT" fx:id="vbox">
+        <children>
+            <HBox alignment="CENTER_LEFT">
+                <children>
+                    <Text text="Client type:"/>
+                    <RadioButton fx:id="naturalRadioButton" text="Natural"/>
+                    <RadioButton fx:id="legalRadioButton" text="Legal"/>
+                    <Button fx:id="newClientButton" text="Create new"/>
+                </children>
+            </HBox>
+            <NaturalPersonsListView fx:id="naturalListView" VBox.vgrow="ALWAYS"/>
+            <LegalPersonListView fx:id="legalListView" VBox.vgrow="ALWAYS"/>
+        </children>
     </VBox>
 </fx:root>

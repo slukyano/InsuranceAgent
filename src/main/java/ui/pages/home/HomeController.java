@@ -41,6 +41,7 @@ public class HomeController {
             List<NaturalPerson> naturals = ModelController.getInstance().getNaturalPersons();
             List<LegalPerson>  legals = ModelController.getInstance().getLegalPersons();
             ClientsPage page = new ClientsPage(naturals, legals);
+            //page.setStyle("-fx-background-color: red;");
 
             page.addSelectionListener(new SelectionListener<Client>() {
                 @Override
