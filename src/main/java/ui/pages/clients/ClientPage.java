@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import model.ModelController;
+import model.UserType;
 import model.clients.Client;
 import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
@@ -65,8 +66,6 @@ public class ClientPage extends ViewPage<Client> {
         });
 
         setData(data);
-
-
     }
 
     @Override
@@ -92,6 +91,12 @@ public class ClientPage extends ViewPage<Client> {
         try {
             clientView.setData(data);
             agentReferenceView.setData(data.getAgent());
+
+            UserType currentUser = ModelController.getInstance().getUserType();
+            if (currentUser == UserType.LEGAL || currentUser == UserType.NATURAL)
+                agentReferenceView.setClickable(false);
+            else
+                agentReferenceView.setClickable(true);
         } catch (SQLException e) {
             e.printStackTrace();
         }

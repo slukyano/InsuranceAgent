@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 
 public abstract class AbstractReferenceView<T> extends AbstractView<T> implements Initializable {
     @FXML protected Label valueText;
+    private Boolean clickable = true;
 
     protected abstract void onMouseClicked();
 
@@ -28,7 +29,8 @@ public abstract class AbstractReferenceView<T> extends AbstractView<T> implement
         valueText.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                onMouseClicked();
+                if (clickable)
+                    onMouseClicked();
             }
         });
     }
@@ -41,5 +43,13 @@ public abstract class AbstractReferenceView<T> extends AbstractView<T> implement
     @Override
     protected void update() {
         valueText.setText(getValueString());
+    }
+
+    public boolean isClickable() {
+        return clickable;
+    }
+
+    public void setClickable(boolean clickable) {
+        this.clickable = clickable;
     }
 }
