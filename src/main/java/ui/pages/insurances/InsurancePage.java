@@ -1,8 +1,11 @@
 package ui.pages.insurances;
 
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
+import model.ModelController;
 import model.insurances.Insurance;
 import ui.controls.agents.AgentReferenceView;
 import ui.controls.clients.ClientReferenceView;
@@ -24,6 +27,16 @@ public class InsurancePage extends ViewPage<Insurance> {
 
     public InsurancePage(Insurance data) {
         super(data);
+        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    ModelController.getInstance().deleteLegalPerson(getData().getClientId());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override

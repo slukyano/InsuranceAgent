@@ -1,6 +1,8 @@
 package ui.pages.agents;
 
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import model.Agent;
@@ -43,6 +45,16 @@ public class AgentPage extends ViewPage<Agent> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    ModelController.getInstance().deleteLegalPerson(getData().getAgentId());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
 
     }

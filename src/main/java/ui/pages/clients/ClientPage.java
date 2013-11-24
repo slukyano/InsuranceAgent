@@ -1,6 +1,8 @@
 package ui.pages.clients;
 
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import model.ModelController;
@@ -47,6 +49,19 @@ public class ClientPage extends ViewPage<Client> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                if(getData().getClientType().equals("NATURAL"))
+                    ModelController.getInstance().deleteNaturalPerson(getData().getClientId());
+                else
+                    ModelController.getInstance().deleteLegalPerson(getData().getClientId());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         setData(data);
 

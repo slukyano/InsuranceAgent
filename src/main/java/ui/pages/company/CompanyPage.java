@@ -39,6 +39,16 @@ public class CompanyPage extends ViewPage<Company> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    ModelController.getInstance().deleteLegalPerson(getData().getCompanyId());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         addInsuranceTypeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
