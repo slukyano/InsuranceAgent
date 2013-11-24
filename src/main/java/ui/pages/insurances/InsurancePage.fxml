@@ -8,6 +8,7 @@
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
     <VBox xmlns:fx="http://javafx.com/fxml">
         <Button fx:id="updateButton" text="edit"/>
+        <Button fx:id="deleteButton" text="delete"/>
         <Text fx:id="insuranceTypeName"/>
         <ClientReferenceView fx:id="clientReferenceView"/>
         <AgentReferenceView fx:id="agentReferenceView"/>

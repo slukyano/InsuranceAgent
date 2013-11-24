@@ -11,6 +11,7 @@ import ui.controls.SelectionProvider;
 
 public abstract class ViewPage<T> extends AbstractView<T> {
     @FXML protected Button updateButton;
+    @FXML protected Button deleteButton;
 
     public ViewPage() {
         updateButton.setOnAction(new EventHandler<ActionEvent>() {

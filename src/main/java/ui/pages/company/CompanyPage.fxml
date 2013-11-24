@@ -7,6 +7,7 @@
     <HBox>
         <VBox xmlns:fx="http://javafx.com/fxml">
             <Button fx:id="updateButton" text="edit"/>
+            <Button fx:id="deleteButton" text="delete"/>
             <CompanyView fx:id="companyView"/>
             <Button fx:id="addInsuranceTypeButton" text="Add insurance type"/>
         </VBox>
