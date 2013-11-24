@@ -12,8 +12,10 @@
             <RowConstraints vgrow="ALWAYS"/>
         </rowConstraints>
         <VBox xmlns:fx="http://javafx.com/fxml" GridPane.columnIndex="0">
-            <Button fx:id="updateButton" text="edit"/>
-            <Button fx:id="deleteButton" text="delete"/>
+            <FlowPane hgap="5" vgap="5">
+                <Button fx:id="updateButton" text="edit"/>
+                <Button fx:id="deleteButton" text="delete"/>
+            </FlowPane>
             <AgentView fx:id="agentView"/>
         </VBox>
         <StackPane fx:id="insurancesContainer" GridPane.columnIndex="1"/>

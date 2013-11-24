@@ -4,15 +4,17 @@
 <fx:root type="javafx.scene.layout.StackPane" xmlns:fx="http://javafx.com/fxml">
     <GridPane hgap="10" vgap="10" alignment="CENTER_LEFT">
         <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" percentWidth="30"/>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="30" halignment="LEFT"/>
             <ColumnConstraints hgrow="ALWAYS" percentWidth="70"/>
         </columnConstraints>
         <rowConstraints>
             <RowConstraints vgrow="ALWAYS"/>
         </rowConstraints>
         <VBox xmlns:fx="http://javafx.com/fxml" GridPane.columnIndex="0" alignment="TOP_LEFT">
-            <Button fx:id="updateButton" text="edit"/>
-            <Button fx:id="deleteButton" text="delete"/>
+            <FlowPane hgap="5" vgap="5">
+                <Button fx:id="updateButton" text="edit"/>
+                <Button fx:id="deleteButton" text="delete"/>
+            </FlowPane>
             <Pane fx:id="viewContainer"/>
             <AgentReferenceView fx:id="agentReferenceView"/>
         </VBox>
