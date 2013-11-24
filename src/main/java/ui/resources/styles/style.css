@@ -4,7 +4,7 @@
 }
 
 .breadcrumbs {
-  -fx-padding: 0 50 0 0;
+  -fx-background-color: blue;
 }
 
 .breadcrumbs .item {
