@@ -35,6 +35,7 @@ public class UiRootController implements Initializable {
             Parent parent = FXMLLoader.load(getClass().getResource("/ui/pages/login/LoginPage.fxml"));
 
             rootBorderPane.setCenter(parent);
+            rootBorderPane.getStyleClass().add("background");
         } catch (IOException e) {
             e.printStackTrace();
         }

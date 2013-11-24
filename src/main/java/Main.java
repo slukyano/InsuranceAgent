@@ -22,6 +22,7 @@ public class Main extends Application {
         scene.getStylesheets().add("/ui/resources/styles/DarkTheme.css");
         scene.getStylesheets().add("/ui/resources/styles/DatePicker.css");
 
+
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
         primaryStage.setTitle("Insurance");
