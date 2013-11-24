@@ -655,7 +655,7 @@ public class ModelController {
                 " comp.companyName as companyName,"+
                 " comp.insuranceTypeName as insuranceTypeName,"+
                 " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
-                " natural_persons.firstname||' '||natural_persons.secondName||' '||natural_persons.lastname as ClientName,"+
+                " natural_persons.firstname||' '||natural_persons.secondName||' '||natural_persons.lastname as ClientName"+
                 " FROM INSURANCES ins"+
                 " inner join (select companies.companyname as companyName,"+
                 " companies_by_insurance_type.companybyinsurancetypeid as companybyinsurancetypeid,"+
@@ -684,7 +684,7 @@ public class ModelController {
                 " comp.companyName as companyName,"+
                 " comp.insuranceTypeName as insuranceTypeName,"+
                 " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
-                " legal_persons.legalname as ClientName,"+
+                " legal_persons.legalname as ClientName"+
                 " FROM INSURANCES ins"+
                 " inner join (select companies.companyname as companyName,"+
                 " companies_by_insurance_type.companybyinsurancetypeid as companybyinsurancetypeid,"+
