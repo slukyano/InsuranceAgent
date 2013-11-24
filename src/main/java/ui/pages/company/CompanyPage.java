@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import model.Company;
 import model.ModelController;
+import model.UserType;
 import model.insurances.CompanyByInsuranceType;
 import model.insurances.InsuranceType;
 import ui.UiRootController;
@@ -103,5 +104,22 @@ public class CompanyPage extends ViewPage<Company> {
     @Override
     protected void update() {
         companyView.setData(data);
+        UserType currentUser = ModelController.getInstance().getUserType();
+        switch (currentUser) {
+            case LEGAL:
+            case NATURAL:
+            case AGENT:
+            case MANAGER:
+                updateButton.setVisible(false);
+                deleteButton.setVisible(false);
+                addInsuranceTypeButton.setVisible(false);
+                break;
+
+            case ADMIN:
+                updateButton.setVisible(true);
+                deleteButton.setVisible(true);
+                addInsuranceTypeButton.setVisible(true);
+                break;
+        }
     }
 }

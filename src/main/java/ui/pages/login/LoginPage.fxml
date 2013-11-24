@@ -1,12 +1,8 @@
 <?language javascript?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<?import java.net.URL?>
-<?import javafx.scene.control.Label?>
 <VBox fx:controller="ui.pages.login.LoginPageController"
       xmlns:fx="http://javafx.com/fxml" alignment="center">
 
@@ -20,18 +16,20 @@
                 <TextField fx:id="connectionField"
                            GridPane.rowIndex="0" GridPane.columnIndex="1"
                            text="jdbc:oracle:thin:@5.19.237.145:54321:xe"
-                           onAction="java.lang.System.out.println('blabla')"/>
+                           onAction="#loginClick"/>
 
                 <Label GridPane.rowIndex="1" GridPane.columnIndex="0"
                       text="Username" styleClass="label"/>
                 <TextField fx:id="usernameField"
                            GridPane.rowIndex="1" GridPane.columnIndex="1"
-                           text="insurance_admin"/>
+                           text="insurance_admin"
+                           onAction="#loginClick"/>
 
                 <Label GridPane.rowIndex="2" GridPane.columnIndex="0"
                       text="Password"/>
                 <PasswordField fx:id="passwordField"
-                               GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                               GridPane.rowIndex="2" GridPane.columnIndex="1"
+                               onAction="#loginClick"/>
 
                 <Button GridPane.rowIndex="3" GridPane.columnSpan="2" text="Log in" onAction="#loginClick"/>
             </children>

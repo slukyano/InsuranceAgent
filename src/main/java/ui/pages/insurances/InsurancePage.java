@@ -70,6 +70,7 @@ public class InsurancePage extends ViewPage<Insurance> {
                     case LEGAL:
                     case NATURAL:
                         agentReferenceView.setClickable(false);
+                        clientReferenceView.setClickable(false);
                         updateButton.setVisible(false);
                         deleteButton.setVisible(false);
                         break;
@@ -91,7 +92,6 @@ public class InsurancePage extends ViewPage<Insurance> {
                         clientReferenceView.setClickable(true);
                         break;
                 }
-
             } catch (SQLException e) {
                 e.printStackTrace();
             }

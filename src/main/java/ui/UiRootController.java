@@ -82,7 +82,9 @@ public class UiRootController implements Initializable {
             UserType currentUser = ModelController.getInstance().getUserType();
             if (currentUser == UserType.LEGAL || currentUser == UserType.NATURAL) {
                 try {
-                    home = new ClientPage((Client)ModelController.getInstance().getUserObject());
+                    Client client = (Client)ModelController.getInstance().getUserObject();
+                    home = new ClientPage(client);
+                    NavigateBarController.getInstance().setHomeButtonText(client.getName());
                 } catch (SQLException e) {
                     e.printStackTrace();
                     MessageBarController.getInstance().showMessage("Error while loading user object");

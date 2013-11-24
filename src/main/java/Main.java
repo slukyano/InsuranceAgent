@@ -18,7 +18,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent rootView = FXMLLoader.load(getClass().getResource("/ui/UiRoot.fxml"));
         Scene scene =  new Scene(rootView, 640, 480);
-        scene.getStylesheets().add("/ui/resources/styles/style.css");
+        scene.getStylesheets().add("/ui/resources/styles/breadcrumbs.css");
         scene.getStylesheets().add("/ui/resources/styles/DarkTheme.css");
         scene.getStylesheets().add("/ui/resources/styles/DatePicker.css");
 
