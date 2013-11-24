@@ -1,12 +1,12 @@
 package ui.controls;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 import java.net.URL;
 
-public abstract class AbstractView<T> extends Pane {
+public abstract class AbstractView<T> extends StackPane {
     protected T data;
 
     public AbstractView() {

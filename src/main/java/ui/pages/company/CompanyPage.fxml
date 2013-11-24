@@ -1,16 +1,21 @@
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import ui.controls.companies.CompanyView?>
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
-    <HBox>
+    <GridPane hgap="10" vgap="10" alignment="CENTER_LEFT">
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="30"/>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="70"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints vgrow="ALWAYS"/>
+        </rowConstraints>
         <VBox xmlns:fx="http://javafx.com/fxml">
             <Button fx:id="updateButton" text="edit"/>
             <Button fx:id="deleteButton" text="delete"/>
             <CompanyView fx:id="companyView"/>
             <Button fx:id="addInsuranceTypeButton" text="Add insurance type"/>
         </VBox>
-        <Pane fx:id = "insuranceTypeContainer"/>
-    </HBox>
+        <StackPane fx:id = "insuranceTypeContainer" GridPane.columnIndex="1"/>
+    </GridPane>
 </fx:root>

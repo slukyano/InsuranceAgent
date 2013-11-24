@@ -13,6 +13,6 @@
         <ClientReferenceView fx:id="clientReferenceView"/>
         <AgentReferenceView fx:id="agentReferenceView"/>
         <CompanyReferenceView fx:id="companyReferenceView"/>
-        <AttributesListView fx:id="attributesListView"/>
+        <AttributesListView fx:id="attributesListView" VBox.vgrow="ALWAYS"/>
     </VBox>
 </fx:root>

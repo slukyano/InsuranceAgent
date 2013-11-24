@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import model.ModelController;
 import model.clients.Client;
 import model.clients.LegalPerson;
@@ -28,7 +29,7 @@ import java.util.List;
 public class ClientPage extends ViewPage<Client> {
     @FXML private Pane viewContainer;
     @FXML private AgentReferenceView agentReferenceView;
-    @FXML private Pane insurancesContainer;
+    @FXML private StackPane insurancesContainer;
     private AbstractView clientView;
 
     public ClientPage(Client data) {
