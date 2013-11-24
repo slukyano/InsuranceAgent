@@ -9,6 +9,7 @@ import model.clients.Client;
 import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
 import model.insurances.Insurance;
+import model.insurances.InsuranceType;
 import ui.UiRootController;
 import ui.controls.AbstractView;
 import ui.controls.SelectionListener;
@@ -23,6 +24,7 @@ import ui.controls.companies.CompaniesListView;
 import ui.controls.companies.CompanyForm;
 import ui.controls.insurances.InsuranceForm;
 import ui.controls.insurances.InsurancesListView;
+import ui.controls.insurances.insurancetypes.InsuranceTypeForm;
 import ui.pages.EditPage;
 import ui.pages.agents.AgentPage;
 import ui.pages.clients.ClientPage;
@@ -145,5 +147,12 @@ public class HomeController {
 
         UiRootController.getInstance().navigateForward(editPage,
                 "New agent");
+    }
+
+    public void newInsuranceTypeClick(ActionEvent actionEvent) {
+        EditPage<InsuranceType> editPage = new EditPage<InsuranceType>(new InsuranceTypeForm());
+
+        UiRootController.getInstance().navigateForward(editPage,
+                "New insurance type");
     }
 }

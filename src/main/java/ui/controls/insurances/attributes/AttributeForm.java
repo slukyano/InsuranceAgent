@@ -18,6 +18,7 @@ public class AttributeForm extends AbstractView<InsuranceAttribute> {
 
     public AttributeForm(AttributeType attributeType) {
         this.attributeType = attributeType;
+        nameText.setText(attributeType.getName());
     }
 
     public AttributeForm(InsuranceAttribute data) {

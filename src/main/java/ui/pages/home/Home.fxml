@@ -15,6 +15,7 @@
             <Button text="New company" onAction="#newCompany"/>
             <Button text="New agent" onAction="#newAgentClick"/>
             <Button text="New insurance" onAction="#newInsuranceClick"/>
+            <Button text="New insurance type" onAction="#newInsuranceTypeClick"/>
             <Button text="Agents" onAction="#agentsClick"/>
             <Button text="Clients" onAction="#clientsClick"/>
             <Button text="Companies" onAction="#companiesClick"/>

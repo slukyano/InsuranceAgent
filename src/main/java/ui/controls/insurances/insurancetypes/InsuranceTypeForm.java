@@ -1,53 +1,49 @@
 package ui.controls.insurances.insurancetypes;
 
-import eu.schudt.javafx.controls.calendar.DatePicker;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import model.Agent;
+import model.ModelController;
+import model.insurances.InsuranceType;
 import ui.controls.AbstractForm;
 
 import java.net.URL;
 import java.sql.SQLException;
 
-public class InsuranceTypeForm extends AbstractForm<Agent> {
-    @FXML private TextField firstNameField;
-    @FXML private TextField secondNameField;
-    @FXML private TextField lastNameField;
-    @FXML private DatePicker hireDatePicker;
-    @FXML private DatePicker quitDatePicker;
+public class InsuranceTypeForm extends AbstractForm<InsuranceType> {
+    @FXML private TextField nameField;
+    @FXML private TextField descriptionField;
 
     @Override
-    public Agent createObject() {
-        return null;
+    public InsuranceType createObject() throws SQLException {
+        return ModelController.getInstance().createInsuranceType(
+                nameField.getText(),
+                descriptionField.getText());
     }
 
     @Override
-    public Agent updateObject() throws SQLException {
-        return null;
+    public InsuranceType updateObject() throws SQLException {
+        return ModelController.getInstance().updateInsuranceType(
+                nameField.getText(),
+                descriptionField.getText(),
+                data.getInsuranceTypeId());
     }
 
     @Override
     public void clearForm() {
-        firstNameField.setText("");
-        secondNameField.setText("");
-        lastNameField.setText("");
-        hireDatePicker.setSelectedDate(null);
-        quitDatePicker.setSelectedDate(null);
+        nameField.setText("");
+        descriptionField.setText("");
     }
 
     @Override
     protected URL getFxmlUrl() {
-        return getClass().getResource("AgentForm.fxml");
+        return getClass().getResource("InsuranceTypeForm.fxml");
     }
 
     @Override
     protected void update() {
         if (data != null) {
-            firstNameField.setText(data.getFirstName());
-            secondNameField.setText(data.getSecondName());
-            lastNameField.setText(data.getLastName());
-            hireDatePicker.setSelectedDate(data.getHiringDate());
-            quitDatePicker.setSelectedDate(data.getQuitDate());
+            nameField.setText(data.getName());
+            descriptionField.setText(data.getDescription());
         }
         else {
             clearForm();

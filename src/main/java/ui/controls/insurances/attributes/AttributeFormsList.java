@@ -70,7 +70,7 @@ public class AttributeFormsList extends Pane {
         }
     }
 
-    public void clear() {
+    public void clearForms() {
         List<AttributeForm> forms = (List)rootVBox.getChildren();
         for (AttributeForm form : forms)
             form.clearForm();

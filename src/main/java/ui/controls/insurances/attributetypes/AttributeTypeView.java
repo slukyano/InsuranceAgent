@@ -2,18 +2,18 @@ package ui.controls.insurances.attributetypes;
 
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
-import model.insurances.InsuranceType;
+import model.insurances.attributes.AttributeType;
 import ui.controls.AbstractView;
 
 import java.net.URL;
 
-public class AttributeTypeView extends AbstractView<InsuranceType> {
+public class AttributeTypeView extends AbstractView<AttributeType> {
     @FXML private Text nameField;
 
     public AttributeTypeView() {
     }
 
-    public AttributeTypeView(InsuranceType data) {
+    public AttributeTypeView(AttributeType data) {
         super(data);
     }
 
@@ -29,6 +29,6 @@ public class AttributeTypeView extends AbstractView<InsuranceType> {
 
     @Override
     protected URL getFxmlUrl() {
-        return getClass().getResource("InsuranceTypeView.fxml");
+        return getClass().getResource("AttributeTypeView.fxml");
     }
 }

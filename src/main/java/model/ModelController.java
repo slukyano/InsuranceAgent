@@ -902,13 +902,11 @@ public class ModelController {
         PreparedStatement stmt = conn.prepareStatement(
                 "UPDATE ATTRIBUTE_TYPES"
                         + " SET AttributeTypeName = ?,"
-                        +" AttributeTypeDescription = ?,"
-                        +" COMPANYBYINSURANCETYPEID = ?"
+                        +" AttributeTypeDescription = ?"
                         +" Where AttributeTypeId = ?");
         stmt.setString(1,attributeTypeName);
         stmt.setString(2,attributeTypeDescription);
-        stmt.setInt(3,cbitID);
-        stmt.setInt(4,attributeTypeId);
+        stmt.setInt(3,attributeTypeId);
         stmt.executeUpdate();
 
         stmt.close();
