@@ -90,7 +90,7 @@ public class HomeController {
                             selectedObject.getName());
                 }
             });
-            UiRootController.getInstance().navigateForward(listView, "Agent select");
+            UiRootController.getInstance().navigateForward(listView, "Companies");
         } catch (SQLException e) {
             e.printStackTrace();
         }

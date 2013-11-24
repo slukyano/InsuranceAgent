@@ -2,7 +2,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
-    <VBox xmlns:fx="http://javafx.com/fxml">
+    <VBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER">
         <Pane fx:id="formContainer"/>
         <Button fx:id="submitButton" text="Submit"/>
     </VBox>
