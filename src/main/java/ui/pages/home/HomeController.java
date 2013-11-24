@@ -11,15 +11,12 @@ import model.clients.NaturalPerson;
 import model.insurances.Insurance;
 import model.insurances.InsuranceType;
 import ui.UiRootController;
-import ui.controls.AbstractView;
 import ui.controls.SelectionListener;
 import ui.controls.SelectionProvider;
 import ui.controls.agents.AgentForm;
 import ui.controls.agents.AgentsListView;
 import ui.controls.clients.legal.LegalPersonForm;
-import ui.controls.clients.legal.LegalPersonView;
 import ui.controls.clients.natural.NaturalPersonForm;
-import ui.controls.clients.natural.NaturalPersonView;
 import ui.controls.companies.CompaniesListView;
 import ui.controls.companies.CompanyForm;
 import ui.controls.insurances.InsuranceForm;
@@ -38,18 +35,14 @@ import java.util.List;
 public class HomeController {
     public void clientsClick(ActionEvent actionEvent) {
         try {
-            List<NaturalPerson> naturals = ModelController.getInstance().getNaturalPersons();
-            List<LegalPerson>  legals = ModelController.getInstance().getLegalPersons();
+            List<NaturalPerson> naturals = ModelController.getInstance().getUserType().getNaturalPersons();
+            List<LegalPerson>  legals = ModelController.getInstance().getUserType().getLegalPersons();
             ClientsPage page = new ClientsPage(naturals, legals);
-            //page.setStyle("-fx-background-color: red;");
 
             page.addSelectionListener(new SelectionListener<Client>() {
                 @Override
                 public void objectSelected(SelectionProvider<Client> provider,
                                            Client selectedObject) {
-                    AbstractView view = selectedObject.getClientType() == "NATURAL"
-                            ? new NaturalPersonView()
-                            : new LegalPersonView();
                     UiRootController.getInstance().navigateForward(new ClientPage(selectedObject),
                             selectedObject.getName());
                 }
@@ -98,6 +91,45 @@ public class HomeController {
     }
 
     public void insurancesClick(ActionEvent actionEvent) {
+        try {
+            InsurancesListView listView = new InsurancesListView();
+            List<Insurance> list = ModelController.getInstance().getUserType().getInsurances();
+            listView.setItems(FXCollections.observableArrayList(list));
+            listView.addSelectionListener(new SelectionListener<Insurance>() {
+                @Override
+                public void objectSelected(SelectionProvider<Insurance> provider, Insurance selectedObject) {
+                    UiRootController.getInstance().navigateForward(new InsurancePage(selectedObject),
+                            selectedObject.getInsuranceTypeName());
+                }
+            });
+            UiRootController.getInstance().navigateForward(listView, "Insurances");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void allClientsClick(ActionEvent actionEvent) {
+        try {
+            List<NaturalPerson> naturals = ModelController.getInstance().getNaturalPersons();
+            List<LegalPerson>  legals = ModelController.getInstance().getLegalPersons();
+            ClientsPage page = new ClientsPage(naturals, legals);
+
+            page.addSelectionListener(new SelectionListener<Client>() {
+                @Override
+                public void objectSelected(SelectionProvider<Client> provider,
+                                           Client selectedObject) {
+                    UiRootController.getInstance().navigateForward(new ClientPage(selectedObject),
+                            selectedObject.getName());
+                }
+            });
+
+            UiRootController.getInstance().navigateForward(page, "Clients");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void allInsurancesClick(ActionEvent actionEvent) {
         try {
             InsurancesListView listView = new InsurancesListView();
             List<Insurance> list = ModelController.getInstance().getInsurances();

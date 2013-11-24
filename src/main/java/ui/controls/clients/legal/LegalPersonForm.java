@@ -39,6 +39,14 @@ public class LegalPersonForm extends AbstractForm<LegalPerson> {
     }
 
     @Override
+    public boolean canSubmit() {
+        return !nameField.getText().isEmpty()
+                && !addressField.getText().isEmpty()
+                && !vatinField.getText().isEmpty()
+                && agentPicker.getData() != null;
+    }
+
+    @Override
     protected URL getFxmlUrl() {
         return getClass().getResource("LegalPersonForm.fxml");
     }

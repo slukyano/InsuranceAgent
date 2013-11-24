@@ -48,6 +48,13 @@ public class AgentForm extends AbstractForm<Agent> {
     }
 
     @Override
+    public boolean canSubmit() {
+        return !firstNameField.getText().isEmpty()
+                && !lastNameField.getText().isEmpty()
+                && hireDatePicker.getSelectedDate() != null;
+    }
+
+    @Override
     protected URL getFxmlUrl() {
         return getClass().getResource("AgentForm.fxml");
     }

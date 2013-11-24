@@ -28,7 +28,7 @@ public class ModelController {
         Locale.setDefault(Locale.ENGLISH);
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
-        UserType userType = UserType.UNAUTHORIZED;
+        UserType userType = null;
         Integer dataId = null;
 
         PreparedStatement selectRole = conn.prepareStatement(
@@ -52,7 +52,8 @@ public class ModelController {
                 if (selectTypeRSet.next())
                     dataId = selectTypeRSet.getInt("dataId");
                 else
-                    userType = UserType.UNAUTHORIZED;
+                    userType = null;
+                //TODO no user type here
 
                 selectType.close();
             }

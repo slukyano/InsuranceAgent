@@ -63,6 +63,9 @@ public class EditPage<T> extends Pane implements SelectionProvider<T>, Initializ
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                if (!form.canSubmit())
+                    //TODO process error here
+                    return;
                 try {
                     T object = form.commitObject();
                     notifyListeners(object);

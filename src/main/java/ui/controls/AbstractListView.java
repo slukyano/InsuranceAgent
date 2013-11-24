@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
@@ -17,6 +18,7 @@ public abstract class AbstractListView<T> extends ListView<T> implements Selecti
 
     public AbstractListView()
     {
+        getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         setCellFactory(
                 new Callback<ListView<T>, ListCell<T>>() {
                     @Override
@@ -36,7 +38,9 @@ public abstract class AbstractListView<T> extends ListView<T> implements Selecti
             @Override
             public void handle(MouseEvent mouseEvent) {
                 T selectedItem = getSelectionModel().getSelectedItem();
-                notifyListeners(selectedItem);
+                if (selectedItem != null)
+                    notifyListeners(selectedItem);
+                getSelectionModel().clearSelection();
             }
         });
     }

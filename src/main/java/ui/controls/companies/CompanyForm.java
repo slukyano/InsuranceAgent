@@ -32,6 +32,11 @@ public class CompanyForm extends AbstractForm<Company> {
     }
 
     @Override
+    public boolean canSubmit() {
+        return !nameField.getText().isEmpty();
+    }
+
+    @Override
     protected URL getFxmlUrl() {
         return getClass().getResource("CompanyForm.fxml");
     }

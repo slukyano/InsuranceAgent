@@ -35,6 +35,11 @@ public class InsuranceTypeForm extends AbstractForm<InsuranceType> {
     }
 
     @Override
+    public boolean canSubmit() {
+        return !nameField.getText().isEmpty();
+    }
+
+    @Override
     protected URL getFxmlUrl() {
         return getClass().getResource("InsuranceTypeForm.fxml");
     }

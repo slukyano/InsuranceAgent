@@ -108,6 +108,14 @@ public class InsuranceForm extends AbstractForm<Insurance> {
     }
 
     @Override
+    public boolean canSubmit() {
+        return clientPicker.getData() != null
+                && typePicker.getData() != null
+                && companyPicker.getData() != null
+                && agentPicker.getData() != null;
+    }
+
+    @Override
     protected URL getFxmlUrl() {
         return getClass().getResource("InsuranceForm.fxml");
     }

@@ -43,6 +43,14 @@ public class NaturalPersonForm extends AbstractForm<NaturalPerson> {
     }
 
     @Override
+    public boolean canSubmit() {
+        return !firstNameField.getText().isEmpty()
+                && !lastNameField.getText().isEmpty()
+                && dateOfBirthPicker.getSelectedDate() != null
+                && agentPicker.getData() != null;
+    }
+
+    @Override
     protected URL getFxmlUrl() {
         return getClass().getResource("NaturalPersonForm.fxml");
     }

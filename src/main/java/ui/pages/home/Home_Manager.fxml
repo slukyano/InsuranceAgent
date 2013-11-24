@@ -1,0 +1,24 @@
+<?language javascript?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+<VBox fx:controller="ui.pages.home.HomeController"
+      xmlns:fx="http://javafx.com/fxml" alignment="center">
+    <padding><Insets top="10" right="10" bottom="20" left="10"/></padding>
+    <children>
+        <FlowPane hgap="10" vgap="10" alignment="CENTER">
+            <Button text="New natural" onAction="#newNatural"/>
+            <Button text="New legal" onAction="#newLegal"/>
+            <Button text="New company" onAction="#newCompany"/>
+            <Button text="New agent" onAction="#newAgentClick"/>
+            <Button text="New insurance" onAction="#newInsuranceClick"/>
+            <Button text="Agents" onAction="#agentsClick"/>
+            <Button text="My clients" onAction="#clientsClick"/>
+            <Button text="All clients" onAction="#allClientsClick"/>
+            <Button text="Companies" onAction="#companiesClick"/>
+            <Button text="My insurances" onAction="#insurancesClick"/>
+            <Button text="All insurances" onAction="#allInsurancesClick"/>
+        </FlowPane>
+    </children>
+</VBox>

@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
+import model.ModelController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -62,7 +63,32 @@ public class UiRootController implements Initializable {
 
     public void PresentHomeView(){
         try {
-            Parent home = FXMLLoader.load(getClass().getResource("/ui/pages/home/Home.fxml"));
+            String homePage = null;
+
+            switch (ModelController.getInstance().getUserType()) {
+                case NATURAL:
+                case LEGAL:
+                    homePage = "Home_Client.fxml";
+                    break;
+
+                case AGENT:
+                    homePage = "Home_Agent.fxml";
+                    break;
+
+                case MANAGER:
+                    homePage = "Home_Manager.fxml";
+                    break;
+
+                case ADMIN:
+                    homePage = "Home_Admin.fxml";
+                    break;
+
+                default:
+                    //throw exception?
+                    break;
+            }
+
+            Parent home = FXMLLoader.load(getClass().getResource("/ui/pages/home/" + homePage));
             Parent navigateBar =  FXMLLoader.load(getClass().getResource("/ui/NavigateBar.fxml"));
             pages.add(home);
             rootBorderPane.setTop(navigateBar);

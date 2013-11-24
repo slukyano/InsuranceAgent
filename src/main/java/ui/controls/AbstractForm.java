@@ -24,4 +24,6 @@ public abstract class AbstractForm<T> extends AbstractView<T> {
     }
 
     public abstract void clearForm();
+
+    public abstract boolean canSubmit();
 }
