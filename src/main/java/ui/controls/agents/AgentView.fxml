@@ -1,10 +1,9 @@
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.control.Button?>
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
     <VBox>
-        <Text fx:id="nameField"/>
-        <Text fx:id="hireDateField"/>
-        <Text fx:id="quitDateField"/>
+        <Label fx:id="nameField"/>
+        <Label fx:id="hireDateField"/>
+        <Label fx:id="quitDateField"/>
     </VBox>
 </fx:root>

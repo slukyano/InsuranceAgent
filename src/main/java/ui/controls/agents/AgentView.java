@@ -1,7 +1,7 @@
 package ui.controls.agents;
 
 import javafx.fxml.FXML;
-import javafx.scene.text.Text;
+import javafx.scene.control.Label;
 import model.Agent;
 import ui.controls.AbstractView;
 
@@ -9,9 +9,9 @@ import java.net.URL;
 import java.util.Date;
 
 public class AgentView extends AbstractView<Agent> {
-    @FXML private Text nameField;
-    @FXML private Text hireDateField;
-    @FXML private Text quitDateField;
+    @FXML private Label nameField;
+    @FXML private Label hireDateField;
+    @FXML private Label quitDateField;
 
     public AgentView() {
     }

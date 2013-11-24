@@ -12,8 +12,11 @@ import model.clients.Client;
 import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
 import model.insurances.Insurance;
+import ui.UiRootController;
 import ui.controls.AbstractForm;
 import ui.controls.AbstractView;
+import ui.controls.SelectionListener;
+import ui.controls.SelectionProvider;
 import ui.controls.agents.AgentReferenceView;
 import ui.controls.clients.legal.LegalPersonForm;
 import ui.controls.clients.legal.LegalPersonView;
@@ -22,6 +25,7 @@ import ui.controls.clients.natural.NaturalPersonView;
 import ui.controls.insurances.InsurancesListView;
 import ui.pages.EditPage;
 import ui.pages.ViewPage;
+import ui.pages.insurances.InsurancePage;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -47,6 +51,13 @@ public class ClientPage extends ViewPage<Client> {
                     ? ModelController.getInstance().getInsurances((NaturalPerson)data)
                     : ModelController.getInstance().getInsurances((LegalPerson)data);
             listView.setItems(FXCollections.observableArrayList(list));
+            listView.addSelectionListener(new SelectionListener<Insurance>() {
+                @Override
+                public void objectSelected(SelectionProvider<Insurance> provider, Insurance selectedObject) {
+                    InsurancePage page = new InsurancePage(selectedObject);
+                    UiRootController.getInstance().navigateForward(page, selectedObject.getInsuranceTypeName());
+                }
+            });
             insurancesContainer.getChildren().add(listView);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -93,10 +104,16 @@ public class ClientPage extends ViewPage<Client> {
             agentReferenceView.setData(data.getAgent());
 
             UserType currentUser = ModelController.getInstance().getUserType();
-            if (currentUser == UserType.LEGAL || currentUser == UserType.NATURAL)
+            if (currentUser == UserType.LEGAL || currentUser == UserType.NATURAL) {
                 agentReferenceView.setClickable(false);
-            else
+                updateButton.setVisible(false);
+                deleteButton.setVisible(false);
+            }
+            else {
                 agentReferenceView.setClickable(true);
+                updateButton.setVisible(true);
+                deleteButton.setVisible(true);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

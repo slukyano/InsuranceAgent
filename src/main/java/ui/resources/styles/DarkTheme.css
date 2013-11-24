@@ -3,6 +3,10 @@
 -fx-background: rgb(50, 50, 50);
 -fx-control-inner-background:  rgb(50, 50, 50);
 }
+
+.node {
+-fx-text-fill: ladder(background, white 49%, black 50%);
+}
  
 .tab:default {
 -fx-background-color: linear-gradient(to top, -fx-base, derive(-fx-base,30%));
@@ -45,6 +49,6 @@ linear-gradient(to bottom, derive(-fx-base,+50%), derive(-fx-base,-40%), derive(
 -fx-text-fill: orange;
 }
 
-.label {
+.referenceview {
 -fx-text-fill: orange;
 }

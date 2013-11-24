@@ -1,4 +1,9 @@
 <?import javafx.scene.control.Label?>
+<?import java.lang.String?>
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
-    <Label fx:id="valueText"/>
+    <Label fx:id="valueText">
+        <styleClass>
+            <String fx:value="referenceview"/>
+        </styleClass>
+    </Label>
 </fx:root>

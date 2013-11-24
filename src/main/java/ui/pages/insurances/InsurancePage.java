@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 import model.ModelController;
+import model.UserType;
 import model.insurances.Insurance;
 import ui.controls.agents.AgentReferenceView;
 import ui.controls.clients.ClientReferenceView;
@@ -63,6 +64,34 @@ public class InsurancePage extends ViewPage<Insurance> {
                 companyReferenceView.setData(data.getCompany());
                 clientReferenceView.setData(data.getClient());
                 attributesListView.setItems(FXCollections.observableArrayList(data.getAttributes()));
+
+                UserType currentUser = ModelController.getInstance().getUserType();
+                switch (currentUser) {
+                    case LEGAL:
+                    case NATURAL:
+                        agentReferenceView.setClickable(false);
+                        updateButton.setVisible(false);
+                        deleteButton.setVisible(false);
+                        break;
+
+                    case AGENT:
+                        if (agentReferenceView.getData().equals(ModelController.getInstance().getUserObject())) {
+                            agentReferenceView.setClickable(true);
+                            clientReferenceView.setClickable(true);
+                        }
+                        else {
+                            agentReferenceView.setClickable(false);
+                            clientReferenceView.setClickable(false);
+                        }
+                        break;
+
+                    case MANAGER:
+                    case ADMIN:
+                        agentReferenceView.setClickable(true);
+                        clientReferenceView.setClickable(true);
+                        break;
+                }
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
