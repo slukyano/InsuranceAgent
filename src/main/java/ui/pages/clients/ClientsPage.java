@@ -121,7 +121,6 @@ public class ClientsPage extends StackPane implements SelectionProvider<Client> 
 
         naturalRadioButton.setSelected(true);
         showNatural();
-        vbox.setStyle("-fx-background-color: red;");
     }
 
     public void showNatural() {
