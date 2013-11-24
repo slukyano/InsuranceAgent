@@ -1,5 +1,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
 <?import ui.controls.agents.AgentView?>
 <fx:root type="javafx.scene.layout.StackPane" xmlns:fx="http://javafx.com/fxml">
     <GridPane hgap="10" vgap="10" alignment="CENTER_LEFT">
@@ -18,7 +19,15 @@
             </FlowPane>
             <AgentView fx:id="agentView"/>
         </VBox>
-        <StackPane fx:id="insurancesContainer" GridPane.columnIndex="1"/>
-        <StackPane fx:id="clientsContainer" GridPane.columnIndex="2"/>
+        <VBox GridPane.columnIndex="1">
+            <Text text="Insurances:"/>
+            <StackPane fx:id="insurancesContainer" VBox.vgrow="ALWAYS" />
+        </VBox>
+        <VBox GridPane.columnIndex="2">
+            <Text text="Clients:"/>
+            <StackPane fx:id="clientsContainer" VBox.vgrow="ALWAYS"/>
+        </VBox>
+
+
     </GridPane>
 </fx:root>
