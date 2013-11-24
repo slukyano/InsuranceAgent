@@ -10,6 +10,9 @@ import model.ModelController;
 import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
 import model.insurances.Insurance;
+import ui.AnswerListener;
+import ui.MessageBarController;
+import ui.UiRootController;
 import ui.controls.agents.AgentForm;
 import ui.controls.agents.AgentView;
 import ui.controls.insurances.InsurancesListView;
@@ -48,11 +51,22 @@ public class AgentPage extends ViewPage<Agent> {
         deleteButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                try {
-                    ModelController.getInstance().deleteLegalPerson(getData().getAgentId());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+            MessageBarController.getInstance().showQuestion("Are you sure?",
+                    new AnswerListener() {
+                        @Override
+                        public void yes() {
+                            try {
+                                ModelController.getInstance().deleteAgent(getData().getAgentId());
+                                UiRootController.getInstance().navigateBack();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void no() {
+                        }
+                    });
             }
         });
 

@@ -1,0 +1,17 @@
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.MessageBarController"
+        fx:id="rootContainer">
+    <center>
+        <Text BorderPane.alignment="CENTER" fx:id="messageText"/>
+    </center>
+    <right>
+        <HBox BorderPane.alignment="CENTER_RIGHT" fx:id="buttonContainer">
+            <Button fx:id="okButton" text="OK"/>
+            <Button fx:id="yesButton" text="Yes"/>
+            <Button fx:id="noButton" text="No"/>
+        </HBox>
+    </right>
+</BorderPane>

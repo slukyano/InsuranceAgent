@@ -52,8 +52,7 @@ public class ModelController {
                 if (selectTypeRSet.next())
                     dataId = selectTypeRSet.getInt("dataId");
                 else
-                    userType = null;
-                //TODO no user type here
+                    throw new RuntimeException("No user type");
 
                 selectType.close();
             }
@@ -393,7 +392,7 @@ public class ModelController {
         stmt.setString(2,secondName);
         stmt.setString(3,lastName);
         stmt.setDate(4, new java.sql.Date(hiringDate.getTime()));
-        stmt.setDate(5, new java.sql.Date(quitDate.getTime()));
+        stmt.setDate(5, quitDate != null ? new java.sql.Date(quitDate.getTime()) : null);
         stmt.setInt(6,agentId);
         stmt.executeUpdate();
 

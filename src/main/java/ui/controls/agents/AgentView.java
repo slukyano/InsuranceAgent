@@ -6,6 +6,7 @@ import model.Agent;
 import ui.controls.AbstractView;
 
 import java.net.URL;
+import java.util.Date;
 
 public class AgentView extends AbstractView<Agent> {
     @FXML private Text nameField;
@@ -24,7 +25,8 @@ public class AgentView extends AbstractView<Agent> {
         if (data != null) {
             nameField.setText(data.getFullName());
             hireDateField.setText(data.getHiringDate().toString());
-            quitDateField.setText(data.getQuitDate().toString());
+            Date quitDate = data.getQuitDate();
+            quitDateField.setText(quitDate != null ? data.getQuitDate().toString() : "");
         }
         else {
             nameField.setText("");

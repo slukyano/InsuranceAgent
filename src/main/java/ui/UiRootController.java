@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import model.ModelController;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.util.ResourceBundle;
 public class UiRootController implements Initializable {
 
     @FXML public BorderPane rootBorderPane;
+    @FXML public VBox topBox;
     private ArrayList<Parent> pages = new ArrayList<Parent>();
     private static UiRootController instance;
 
@@ -42,14 +44,14 @@ public class UiRootController implements Initializable {
 
     public void navigateForward(Parent rootView, String pageTitle){
         pages.add(rootView);
-        rootBorderPane.getTop().setVisible(true);
+        topBox.getChildren().get(0).setVisible(true);
         this.setViewingParent(rootView);
         NavigateBarController.getInstance().AddButton(pages.size()-1, pageTitle);
     }
 
     public void navigateBack(int index){
         if (index==0)
-            rootBorderPane.getTop().setVisible(false);
+            topBox.getChildren().get(0).setVisible(false);
         for (int i= pages.size()-1; i>=index+1 ;i--) {
             pages.remove(i);
         }
@@ -82,17 +84,18 @@ public class UiRootController implements Initializable {
                 case ADMIN:
                     homePage = "Home_Admin.fxml";
                     break;
-
-                default:
-                    //throw exception?
-                    break;
             }
 
-            Parent home = FXMLLoader.load(getClass().getResource("/ui/pages/home/" + homePage));
             Parent navigateBar =  FXMLLoader.load(getClass().getResource("/ui/NavigateBar.fxml"));
+            topBox.getChildren().add(navigateBar);
+
+            Parent messageBar =  FXMLLoader.load(getClass().getResource("/ui/MessageBar.fxml"));
+            topBox.getChildren().add(messageBar);
+
+            navigateBar.setVisible(false);
+
+            Parent home = FXMLLoader.load(getClass().getResource("/ui/pages/home/" + homePage));
             pages.add(home);
-            rootBorderPane.setTop(navigateBar);
-            rootBorderPane.getTop().setVisible(false);
             rootBorderPane.setCenter(home);
         } catch (IOException e) {
             e.printStackTrace();

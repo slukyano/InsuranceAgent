@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -15,6 +17,9 @@ public class NavigateBarController implements Initializable {
 
     @FXML public FlowPane breadCrumbsPane;
     static NavigateBarController instance;
+    public HBox statusBox;
+    public Text messageText;
+    public Button messageButton;
     ArrayList<Button> breadCrumbsButtons = new ArrayList<Button>();
 
     //TODO should return a controller, but it returns null
