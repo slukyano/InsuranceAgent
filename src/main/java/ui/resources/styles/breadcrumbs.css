@@ -12,8 +12,7 @@
 }
 
 .breadcrumbs .item:hover {
-  -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
-         -fx-color: -fx-hover-base;
+  -fx-background-color: derive(grey, -40%);
 }
 
 .breadcrumbs .alone {
