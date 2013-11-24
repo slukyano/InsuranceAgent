@@ -11,8 +11,6 @@
       xmlns:fx="http://javafx.com/fxml" alignment="TOP_LEFT" spacing="10">
     <padding><Insets top="5" right="5" bottom="10" left="5"/></padding>
     <children>
-        <!--<Text fx:id="infoText"/>-->
-        <!--<FlowPane hgap="10" vgap="10" alignment="CENTER_LEFT">-->
             <Button onAction="#backClick">
                 <graphic>
                     <ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true">
@@ -23,6 +21,5 @@
                 </graphic>
             </Button>
         <FlowPane hgap="10" vgap="10" alignment="CENTER_LEFT" fx:id="breadCrumbsPane" HBox.hgrow="ALWAYS"/>
-        <!--</FlowPane>-->
     </children>
 </HBox>
