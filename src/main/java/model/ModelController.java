@@ -1190,19 +1190,4 @@ public class ModelController {
                     rSet.getInt("InsuranceId"));
         }
     }
-      //TODO delete when debug done and crear package list
-    public static void main(String[] args) {
-        try {
-            // will throw exception if fail to log in
-            ModelController.initializeInstance("jdbc:oracle:thin:@5.19.237.145:65432:xe",
-                    "system",
-                    "1234");
-            ModelController instance = ModelController.getInstance();
-
-            //TODO make nullable ints (like in base)
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }

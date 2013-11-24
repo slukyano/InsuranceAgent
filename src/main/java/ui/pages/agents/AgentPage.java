@@ -34,7 +34,7 @@ public class AgentPage extends ViewPage<Agent> {
         try {
             InsurancesListView listView = new InsurancesListView();
             List<Insurance> list;
-            list=  ModelController.getInstance().getInsurances((Agent)data);
+            list=  ModelController.getInstance().getInsurances(data);
             listView.setItems(FXCollections.observableArrayList(list));
             insurancesContainer.getChildren().add(listView);
         } catch (SQLException e) {
