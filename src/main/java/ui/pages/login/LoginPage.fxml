@@ -15,7 +15,7 @@
         <GridPane hgap="10" vgap="10" alignment="CENTER">
             <children>
                 <Text GridPane.rowIndex="0" GridPane.columnIndex="0"
-                      text="Connection string" styleClass="label"/>
+                      text="Connection string"/>
                 <TextField fx:id="connectionField"
                            GridPane.rowIndex="0" GridPane.columnIndex="1"
                            text="jdbc:oracle:thin:@5.19.237.145:54321:xe"
