@@ -2,6 +2,7 @@ package ui.controls;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
+import ui.MessageBarController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,6 +19,7 @@ public abstract class AbstractView<T> extends StackPane {
             fxmlLoader.load();
         } catch (IOException exception) {
             exception.printStackTrace();
+            MessageBarController.getInstance().showMessage("Error while loading user control");
         }
     }
 

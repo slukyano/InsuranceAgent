@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import model.Agent;
 import model.ModelController;
@@ -28,6 +29,7 @@ public class AgentPage extends ViewPage<Agent> {
     @FXML private AgentView agentView;
     @FXML private Pane insurancesContainer;
     @FXML private Pane clientsContainer;
+    @FXML private Button managerButton;
 
     public AgentPage(Agent data) {
         super(data);
@@ -37,6 +39,39 @@ public class AgentPage extends ViewPage<Agent> {
             list=  ModelController.getInstance().getInsurances(data);
             listView.setItems(FXCollections.observableArrayList(list));
             insurancesContainer.getChildren().add(listView);
+
+            //TODO change value
+            boolean isManager = true;
+            if (isManager) {
+                managerButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        try {
+                            ModelController.getInstance().managerToAgent(agentView.getData().getAgentId());
+                            UiRootController.getInstance().navigateBack(0);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                            MessageBarController.getInstance().showMessage("Error while accessing database");
+                        }
+                    }
+                });
+                managerButton.setText("Make agent");
+            }
+            else {
+                managerButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        try {
+                            ModelController.getInstance().agentToManager(agentView.getData().getAgentId());
+                            UiRootController.getInstance().navigateBack(0);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                            MessageBarController.getInstance().showMessage("Error while accessing database");
+                        }
+                    }
+                });
+                managerButton.setText("Make manager");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -51,22 +86,22 @@ public class AgentPage extends ViewPage<Agent> {
         deleteButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-            MessageBarController.getInstance().showQuestion("Are you sure?",
-                    new AnswerListener() {
-                        @Override
-                        public void yes() {
-                            try {
-                                ModelController.getInstance().deleteAgent(getData().getAgentId());
-                                UiRootController.getInstance().navigateBack();
-                            } catch (SQLException e) {
-                                e.printStackTrace();
+                MessageBarController.getInstance().showQuestion("Are you sure?",
+                        new AnswerListener() {
+                            @Override
+                            public void yes() {
+                                try {
+                                    ModelController.getInstance().deleteAgent(getData().getAgentId());
+                                    UiRootController.getInstance().navigateBack();
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        }
 
-                        @Override
-                        public void no() {
-                        }
-                    });
+                            @Override
+                            public void no() {
+                            }
+                        });
             }
         });
 

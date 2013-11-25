@@ -22,7 +22,7 @@ public abstract class ViewPage<T> extends AbstractView<T> {
                     @Override
                     public void objectSelected(SelectionProvider<T> provider, T selectedObject) {
                         setData(selectedObject);
-                        UiRootController.getInstance().navigateBack();
+                        UiRootController.getInstance().navigateBack(0);
                     }
                 });
 

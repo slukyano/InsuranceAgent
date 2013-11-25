@@ -5,13 +5,11 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.MessageBarController"
         fx:id="rootContainer">
     <center>
-        <Label BorderPane.alignment="CENTER" fx:id="messageText"/>
-    </center>
-    <right>
-        <HBox BorderPane.alignment="CENTER_RIGHT" fx:id="buttonContainer">
+        <HBox fx:id="buttonContainer" alignment="CENTER">
+            <Label fx:id="messageText"/>
             <Button fx:id="okButton" text="OK"/>
             <Button fx:id="yesButton" text="Yes"/>
             <Button fx:id="noButton" text="No"/>
         </HBox>
-    </right>
+    </center>
 </BorderPane>

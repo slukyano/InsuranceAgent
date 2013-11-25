@@ -17,13 +17,17 @@ public class CompanyForm extends AbstractForm<Company> {
     public Company createObject() throws SQLException {
         return ModelController.getInstance().createCompany(
                 nameField.getText(),
-                0,
+                null,
                 descriptionField.getText());
     }
 
     @Override
     public Company updateObject() throws SQLException {
-        return null;
+        return ModelController.getInstance().updateCompany(
+                nameField.getText(),
+                null,
+                descriptionField.getText(),
+                data.getCompanyId());
     }
 
     @Override

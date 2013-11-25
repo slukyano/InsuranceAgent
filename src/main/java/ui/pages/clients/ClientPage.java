@@ -12,6 +12,8 @@ import model.clients.Client;
 import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
 import model.insurances.Insurance;
+import ui.AnswerListener;
+import ui.MessageBarController;
 import ui.UiRootController;
 import ui.controls.AbstractForm;
 import ui.controls.AbstractView;
@@ -65,14 +67,25 @@ public class ClientPage extends ViewPage<Client> {
         deleteButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                try {
-                if(getData().getClientType().equals("NATURAL"))
-                    ModelController.getInstance().deleteNaturalPerson(getData().getClientId());
-                else
-                    ModelController.getInstance().deleteLegalPerson(getData().getClientId());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                MessageBarController.getInstance().showQuestion("Are you sure?",
+                        new AnswerListener() {
+                            @Override
+                            public void yes() {
+                                try {
+                                    if(getData().getClientType().equals("NATURAL"))
+                                        ModelController.getInstance().deleteNaturalPerson(getData().getClientId());
+                                    else
+                                        ModelController.getInstance().deleteLegalPerson(getData().getClientId());
+                                    UiRootController.getInstance().navigateBack();
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void no() {
+                            }
+                        });
             }
         });
 

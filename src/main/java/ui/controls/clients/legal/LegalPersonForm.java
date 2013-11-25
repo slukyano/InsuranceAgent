@@ -2,8 +2,11 @@ package ui.controls.clients.legal;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import model.Agent;
 import model.ModelController;
+import model.UserType;
 import model.clients.LegalPerson;
+import ui.MessageBarController;
 import ui.controls.AbstractForm;
 import ui.controls.agents.AgentPicker;
 
@@ -16,6 +19,14 @@ public class LegalPersonForm extends AbstractForm<LegalPerson> {
     @FXML private TextField vatinField;
     @FXML private AgentPicker agentPicker;
 
+    public LegalPersonForm() {
+        update();
+    }
+
+    public LegalPersonForm(LegalPerson data) {
+        super(data);
+    }
+
     @Override
     public LegalPerson createObject() throws SQLException {
         return ModelController.getInstance().createLegalPerson(
@@ -27,7 +38,12 @@ public class LegalPersonForm extends AbstractForm<LegalPerson> {
 
     @Override
     public LegalPerson updateObject() throws SQLException {
-        return null;
+        return ModelController.getInstance().updateLegalPerson(
+                data.getClientId(),
+                agentPicker.getData().getAgentId(),
+                nameField.getText(),
+                vatinField.getText(),
+                addressField.getText());
     }
 
     @Override
@@ -61,9 +77,29 @@ public class LegalPersonForm extends AbstractForm<LegalPerson> {
                 agentPicker.setData(data.getAgent());
             } catch (SQLException e) {
                 e.printStackTrace();
+                MessageBarController.getInstance().showMessage("Error while accessing database");
             }
         }
-        else
+        else {
             clearForm();
+
+            try {
+                UserType currentUser = ModelController.getInstance().getUserType();
+                switch (currentUser) {
+                    case AGENT:
+                        agentPicker.setData((Agent)ModelController.getInstance().getUserObject());
+                        agentPicker.setClickable(false);
+                        break;
+
+                    case MANAGER:
+                        agentPicker.setData((Agent)ModelController.getInstance().getUserObject());
+                        break;
+                }
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+                MessageBarController.getInstance().showMessage("Error while accessing database");
+            }
+        }
     }
 }

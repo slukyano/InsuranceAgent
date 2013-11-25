@@ -38,6 +38,7 @@ public class UiRootController implements Initializable {
             rootBorderPane.getStyleClass().add("my-gridpane");
         } catch (IOException e) {
             e.printStackTrace();
+            MessageBarController.getInstance().showMessage("Error while loading user control");
         }
     }
     public void setViewingParent(Parent parent){
@@ -113,6 +114,7 @@ public class UiRootController implements Initializable {
             rootBorderPane.setCenter(home);
         } catch (IOException e) {
             e.printStackTrace();
+            MessageBarController.getInstance().showMessage("Error while loading user control");
         }
     }
 }

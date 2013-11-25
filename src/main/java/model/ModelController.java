@@ -88,8 +88,6 @@ public class ModelController {
     }
     //endregion
 
-
-
     public Object getUserObject() throws SQLException {
         switch (userType) {
             case AGENT:
@@ -103,8 +101,6 @@ public class ModelController {
                 return null;
         }
     }
-
-
 
     //region Factory Methods
     //region Generic Factories
@@ -210,14 +206,18 @@ public class ModelController {
         selectSequence.close();
 
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO NATURAL_PERSONS (NaturalPersonID,FirstName, SecondName, LastName, DateOfBirth, AgentID)"
-                        + " VALUES (?, ?,?,?,?,?)");
+                "begin\n"
+                + "INSERT INTO NATURAL_PERSONS (NaturalPersonID,FirstName, SecondName, LastName, DateOfBirth, AgentID)"
+                        + " VALUES (?, ?,?,?,?,?);\n"
+                + "create_natural(?);\n"
+                + "end;\n");
         stmt.setInt(1,naturalPersonId);
         stmt.setString(2,firstName);
         stmt.setString(3,secondName);
         stmt.setString(4,lastName);
         stmt.setDate(5,new java.sql.Date(dateOfBirth.getTime()));
         stmt.setInt(6,agentId);
+        stmt.setInt(7, naturalPersonId);
         stmt.executeUpdate();
 
         stmt.close();
@@ -296,13 +296,17 @@ public class ModelController {
         selectSequence.close();
 
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO Legal_PERSONS (LegalName, Address, vatin, AgentID,legalPersonId)"
-                    + " VALUES (?,?,?,?,?)");
+                "begin\n"
+                    + "INSERT INTO Legal_PERSONS (LegalName, Address, vatin, AgentID,legalPersonId)"
+                    + " VALUES (?,?,?,?,?);\n"
+                    + "create_legal(?);\n"
+                    + "end;\n");
         stmt.setString(1,legalName);
         stmt.setString(2,address);
         stmt.setString(3,vatin);
         stmt.setInt(4, agentId);
         stmt.setInt(5,legalPersonId);
+        stmt.setInt(6,legalPersonId);
         stmt.executeUpdate();
 
         stmt.close();
@@ -386,14 +390,18 @@ public class ModelController {
         selectSequence.close();
 
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO AGENTS (FirstName,SecondName,LastName,HiringDate,QuitDate,AgentID)"
-                + "VALUES (?,?,?,?,?,?)");
+                "begin\n"
+                        + "INSERT INTO AGENTS (FirstName,SecondName,LastName,HiringDate,QuitDate,AgentID)"
+                        + " VALUES (?,?,?,?,?,?);\n"
+                        + "create_agent(?);\n"
+                        + "end;\n");
         stmt.setString(1,firstName);
         stmt.setString(2,secondName);
         stmt.setString(3,lastName);
         stmt.setDate(4, new java.sql.Date(hiringDate.getTime()));
         stmt.setDate(5, quitDate != null ? new java.sql.Date(quitDate.getTime()) : null);
         stmt.setInt(6,agentId);
+        stmt.setInt(7, agentId);
         stmt.executeUpdate();
 
         stmt.close();
@@ -409,6 +417,30 @@ public class ModelController {
                 "DELETE FROM AGENTS"
                         + " WHERE AgentId = ? ");
         stmt.setInt(1, AgentId);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
+    }
+
+    public void agentToManager(int AgentId) throws SQLException {
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "begin\n make_manager(?);\n end;\n");
+        stmt.setInt(1, AgentId);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
+    }
+
+    public void managerToAgent(int managerId) throws SQLException {
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+
+        PreparedStatement stmt = conn.prepareStatement(
+                "begin\n make_agent(?);\n end;\n");
+        stmt.setInt(1, managerId);
         stmt.executeUpdate();
 
         stmt.close();

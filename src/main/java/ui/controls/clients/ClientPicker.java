@@ -20,8 +20,8 @@ public class ClientPicker extends AbstractPicker<Client> {
     @Override
     public void pickObject() {
         try {
-            List<NaturalPerson> naturals = ModelController.getInstance().getNaturalPersons();
-            List<LegalPerson> legals = ModelController.getInstance().getLegalPersons();
+            List<NaturalPerson> naturals = ModelController.getInstance().getUserType().getNaturalPersons();
+            List<LegalPerson> legals = ModelController.getInstance().getUserType().getLegalPersons();
             ClientsPage page = new ClientsPage(naturals, legals);
             page.addSelectionListener(this);
 

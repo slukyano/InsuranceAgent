@@ -2,11 +2,14 @@ package ui.controls.insurances;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
+import model.Agent;
 import model.Company;
 import model.ModelController;
+import model.UserType;
 import model.insurances.CompanyByInsuranceType;
 import model.insurances.Insurance;
 import model.insurances.InsuranceType;
+import ui.MessageBarController;
 import ui.controls.AbstractForm;
 import ui.controls.SelectionListener;
 import ui.controls.SelectionProvider;
@@ -42,6 +45,8 @@ public class InsuranceForm extends AbstractForm<Insurance> {
                 onCompanyOrTypePicked();
             }
         });
+
+        update();
     }
 
     public InsuranceForm(Insurance data) {
@@ -134,9 +139,29 @@ public class InsuranceForm extends AbstractForm<Insurance> {
                 companyPicker.setDisable(true);
             } catch (SQLException e) {
                 e.printStackTrace();
+                MessageBarController.getInstance().showMessage("Error while accessing database");
             }
         }
-        else
+        else {
             clearForm();
+
+            try {
+                UserType currentUser = ModelController.getInstance().getUserType();
+                switch (currentUser) {
+                    case AGENT:
+                        agentPicker.setData((Agent)ModelController.getInstance().getUserObject());
+                        agentPicker.setClickable(false);
+                        break;
+
+                    case MANAGER:
+                        agentPicker.setData((Agent)ModelController.getInstance().getUserObject());
+                        break;
+                }
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+                MessageBarController.getInstance().showMessage("Error while accessing database");
+            }
+        }
     }
 }

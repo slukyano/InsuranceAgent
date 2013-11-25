@@ -8,6 +8,9 @@ import javafx.scene.control.Label;
 import model.ModelController;
 import model.UserType;
 import model.insurances.Insurance;
+import ui.AnswerListener;
+import ui.MessageBarController;
+import ui.UiRootController;
 import ui.controls.agents.AgentReferenceView;
 import ui.controls.clients.ClientReferenceView;
 import ui.controls.companies.CompanyReferenceView;
@@ -31,11 +34,22 @@ public class InsurancePage extends ViewPage<Insurance> {
         deleteButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                try {
-                    ModelController.getInstance().deleteLegalPerson(getData().getClientId());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                MessageBarController.getInstance().showQuestion("Are you sure?",
+                        new AnswerListener() {
+                            @Override
+                            public void yes() {
+                                try {
+                                    ModelController.getInstance().deleteInsurance(getData().getInsuranceId());
+                                    UiRootController.getInstance().navigateBack();
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void no() {
+                            }
+                        });
             }
         });
     }

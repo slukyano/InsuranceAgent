@@ -11,6 +11,8 @@ import model.ModelController;
 import model.UserType;
 import model.insurances.CompanyByInsuranceType;
 import model.insurances.InsuranceType;
+import ui.AnswerListener;
+import ui.MessageBarController;
 import ui.UiRootController;
 import ui.controls.SelectionListener;
 import ui.controls.SelectionProvider;
@@ -43,11 +45,22 @@ public class CompanyPage extends ViewPage<Company> {
         deleteButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                try {
-                    ModelController.getInstance().deleteLegalPerson(getData().getCompanyId());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                MessageBarController.getInstance().showQuestion("Are you sure?",
+                        new AnswerListener() {
+                            @Override
+                            public void yes() {
+                                try {
+                                    ModelController.getInstance().deleteCompany(getData().getCompanyId());
+                                    UiRootController.getInstance().navigateBack();
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void no() {
+                            }
+                        });
             }
         });
 
