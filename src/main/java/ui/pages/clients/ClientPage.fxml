@@ -16,6 +16,7 @@
                 <Button fx:id="deleteButton" text="delete"/>
             </FlowPane>
             <Label fx:id="usernameLabel"/>
+            <Button fx:id="logOutButton" text="Log out"/>
             <Button fx:id="changePasswordButton" text="Change password"/>
             <Pane fx:id="viewContainer"/>
             <AgentReferenceView fx:id="agentReferenceView"/>

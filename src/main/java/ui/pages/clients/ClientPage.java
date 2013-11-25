@@ -46,6 +46,7 @@ public class ClientPage extends ViewPage<Client> {
     private AbstractView clientView;
     @FXML private Label usernameLabel;
     @FXML private Button changePasswordButton;
+    @FXML private Button logOutButton;
 
     public ClientPage(Client data) {
         super();
@@ -60,6 +61,13 @@ public class ClientPage extends ViewPage<Client> {
                     e.printStackTrace();
                     MessageBarController.getInstance().showMessage("Error while loading page");
                 }
+            }
+        });
+
+        logOutButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                UiRootController.getInstance().presentLoginPage();
             }
         });
 
@@ -146,10 +154,12 @@ public class ClientPage extends ViewPage<Client> {
                         usernameLabel.setText(ModelController.getInstance().getUsername());
                         usernameLabel.setVisible(true);
                         changePasswordButton.setVisible(true);
+                        logOutButton.setVisible(true);
                     }
                     else {
                         usernameLabel.setVisible(false);
                         changePasswordButton.setVisible(false);
+                        logOutButton.setVisible(false);
                     }
                     agentReferenceView.setClickable(false);
                     updateButton.setVisible(false);
@@ -158,6 +168,7 @@ public class ClientPage extends ViewPage<Client> {
 
                 case AGENT:
                     changePasswordButton.setVisible(false);
+                    logOutButton.setVisible(false);
                     agentReferenceView.setClickable(false);
                     Agent agent = (Agent)ModelController.getInstance().getUserObject();
                     if (agent.getAgentId() != data.getAgentId()) {
@@ -169,6 +180,7 @@ public class ClientPage extends ViewPage<Client> {
                 case MANAGER:
                 case ADMIN:
                     changePasswordButton.setVisible(false);
+                    logOutButton.setVisible(false);
                     try {
                         String username = data.getClientType() == "NATURAL"
                                 ? ModelController.getInstance().getNaturalPersonUsername(data.getClientId())

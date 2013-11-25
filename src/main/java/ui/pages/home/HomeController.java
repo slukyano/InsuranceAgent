@@ -258,4 +258,8 @@ public class HomeController {
             MessageBarController.getInstance().showMessage("Error while loading page");
         }
     }
+
+    public void logOutClick(ActionEvent actionEvent) {
+        UiRootController.getInstance().presentLoginPage();
+    }
 }

@@ -27,19 +27,21 @@ public class UiRootController implements Initializable {
     public static UiRootController getInstance() {
         return instance;
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void presentLoginPage(){
         try {
-            instance=this;
             Parent parent = FXMLLoader.load(getClass().getResource("/ui/pages/login/LoginPage.fxml"));
-
             rootBorderPane.setCenter(parent);
-            rootBorderPane.getStyleClass().add("my-gridpane");
         } catch (IOException e) {
             e.printStackTrace();
             MessageBarController.getInstance().showMessage("Error while loading user control");
         }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        instance=this;
+        rootBorderPane.getStyleClass().add("my-gridpane");
+        presentLoginPage();
     }
     public void setViewingParent(Parent parent){
         rootBorderPane.setCenter(parent);

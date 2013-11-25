@@ -52,3 +52,7 @@ linear-gradient(to bottom, derive(-fx-base,+50%), derive(-fx-base,-40%), derive(
 .referenceview {
 -fx-text-fill: orange;
 }
+
+.list-cell:filled:hover{
+    -fx-background-color: rgb(100,100,100);
+}
