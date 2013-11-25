@@ -76,6 +76,10 @@ public class ModelController {
     public UserType getUserType() {
         return userType;
     }
+
+    public String getUsername() {
+        return username;
+    }
     //endregion
 
     //region Constructors
@@ -150,13 +154,53 @@ public class ModelController {
 
     public boolean isAgentManager(int agentId) throws SQLException{
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
-        PreparedStatement selectSequence = conn.prepareStatement("select userType from users_and_userdata where (usertype='AGENT' or usertype='LEGAL') and dataid =" + agentId);
+        PreparedStatement selectSequence = conn.prepareStatement(
+                "select userType from users_and_userdata where (usertype='AGENT' or usertype='MANAGER') and dataid =" + agentId);
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
             //TODO place your exception here
         }
         String  grantedRole = resultSet.getString("userType");
         return grantedRole.equals("MANAGER");
+    }
+
+    public String getAgentUsername(int agentId) throws SQLException {
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+        PreparedStatement selectSequence = conn.prepareStatement(
+                "select userName from users_and_userdata uu"
+                + " where (usertype='AGENT' or usertype='MANAGER') and dataid =" + agentId);
+        ResultSet resultSet = selectSequence.executeQuery();
+        if(!resultSet.next()){
+            //TODO place your exception here
+        }
+        String userName = resultSet.getString("userName");
+        return userName;
+    }
+
+    public String getNaturalPersonUsername(int naturalPersonId) throws SQLException {
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+        PreparedStatement selectSequence = conn.prepareStatement(
+                "select userName from users_and_userdata"
+                        + " where usertype='NATURAL' and dataid =" + naturalPersonId);
+        ResultSet resultSet = selectSequence.executeQuery();
+        if(!resultSet.next()){
+            //TODO place your exception here
+        }
+        String userName = resultSet.getString("userName");
+        return userName;
+    }
+
+    public String getLegalPersonUsername(int legalPersonId) throws SQLException {
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+        PreparedStatement selectSequence = conn.prepareStatement(
+                "select userName from users_and_userdata"
+                        + " where usertype='LEGAL' and dataid =" + legalPersonId);
+        ResultSet resultSet = selectSequence.executeQuery();
+        if(!resultSet.next()){
+            //TODO place your exception here
+        }
+        String userName = resultSet.getString("userName");
+        return userName;
     }
 
     //region NaturalPerson Factories

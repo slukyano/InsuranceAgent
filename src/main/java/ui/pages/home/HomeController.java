@@ -149,6 +149,14 @@ public class HomeController {
 
     public void newInsuranceClick(ActionEvent actionEvent) {
         EditPage<Insurance> editPage = new EditPage<Insurance>(new InsuranceForm());
+        editPage.addSelectionListener(new SelectionListener<Insurance>() {
+            @Override
+            public void objectSelected(SelectionProvider<Insurance> provider, Insurance selectedObject) {
+                UiRootController.getInstance().navigateBack();
+                UiRootController.getInstance().navigateForward(new InsurancePage(selectedObject),
+                        selectedObject.getInsuranceTypeName());
+            }
+        });
 
         UiRootController.getInstance().navigateForward(editPage,
                 "New insurance");
@@ -156,6 +164,14 @@ public class HomeController {
 
     public void newNatural(ActionEvent actionEvent) {
         EditPage<NaturalPerson> editPage = new EditPage<NaturalPerson>(new NaturalPersonForm());
+        editPage.addSelectionListener(new SelectionListener<NaturalPerson>() {
+            @Override
+            public void objectSelected(SelectionProvider<NaturalPerson> provider, NaturalPerson selectedObject) {
+                UiRootController.getInstance().navigateBack();
+                UiRootController.getInstance().navigateForward(new ClientPage(selectedObject),
+                        selectedObject.getName());
+            }
+        });
 
         UiRootController.getInstance().navigateForward(editPage,
                 "New natural person");
@@ -163,6 +179,14 @@ public class HomeController {
 
     public void newLegal(ActionEvent actionEvent) {
         EditPage<LegalPerson> editPage = new EditPage<LegalPerson>(new LegalPersonForm());
+        editPage.addSelectionListener(new SelectionListener<LegalPerson>() {
+            @Override
+            public void objectSelected(SelectionProvider<LegalPerson> provider, LegalPerson selectedObject) {
+                UiRootController.getInstance().navigateBack();
+                UiRootController.getInstance().navigateForward(new ClientPage(selectedObject),
+                        selectedObject.getName());
+            }
+        });
 
         UiRootController.getInstance().navigateForward(editPage,
                 "New legal person");
@@ -170,6 +194,14 @@ public class HomeController {
 
     public void newCompany(ActionEvent actionEvent) {
         EditPage<Company> editPage = new EditPage<Company>(new CompanyForm());
+        editPage.addSelectionListener(new SelectionListener<Company>() {
+            @Override
+            public void objectSelected(SelectionProvider<Company> provider, Company selectedObject) {
+                UiRootController.getInstance().navigateBack();
+                UiRootController.getInstance().navigateForward(new CompanyPage(selectedObject),
+                        selectedObject.getName());
+            }
+        });
 
         UiRootController.getInstance().navigateForward(editPage,
                 "New company");
@@ -177,6 +209,14 @@ public class HomeController {
 
     public void newAgentClick(ActionEvent actionEvent) {
         EditPage<Agent> editPage = new EditPage<Agent>(new AgentForm());
+        editPage.addSelectionListener(new SelectionListener<Agent>() {
+            @Override
+            public void objectSelected(SelectionProvider<Agent> provider, Agent selectedObject) {
+                UiRootController.getInstance().navigateBack();
+                UiRootController.getInstance().navigateForward(new AgentPage(selectedObject),
+                        selectedObject.getFullName());
+            }
+        });
 
         UiRootController.getInstance().navigateForward(editPage,
                 "New agent");
@@ -184,6 +224,12 @@ public class HomeController {
 
     public void newInsuranceTypeClick(ActionEvent actionEvent) {
         EditPage<InsuranceType> editPage = new EditPage<InsuranceType>(new InsuranceTypeForm());
+        editPage.addSelectionListener(new SelectionListener<InsuranceType>() {
+            @Override
+            public void objectSelected(SelectionProvider<InsuranceType> provider, InsuranceType selectedObject) {
+                UiRootController.getInstance().navigateBack();
+            }
+        });
 
         UiRootController.getInstance().navigateForward(editPage,
                 "New insurance type");

@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import model.Agent;
 import model.ModelController;
 import model.UserType;
 import model.clients.Client;
@@ -117,7 +118,9 @@ public class ClientPage extends ViewPage<Client> {
             agentReferenceView.setData(data.getAgent());
 
             UserType currentUser = ModelController.getInstance().getUserType();
-            if (currentUser == UserType.LEGAL || currentUser == UserType.NATURAL) {
+            if (currentUser == UserType.LEGAL || currentUser == UserType.NATURAL
+                    || (currentUser == UserType.AGENT
+                        && ((Agent)ModelController.getInstance().getUserObject()).getAgentId() != data.getAgentId())) {
                 agentReferenceView.setClickable(false);
                 updateButton.setVisible(false);
                 deleteButton.setVisible(false);
