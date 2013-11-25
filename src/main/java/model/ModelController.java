@@ -167,8 +167,9 @@ public class ModelController {
     public String getAgentUsername(int agentId) throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         PreparedStatement selectSequence = conn.prepareStatement(
-                "select userName from users_and_userdata uu"
-                + " where (usertype='AGENT' or usertype='MANAGER') and dataid =" + agentId);
+                "select userName" +
+                        " from all_users" +
+                        " where user_id = (select userid from users_and_userdata where (usertype='AGENT' or usertype='MANAGER') and dataid = " + agentId+")");
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
             //TODO place your exception here
@@ -180,8 +181,9 @@ public class ModelController {
     public String getNaturalPersonUsername(int naturalPersonId) throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         PreparedStatement selectSequence = conn.prepareStatement(
-                "select userName from users_and_userdata"
-                        + " where usertype='NATURAL' and dataid =" + naturalPersonId);
+                "select userName" +
+                        " from all_users" +
+                        " where user_id = (select userid from users_and_userdata where usertype='NATURAL' and dataid = " + naturalPersonId+")");
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
             //TODO place your exception here
@@ -193,8 +195,9 @@ public class ModelController {
     public String getLegalPersonUsername(int legalPersonId) throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         PreparedStatement selectSequence = conn.prepareStatement(
-                "select userName from users_and_userdata"
-                        + " where usertype='LEGAL' and dataid =" + legalPersonId);
+                "select userName" +
+                        " from all_users" +
+                        " where user_id = (select userid from users_and_userdata where usertype='LEGAL' and dataid = " + legalPersonId+")");
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
             //TODO place your exception here
