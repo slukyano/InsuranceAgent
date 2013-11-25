@@ -35,6 +35,7 @@ public class InsuranceForm extends AbstractForm<Insurance> {
         typePicker.addSelectionListener(new SelectionListener<InsuranceType>() {
             @Override
             public void objectSelected(SelectionProvider<InsuranceType> provider, InsuranceType selectedObject) {
+                companyPicker.setType(selectedObject);
                 onCompanyOrTypePicked();
             }
         });
@@ -42,6 +43,7 @@ public class InsuranceForm extends AbstractForm<Insurance> {
         companyPicker.addSelectionListener(new SelectionListener<Company>() {
             @Override
             public void objectSelected(SelectionProvider<Company> provider, Company selectedObject) {
+                typePicker.setCompany(selectedObject);
                 onCompanyOrTypePicked();
             }
         });

@@ -541,6 +541,16 @@ public class ModelController {
                 + " FROM COMPANIES";
         return getObjects(CompanyFactory.getInstance(), sql);
     }
+
+    public ArrayList<Company> getCompanies(int insuranceTypeId) throws SQLException {
+        String sql = "SELECT CompanyID, CompanyName,ParentCompanyId,CompanyDescription "
+                + " FROM COMPANIES co"
+                + " JOIN COMPANIES_BY_INSURANCE_TYPE cbit USING (CompanyID)"
+                + " JOIN INSURANCE_TYPES it USING (InsuranceTypeID)"
+                + " WHERE InsuranceTypeID = "+insuranceTypeId;
+        return getObjects(CompanyFactory.getInstance(), sql);
+    }
+
     public Company updateCompany(String companyName, Integer parentCompanyId, String companyDescription, int companyID)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
