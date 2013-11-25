@@ -150,13 +150,13 @@ public class ModelController {
 
     public boolean isAgentManager(int agentId) throws SQLException{
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
-        PreparedStatement selectSequence = conn.prepareStatement("SELECT granted_role FROM dba_role_privs where grantee = 'a" + agentId+"'");
+        PreparedStatement selectSequence = conn.prepareStatement("select userType from users_and_userdata where (usertype='AGENT' or usertype='LEGAL') and dataid =" + agentId);
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
             //TODO place your exception here
         }
-        String  grantedRole = resultSet.getString("granted_role");
-        return grantedRole.equals("INSURANCE_MANAGERS");
+        String  grantedRole = resultSet.getString("userType");
+        return grantedRole.equals("MANAGER");
     }
 
     //region NaturalPerson Factories
