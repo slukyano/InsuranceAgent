@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import model.Agent;
@@ -39,6 +40,7 @@ public class ClientPage extends ViewPage<Client> {
     @FXML private AgentReferenceView agentReferenceView;
     @FXML private StackPane insurancesContainer;
     private AbstractView clientView;
+    @FXML private Label usernameLabel;
 
     public ClientPage(Client data) {
         super();
@@ -118,17 +120,45 @@ public class ClientPage extends ViewPage<Client> {
             agentReferenceView.setData(data.getAgent());
 
             UserType currentUser = ModelController.getInstance().getUserType();
-            if (currentUser == UserType.LEGAL || currentUser == UserType.NATURAL
-                    || (currentUser == UserType.AGENT
-                        && ((Agent)ModelController.getInstance().getUserObject()).getAgentId() != data.getAgentId())) {
-                agentReferenceView.setClickable(false);
-                updateButton.setVisible(false);
-                deleteButton.setVisible(false);
-            }
-            else {
-                agentReferenceView.setClickable(true);
-                updateButton.setVisible(true);
-                deleteButton.setVisible(true);
+            switch (currentUser) {
+                case NATURAL:
+                case LEGAL:
+                    Client client = (Client)ModelController.getInstance().getUserObject();
+                    if (client.equals(data)) {
+                        usernameLabel.setText(ModelController.getInstance().getUsername());
+                        usernameLabel.setVisible(true);
+                    }
+                    else
+                        usernameLabel.setVisible(false);
+                    agentReferenceView.setClickable(false);
+                    updateButton.setVisible(false);
+                    deleteButton.setVisible(false);
+                    break;
+
+                case AGENT:
+                    agentReferenceView.setClickable(false);
+                    Agent agent = (Agent)ModelController.getInstance().getUserObject();
+                    if (agent.getAgentId() != data.getAgentId()) {
+                        updateButton.setVisible(false);
+                        deleteButton.setVisible(false);
+                        usernameLabel.setVisible(false);
+                        break;
+                    }
+                case MANAGER:
+                case ADMIN:
+                    try {
+                        String username = data.getClientType() == "NATURAL"
+                                ? ModelController.getInstance().getNaturalPersonUsername(data.getClientId())
+                                : ModelController.getInstance().getLegalPersonUsername(data.getClientId());
+                        usernameLabel.setText(username);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        MessageBarController.getInstance().showMessage("Error while accessing database");
+                    }
+                    usernameLabel.setVisible(true);
+                    updateButton.setVisible(true);
+                    deleteButton.setVisible(true);
+                    break;
             }
         } catch (SQLException e) {
             e.printStackTrace();

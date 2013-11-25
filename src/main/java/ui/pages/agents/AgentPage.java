@@ -159,12 +159,12 @@ public class AgentPage extends ViewPage<Agent> {
 
             case MANAGER:
             case ADMIN:
-//                try {
-//                    usernameLabel.setText(ModelController.getInstance().getAgentUsername(data.getAgentId()));
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                    MessageBarController.getInstance().showMessage("Error while accessing database");
-//                }
+                try {
+                    usernameLabel.setText(ModelController.getInstance().getAgentUsername(data.getAgentId()));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    MessageBarController.getInstance().showMessage("Error while accessing database");
+                }
                 usernameLabel.setVisible(true);
                 updateButton.setVisible(true);
                 deleteButton.setVisible(true);
