@@ -106,6 +106,27 @@ public class ModelController {
         }
     }
 
+    public void createAdmin(String adminUsername) throws SQLException {
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+        PreparedStatement stmt = conn.prepareStatement(
+                "begin create_admin('" + adminUsername + "'); end;");
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
+    }
+
+    public void changePassword(String newpass) throws SQLException {
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+        PreparedStatement stmt = conn.prepareStatement(
+                "alter user " + getUsername()
+                        + " identified by " + newpass);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
+    }
+
     //region Factory Methods
     //region Generic Factories
     private <T> T getObject(ObjectFactory<T> factory, String sqlQuery) throws SQLException {
@@ -169,7 +190,7 @@ public class ModelController {
         PreparedStatement selectSequence = conn.prepareStatement(
                 "select userName" +
                         " from all_users" +
-                        " where user_id = (select userid from users_and_userdata where (usertype='AGENT' or usertype='MANAGER') and dataid = " + agentId+")");
+                        " where user_id = (select userid from users_and_userdata where (usertype='AGENT' or usertype='MANAGER') and dataid = " + agentId + ")");
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
             //TODO place your exception here
@@ -458,7 +479,7 @@ public class ModelController {
         stmt.setString(3,lastName);
         stmt.setDate(4, new java.sql.Date(hiringDate.getTime()));
         stmt.setDate(5, quitDate != null ? new java.sql.Date(quitDate.getTime()) : null);
-        stmt.setInt(6,agentId);
+        stmt.setInt(6, agentId);
         stmt.setInt(7, agentId);
         stmt.executeUpdate();
 

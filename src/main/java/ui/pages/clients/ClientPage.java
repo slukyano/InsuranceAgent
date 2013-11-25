@@ -4,6 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -31,6 +34,7 @@ import ui.pages.EditPage;
 import ui.pages.ViewPage;
 import ui.pages.insurances.InsurancePage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
@@ -41,9 +45,23 @@ public class ClientPage extends ViewPage<Client> {
     @FXML private StackPane insurancesContainer;
     private AbstractView clientView;
     @FXML private Label usernameLabel;
+    @FXML private Button changePasswordButton;
 
     public ClientPage(Client data) {
         super();
+
+        changePasswordButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    Parent page = FXMLLoader.load(getClass().getResource("/ui/pages/util/ChangePasswordPage.fxml"));
+                    UiRootController.getInstance().navigateForward(page, "Change password");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    MessageBarController.getInstance().showMessage("Error while loading page");
+                }
+            }
+        });
 
         clientView = data.getClientType().equals("NATURAL")
                 ? new NaturalPersonView((NaturalPerson)data)
@@ -127,15 +145,19 @@ public class ClientPage extends ViewPage<Client> {
                     if (client.equals(data)) {
                         usernameLabel.setText(ModelController.getInstance().getUsername());
                         usernameLabel.setVisible(true);
+                        changePasswordButton.setVisible(true);
                     }
-                    else
+                    else {
                         usernameLabel.setVisible(false);
+                        changePasswordButton.setVisible(false);
+                    }
                     agentReferenceView.setClickable(false);
                     updateButton.setVisible(false);
                     deleteButton.setVisible(false);
                     break;
 
                 case AGENT:
+                    changePasswordButton.setVisible(false);
                     agentReferenceView.setClickable(false);
                     Agent agent = (Agent)ModelController.getInstance().getUserObject();
                     if (agent.getAgentId() != data.getAgentId()) {
@@ -146,6 +168,7 @@ public class ClientPage extends ViewPage<Client> {
                     }
                 case MANAGER:
                 case ADMIN:
+                    changePasswordButton.setVisible(false);
                     try {
                         String username = data.getClientType() == "NATURAL"
                                 ? ModelController.getInstance().getNaturalPersonUsername(data.getClientId())

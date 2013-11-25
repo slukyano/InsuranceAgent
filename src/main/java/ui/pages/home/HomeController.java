@@ -2,6 +2,8 @@ package ui.pages.home;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import model.Agent;
 import model.Company;
 import model.ModelController;
@@ -10,6 +12,7 @@ import model.clients.LegalPerson;
 import model.clients.NaturalPerson;
 import model.insurances.Insurance;
 import model.insurances.InsuranceType;
+import ui.MessageBarController;
 import ui.UiRootController;
 import ui.controls.SelectionListener;
 import ui.controls.SelectionProvider;
@@ -29,6 +32,7 @@ import ui.pages.clients.ClientsPage;
 import ui.pages.company.CompanyPage;
 import ui.pages.insurances.InsurancePage;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -233,5 +237,25 @@ public class HomeController {
 
         UiRootController.getInstance().navigateForward(editPage,
                 "New insurance type");
+    }
+
+    public void newAdminClick(ActionEvent actionEvent) {
+        try {
+            Parent page = FXMLLoader.load(getClass().getResource("/ui/pages/util/NewAdminPage.fxml"));
+            UiRootController.getInstance().navigateForward(page, "New admin");
+        } catch (IOException e) {
+            e.printStackTrace();
+            MessageBarController.getInstance().showMessage("Error while loading page");
+        }
+    }
+
+    public void changePasswordClick(ActionEvent actionEvent) {
+        try {
+            Parent page = FXMLLoader.load(getClass().getResource("/ui/pages/util/ChangePasswordPage.fxml"));
+            UiRootController.getInstance().navigateForward(page, "Change password");
+        } catch (IOException e) {
+            e.printStackTrace();
+            MessageBarController.getInstance().showMessage("Error while loading page");
+        }
     }
 }
