@@ -148,6 +148,17 @@ public class ModelController {
     }
     //endregion
 
+    public boolean isAgentManager(int agentId) throws SQLException{
+        Connection conn = DriverManager.getConnection(connectionUrl, username, password);
+        PreparedStatement selectSequence = conn.prepareStatement("SELECT granted_role FROM dba_role_privs where grantee = 'a" + agentId+"'");
+        ResultSet resultSet = selectSequence.executeQuery();
+        if(!resultSet.next()){
+            //TODO place your exception here
+        }
+        String  grantedRole = resultSet.getString("granted_role");
+        return grantedRole.equals("INSURANCE_MANAGERS");
+    }
+
     //region NaturalPerson Factories
     public NaturalPerson getNaturalPerson(int NaturalPersonID) throws SQLException {
         String sql = "SELECT NaturalPersonID, FirstName, SecondName, LastName, DateOfBirth, AgentID"
@@ -212,11 +223,11 @@ public class ModelController {
                 + "create_natural(?);\n"
                 + "end;\n");
         stmt.setInt(1,naturalPersonId);
-        stmt.setString(2,firstName);
+        stmt.setString(2, firstName);
         stmt.setString(3,secondName);
         stmt.setString(4,lastName);
-        stmt.setDate(5,new java.sql.Date(dateOfBirth.getTime()));
-        stmt.setInt(6,agentId);
+        stmt.setDate(5, new java.sql.Date(dateOfBirth.getTime()));
+        stmt.setInt(6, agentId);
         stmt.setInt(7, naturalPersonId);
         stmt.executeUpdate();
 
@@ -941,7 +952,7 @@ public class ModelController {
                         +" AttributeTypeDescription = ?"
                         +" Where AttributeTypeId = ?");
         stmt.setString(1,attributeTypeName);
-        stmt.setString(2,attributeTypeDescription);
+        stmt.setString(2, attributeTypeDescription);
         stmt.setInt(3,attributeTypeId);
         stmt.executeUpdate();
 
