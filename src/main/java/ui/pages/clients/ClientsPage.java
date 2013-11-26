@@ -1,12 +1,14 @@
 package ui.pages.clients;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -26,6 +28,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 public class ClientsPage extends StackPane implements SelectionProvider<Client> {
     @FXML private Button newClientButton;
@@ -34,7 +37,10 @@ public class ClientsPage extends StackPane implements SelectionProvider<Client> 
     @FXML private NaturalPersonsListView naturalListView;
     @FXML private LegalPersonListView legalListView;
     @FXML private VBox vbox;
+    @FXML private TextField searchField;
     private HashSet<SelectionListener<Client>> listeners = new HashSet<SelectionListener<Client>>();
+    private Collection<NaturalPerson> naturals;
+    private Collection<LegalPerson> legals;
 
     @Override
     public void addSelectionListener(SelectionListener<Client> listener) {
@@ -63,6 +69,26 @@ public class ClientsPage extends StackPane implements SelectionProvider<Client> 
             exception.printStackTrace();
             return;
         }
+
+        naturals = naturalPersons;
+        legals = legalPersons;
+
+        searchField.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                ObservableList<NaturalPerson> newNaturals = FXCollections.observableArrayList();
+                for (NaturalPerson person : naturals)
+                    if (person.getName().contains(searchField.getText()))
+                        newNaturals.add(person);
+                naturalListView.setItems(newNaturals);
+
+                ObservableList<LegalPerson> newLegals = FXCollections.observableArrayList();
+                for (LegalPerson person : legals)
+                    if (person.getName().contains(searchField.getText()))
+                        newLegals.add(person);
+                legalListView.setItems(newLegals);
+            }
+        });
 
         naturalListView.setItems(FXCollections.observableArrayList(naturalPersons));
         naturalListView.addSelectionListener(new SelectionListener<NaturalPerson>() {

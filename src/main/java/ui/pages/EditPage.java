@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import oracle.jdbc.driver.Message;
+import ui.MessageBarController;
 import ui.controls.AbstractForm;
 import ui.controls.SelectionListener;
 import ui.controls.SelectionProvider;
@@ -63,12 +65,15 @@ public class EditPage<T> extends Pane implements SelectionProvider<T>, Initializ
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (!form.canSubmit())
-                    //TODO process error here
+                if (!form.canSubmit())  {
+                    MessageBarController.getInstance().showMessage("Cannot submit: some of the required fields are not filled");
                     return;
+                }
                 try {
+                    submitButton.setDisable(true);
                     T object = form.commitObject();
                     notifyListeners(object);
+                    submitButton.setDisable(false);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

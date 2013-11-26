@@ -179,7 +179,7 @@ public class ModelController {
                 "select userType from users_and_userdata where (usertype='AGENT' or usertype='MANAGER') and dataid =" + agentId);
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
-            //TODO place your exception here
+            throw new SQLException("No rows returned");
         }
         String  grantedRole = resultSet.getString("userType");
         return grantedRole.equals("MANAGER");
@@ -193,7 +193,7 @@ public class ModelController {
                         " where user_id = (select userid from users_and_userdata where (usertype='AGENT' or usertype='MANAGER') and dataid = " + agentId + ")");
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
-            //TODO place your exception here
+            throw new SQLException("No rows returned");
         }
         String userName = resultSet.getString("userName");
         return userName;
@@ -207,7 +207,7 @@ public class ModelController {
                         " where user_id = (select userid from users_and_userdata where usertype='NATURAL' and dataid = " + naturalPersonId+")");
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
-            //TODO place your exception here
+            throw new SQLException("No rows returned");
         }
         String userName = resultSet.getString("userName");
         return userName;
@@ -221,7 +221,7 @@ public class ModelController {
                         " where user_id = (select userid from users_and_userdata where usertype='LEGAL' and dataid = " + legalPersonId+")");
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
-            //TODO place your exception here
+            throw new SQLException("No rows returned");
         }
         String userName = resultSet.getString("userName");
         return userName;
@@ -278,7 +278,7 @@ public class ModelController {
         PreparedStatement selectSequence = conn.prepareStatement("select natural_persons_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
-            //TODO place your exception here
+            throw new SQLException("No rows returned");
         }
         int naturalPersonId = resultSet.getInt("seqVal");
         resultSet.close();
@@ -368,7 +368,7 @@ public class ModelController {
         PreparedStatement selectSequence = conn.prepareStatement("select legal_persons_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
-            //TODO place your exception here
+            throw new SQLException("No rows returned");
         }
         int legalPersonId = resultSet.getInt("seqVal");
         resultSet.close();
@@ -462,7 +462,7 @@ public class ModelController {
         PreparedStatement selectSequence = conn.prepareStatement("select agents_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
-            //TODO place your exception here
+            throw new SQLException("No rows returned");
         }
         int agentId = resultSet.getInt("seqVal");
         resultSet.close();
@@ -577,7 +577,7 @@ public class ModelController {
         PreparedStatement selectSequence = conn.prepareStatement("select companies_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
-            //TODO place your exception here
+            throw new SQLException("No rows returned");
         }
         int companyId = resultSet.getInt("seqVal");
         resultSet.close();
@@ -667,7 +667,7 @@ public class ModelController {
         PreparedStatement selectSequence = conn.prepareStatement("select companies_by_insurance_types_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
-            //TODO place your exception here
+            throw new SQLException("No rows returned");
         }
         int cbitId = resultSet.getInt("seqVal");
         resultSet.close();
@@ -709,6 +709,7 @@ public class ModelController {
                 " ins.ClientType as ClientType," +
                 " ins.companybyinsurancetypeid as companybyinsurancetypeid,"+
                 " ins.AgentId as AgentId,"+
+                " ins.insuranceDate as insuranceDate," +
                 " comp.companyName as companyName,"+
                 " comp.insuranceTypeName as insuranceTypeName,"+
                 " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
@@ -742,95 +743,7 @@ public class ModelController {
                 " ins.ClientType as ClientType," +
                 " ins.companybyinsurancetypeid as companybyinsurancetypeid,"+
                 " ins.AgentId as AgentId,"+
-                " comp.companyName as companyName,"+
-                " comp.insuranceTypeName as insuranceTypeName,"+
-                " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
-                " CASE WHEN ClientType like 'NATURAL' THEN natural_persons.firstname||' '||natural_persons.secondName||' '||natural_persons.lastname"+
-                " when ClientType like 'LEGAL' then legal_persons.legalname"+
-                " end as ClientName"+
-                " FROM INSURANCES ins"+
-                " inner join (select companies.companyname as companyName,"+
-                " companies_by_insurance_type.companybyinsurancetypeid as companybyinsurancetypeid,"+
-                " insurance_types.insurancetypename as insurancetypename"+
-                " from companies_by_insurance_type"+
-                " left outer join companies"+
-                " on companies.companyid = companies_by_insurance_type.companyid"+
-                " left outer join insurance_types"+
-                " on insurance_types.insurancetypeid=companies_by_insurance_type.insurancetypeid) comp"+
-                " on ins.companybyinsurancetypeid = comp.companybyinsurancetypeid"+
-                " inner join agents"+
-                " on agents.agentId=ins.agentid"+
-                " left outer join legal_persons"+
-                " on legal_persons.legalpersonid = ins.clientid"+
-                " left outer join natural_persons"+
-                " on natural_persons.naturalpersonid = ins.clientid";
-        return getObjects(InsuranceFactory.getInstance(), sql);
-    }
-
-    public ArrayList<Insurance> getInsurances(NaturalPerson person) throws SQLException {
-        String sql = "SELECT ins.InsuranceID as InsuranceID," +
-                " ins.ClientID as ClientID," +
-                " ins.ClientType as ClientType," +
-                " ins.companybyinsurancetypeid as companybyinsurancetypeid,"+
-                " ins.AgentId as AgentId,"+
-                " comp.companyName as companyName,"+
-                " comp.insuranceTypeName as insuranceTypeName,"+
-                " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
-                " natural_persons.firstname||' '||natural_persons.secondName||' '||natural_persons.lastname as ClientName"+
-                " FROM INSURANCES ins"+
-                " inner join (select companies.companyname as companyName,"+
-                " companies_by_insurance_type.companybyinsurancetypeid as companybyinsurancetypeid,"+
-                " insurance_types.insurancetypename as insurancetypename"+
-                " from companies_by_insurance_type"+
-                " left outer join companies"+
-                " on companies.companyid = companies_by_insurance_type.companyid"+
-                " left outer join insurance_types"+
-                " on insurance_types.insurancetypeid=companies_by_insurance_type.insurancetypeid) comp"+
-                " on ins.companybyinsurancetypeid = comp.companybyinsurancetypeid"+
-                " inner join agents"+
-                " on agents.agentId=ins.agentid"+
-                " left outer join natural_persons"+
-                " on natural_persons.naturalpersonid = ins.clientid" +
-                " WHERE ins.ClientID = " + person.getClientId()  +
-                " AND ins.ClientType = 'NATURAL'";
-        return getObjects(InsuranceFactory.getInstance(), sql);
-    }
-
-    public ArrayList<Insurance> getInsurances(LegalPerson person) throws SQLException {
-        String sql = "SELECT ins.InsuranceID as InsuranceID," +
-                " ins.ClientID as ClientID," +
-                " ins.ClientType as ClientType," +
-                " ins.companybyinsurancetypeid as companybyinsurancetypeid,"+
-                " ins.AgentId as AgentId,"+
-                " comp.companyName as companyName,"+
-                " comp.insuranceTypeName as insuranceTypeName,"+
-                " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
-                " legal_persons.legalname as ClientName"+
-                " FROM INSURANCES ins"+
-                " inner join (select companies.companyname as companyName,"+
-                " companies_by_insurance_type.companybyinsurancetypeid as companybyinsurancetypeid,"+
-                " insurance_types.insurancetypename as insurancetypename"+
-                " from companies_by_insurance_type"+
-                " left outer join companies"+
-                " on companies.companyid = companies_by_insurance_type.companyid"+
-                " left outer join insurance_types"+
-                " on insurance_types.insurancetypeid=companies_by_insurance_type.insurancetypeid) comp"+
-                " on ins.companybyinsurancetypeid = comp.companybyinsurancetypeid"+
-                " inner join agents"+
-                " on agents.agentId=ins.agentid"+
-                " left outer join legal_persons"+
-                " on legal_persons.legalpersonid = ins.clientid"+
-                " WHERE ins.ClientID = " + person.getClientId() +
-                " AND ins.ClientType = 'LEGAL'";
-        return getObjects(InsuranceFactory.getInstance(), sql);
-    }
-
-    public ArrayList<Insurance> getInsurances(Agent agent) throws SQLException {
-        String sql = "SELECT ins.InsuranceID as InsuranceID," +
-                " ins.ClientID as ClientID," +
-                " ins.ClientType as ClientType," +
-                " ins.companybyinsurancetypeid as companybyinsurancetypeid,"+
-                " ins.AgentId as AgentId,"+
+                " ins.insuranceDate as insuranceDate," +
                 " comp.companyName as companyName,"+
                 " comp.insuranceTypeName as insuranceTypeName,"+
                 " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
@@ -853,10 +766,106 @@ public class ModelController {
                 " on legal_persons.legalpersonid = ins.clientid"+
                 " left outer join natural_persons"+
                 " on natural_persons.naturalpersonid = ins.clientid"+
-                "  WHERE ins.AgentID = " + agent.getAgentId();
+                " order by ins.insuranceDate desc";
         return getObjects(InsuranceFactory.getInstance(), sql);
     }
-    public Insurance updateInsurance(int clientId, String clientType,int CBITID, int agentId,int insuranceId)      throws SQLException {
+
+    public ArrayList<Insurance> getInsurances(NaturalPerson person) throws SQLException {
+        String sql = "SELECT ins.InsuranceID as InsuranceID," +
+                " ins.ClientID as ClientID," +
+                " ins.ClientType as ClientType," +
+                " ins.companybyinsurancetypeid as companybyinsurancetypeid,"+
+                " ins.AgentId as AgentId,"+
+                " ins.insuranceDate as insuranceDate," +
+                " comp.companyName as companyName,"+
+                " comp.insuranceTypeName as insuranceTypeName,"+
+                " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
+                " natural_persons.firstname||' '||natural_persons.secondName||' '||natural_persons.lastname as ClientName"+
+                " FROM INSURANCES ins"+
+                " inner join (select companies.companyname as companyName,"+
+                " companies_by_insurance_type.companybyinsurancetypeid as companybyinsurancetypeid,"+
+                " insurance_types.insurancetypename as insurancetypename"+
+                " from companies_by_insurance_type"+
+                " left outer join companies"+
+                " on companies.companyid = companies_by_insurance_type.companyid"+
+                " left outer join insurance_types"+
+                " on insurance_types.insurancetypeid=companies_by_insurance_type.insurancetypeid) comp"+
+                " on ins.companybyinsurancetypeid = comp.companybyinsurancetypeid"+
+                " inner join agents"+
+                " on agents.agentId=ins.agentid"+
+                " left outer join natural_persons"+
+                " on natural_persons.naturalpersonid = ins.clientid" +
+                " WHERE ins.ClientID = " + person.getClientId()  +
+                " AND ins.ClientType = 'NATURAL'"+
+                " order by ins.insuranceDate desc";
+        return getObjects(InsuranceFactory.getInstance(), sql);
+    }
+
+    public ArrayList<Insurance> getInsurances(LegalPerson person) throws SQLException {
+        String sql = "SELECT ins.InsuranceID as InsuranceID," +
+                " ins.ClientID as ClientID," +
+                " ins.ClientType as ClientType," +
+                " ins.companybyinsurancetypeid as companybyinsurancetypeid,"+
+                " ins.AgentId as AgentId,"+
+                " ins.insuranceDate as insuranceDate," +
+                " comp.companyName as companyName,"+
+                " comp.insuranceTypeName as insuranceTypeName,"+
+                " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
+                " legal_persons.legalname as ClientName"+
+                " FROM INSURANCES ins"+
+                " inner join (select companies.companyname as companyName,"+
+                " companies_by_insurance_type.companybyinsurancetypeid as companybyinsurancetypeid,"+
+                " insurance_types.insurancetypename as insurancetypename"+
+                " from companies_by_insurance_type"+
+                " left outer join companies"+
+                " on companies.companyid = companies_by_insurance_type.companyid"+
+                " left outer join insurance_types"+
+                " on insurance_types.insurancetypeid=companies_by_insurance_type.insurancetypeid) comp"+
+                " on ins.companybyinsurancetypeid = comp.companybyinsurancetypeid"+
+                " inner join agents"+
+                " on agents.agentId=ins.agentid"+
+                " left outer join legal_persons"+
+                " on legal_persons.legalpersonid = ins.clientid"+
+                " WHERE ins.ClientID = " + person.getClientId() +
+                " AND ins.ClientType = 'LEGAL'"+
+                " order by ins.insuranceDate desc";
+        return getObjects(InsuranceFactory.getInstance(), sql);
+    }
+
+    public ArrayList<Insurance> getInsurances(Agent agent) throws SQLException {
+        String sql = "SELECT ins.InsuranceID as InsuranceID," +
+                " ins.ClientID as ClientID," +
+                " ins.ClientType as ClientType," +
+                " ins.companybyinsurancetypeid as companybyinsurancetypeid,"+
+                " ins.AgentId as AgentId,"+
+                " ins.insuranceDate as insuranceDate," +
+                " comp.companyName as companyName,"+
+                " comp.insuranceTypeName as insuranceTypeName,"+
+                " agents.firstName||' '||agents.secondName ||' '|| agents.lastName as agentName,"+
+                " CASE WHEN ClientType like 'NATURAL' THEN natural_persons.firstname||' '||natural_persons.secondName||' '||natural_persons.lastname"+
+                " when ClientType like 'LEGAL' then legal_persons.legalname"+
+                " end as ClientName"+
+                " FROM INSURANCES ins"+
+                " inner join (select companies.companyname as companyName,"+
+                " companies_by_insurance_type.companybyinsurancetypeid as companybyinsurancetypeid,"+
+                " insurance_types.insurancetypename as insurancetypename"+
+                " from companies_by_insurance_type"+
+                " left outer join companies"+
+                " on companies.companyid = companies_by_insurance_type.companyid"+
+                " left outer join insurance_types"+
+                " on insurance_types.insurancetypeid=companies_by_insurance_type.insurancetypeid) comp"+
+                " on ins.companybyinsurancetypeid = comp.companybyinsurancetypeid"+
+                " inner join agents"+
+                " on agents.agentId=ins.agentid"+
+                " left outer join legal_persons"+
+                " on legal_persons.legalpersonid = ins.clientid"+
+                " left outer join natural_persons"+
+                " on natural_persons.naturalpersonid = ins.clientid"+
+                "  WHERE ins.AgentID = " + agent.getAgentId()+
+                " order by ins.insuranceDate desc";
+        return getObjects(InsuranceFactory.getInstance(), sql);
+    }
+    public Insurance updateInsurance(int clientId, String clientType, int CBITID, int agentId, int insuranceId, Date insuranceDate)      throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 
         PreparedStatement stmt = conn.prepareStatement(
@@ -864,44 +873,47 @@ public class ModelController {
                         + " SET ClientID = ?,"
                         + " ClientType = ?,"
                         + " CompanyByInsuranceTypeID = ?,"
-                        + " AgentId = ?"
+                        + " AgentId = ?,"
+                        + " InsuranceDate = ?"
                         + " Where InsuranceId = ?");
         stmt.setInt(1,clientId);
         stmt.setString(2, clientType);
-        stmt.setInt(3,CBITID);
+        stmt.setInt(3, CBITID);
         stmt.setInt(4,agentId);
-        stmt.setInt(5,insuranceId);
+        stmt.setDate(5, new java.sql.Date(insuranceDate.getTime()));
+        stmt.setInt(6,insuranceId);
         stmt.executeUpdate();
 
         stmt.close();
         conn.close();
-        return new Insurance(insuranceId,clientId,clientType,CBITID,agentId);
+        return new Insurance(insuranceId,clientId,clientType,CBITID,agentId, insuranceDate);
     }
 
-    public Insurance createInsurance(int clientId, String clientType, int cbitID,int agentId) throws SQLException {
+    public Insurance createInsurance(int clientId, String clientType, int cbitID, int agentId, Date insuranceDate) throws SQLException {
         Connection conn = DriverManager.getConnection(connectionUrl, username, password);
         PreparedStatement selectSequence = conn.prepareStatement("select insurances_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
-            //TODO place your exception here
+            throw new SQLException("No rows returned");
         }
         int insuranceId = resultSet.getInt("seqVal");
         resultSet.close();
         selectSequence.close();
 
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO INSURANCES (ClientID, ClientType, CompanyByInsuranceTypeID, AgentId, InsuranceID)"
-                        + " VALUES (?,?,?,?,?)");
+                "INSERT INTO INSURANCES (ClientID, ClientType, CompanyByInsuranceTypeID, AgentId, InsuranceID, InsuranceDate)"
+                        + " VALUES (?,?,?,?,?,?)");
         stmt.setInt(1,clientId);
         stmt.setString(2, clientType);
         stmt.setInt(3, cbitID);
         stmt.setInt(4,agentId);
         stmt.setInt(5,insuranceId);
+        stmt.setDate(6, new java.sql.Date(insuranceDate.getTime()));
         stmt.executeUpdate();
 
         stmt.close();
         conn.close();
-        return new Insurance(insuranceId,clientId,clientType,cbitID,agentId);
+        return new Insurance(insuranceId,clientId,clientType,cbitID,agentId, insuranceDate);
     }
 
     public void  deleteInsurance(int insuranceId)      throws SQLException {
@@ -967,7 +979,7 @@ public class ModelController {
         PreparedStatement selectSequence = conn.prepareStatement("select insurance_types_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
-            //TODO place your exception here
+            throw new SQLException("No rows returned");
         }
         int insuranceTypeId = resultSet.getInt("seqVal");
         resultSet.close();
@@ -1044,7 +1056,7 @@ public class ModelController {
         PreparedStatement selectSequence = conn.prepareStatement("select attribute_types_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
-            //TODO place your exception here
+            throw new SQLException("No rows returned");
         }
         int attributeTypeId = resultSet.getInt("seqVal");
         resultSet.close();
@@ -1119,7 +1131,7 @@ public class ModelController {
         PreparedStatement selectSequence = conn.prepareStatement("select insurance_attributes_s.nextval as seqVal from dual");
         ResultSet resultSet = selectSequence.executeQuery();
         if(!resultSet.next()){
-            //TODO place your exception here
+            throw new SQLException("No rows returned");
         }
         int attributeId = resultSet.getInt("seqVal");
         resultSet.close();
@@ -1258,6 +1270,7 @@ public class ModelController {
                     rSet.getString("ClientType"),
                     rSet.getInt("CompanyByInsuranceTypeID"),
                     rSet.getInt("AgentId"),
+                    rSet.getDate("InsuranceDate"),
                     rSet.getString("insuranceTypeName"),
                     rSet.getString("ClientName"),
                     rSet.getString("agentName"),
@@ -1306,9 +1319,9 @@ public class ModelController {
         @Override
         public InsuranceAttribute createObject(ResultSet rSet) throws SQLException {
             return new InsuranceAttribute(rSet.getInt("AttributeID"),
-                    rSet.getInt("AttributeTypeId"),
+                    rSet.getInt("InsuranceId"),
                     rSet.getString("AttributeValue"),
-                    rSet.getInt("InsuranceId"));
+                    rSet.getInt("AttributeTypeId"));
         }
     }
 }

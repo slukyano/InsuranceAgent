@@ -8,6 +8,7 @@ import model.insurances.attributes.InsuranceAttribute;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Insurance {
     //region Fields
@@ -16,6 +17,7 @@ public class Insurance {
     private final String clientType;
     private final int companyByInsuranceTypeId;
     private final int agentId;
+    private final Date insuranceDate;
     private String clientName;
     private String companyName;
     private String agentName;
@@ -87,16 +89,22 @@ public class Insurance {
     }
     //endregion
 
+    public Date getInsuranceDate() {
+        return insuranceDate;
+    }
+
     //region Constructors
-    public Insurance(int insuranceId, int clientId, String clientType, int companyByInsuranceTypeId, int agentId) {
+    public Insurance(int insuranceId, int clientId, String clientType, int companyByInsuranceTypeId, int agentId, Date insuranceDate) {
         this.insuranceId = insuranceId;
         this.clientId = clientId;
         this.clientType = clientType;
         this.agentId = agentId;
         this.companyByInsuranceTypeId = companyByInsuranceTypeId;
+        this.insuranceDate = insuranceDate;
+
     }
-    public Insurance(int insuranceId, int clientId, String clientType, int companyByInsuranceTypeId, int agentId, String insuranceTypeName, String clientName, String agentName, String companyName) {
-        this(insuranceId,clientId,clientType,companyByInsuranceTypeId,agentId);
+    public Insurance(int insuranceId, int clientId, String clientType, int companyByInsuranceTypeId, int agentId, Date insuranceDate, String insuranceTypeName, String clientName, String agentName, String companyName) {
+        this(insuranceId,clientId,clientType,companyByInsuranceTypeId,agentId, insuranceDate);
         this.insuranceTypeName = insuranceTypeName;
         this.clientName = clientName;
         this.agentName = agentName;

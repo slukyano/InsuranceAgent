@@ -1,5 +1,6 @@
 package ui.controls.insurances;
 
+import eu.schudt.javafx.controls.calendar.DatePicker;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import model.Agent;
@@ -21,6 +22,7 @@ import ui.controls.insurances.insurancetypes.InsuranceTypePicker;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Date;
 
 public class InsuranceForm extends AbstractForm<Insurance> {
     @FXML private ClientPicker clientPicker;
@@ -28,6 +30,7 @@ public class InsuranceForm extends AbstractForm<Insurance> {
     @FXML private CompanyPicker companyPicker;
     @FXML private AgentPicker agentPicker;
     @FXML private Pane attributeFormsContainer;
+    @FXML private DatePicker datePicker;
     private CompanyByInsuranceType pickedCbit;
     private AttributeFormsList attributeFormsList;
 
@@ -85,7 +88,8 @@ public class InsuranceForm extends AbstractForm<Insurance> {
                 clientPicker.getData().getClientId(),
                 clientPicker.getData().getClientType(),
                 pickedCbit.getCompanyByInsuranceTypeId(),
-                agentPicker.getData().getAgentId());
+                agentPicker.getData().getAgentId(),
+                datePicker.getSelectedDate());
 
         attributeFormsList.commit(insurance.getInsuranceId());
 
@@ -99,7 +103,8 @@ public class InsuranceForm extends AbstractForm<Insurance> {
                 clientPicker.getData().getClientType(),
                 data.getCompanyByInsuranceTypeId(),
                 agentPicker.getData().getAgentId(),
-                data.getInsuranceId());
+                data.getInsuranceId(),
+                datePicker.getSelectedDate());
 
         attributeFormsList.commit(insurance.getInsuranceId());
 
@@ -112,6 +117,7 @@ public class InsuranceForm extends AbstractForm<Insurance> {
         typePicker.setData(null);
         companyPicker.setData(null);
         agentPicker.setData(null);
+        datePicker.setSelectedDate(new Date());
     }
 
     @Override
@@ -135,6 +141,7 @@ public class InsuranceForm extends AbstractForm<Insurance> {
                 typePicker.setData(data.getInsuranceType());
                 companyPicker.setData(data.getCompany());
                 agentPicker.setData(data.getAgent());
+                datePicker.setSelectedDate(data.getInsuranceDate());
                 setAttributeFormsList(new AttributeFormsList(data));
 
                 typePicker.setDisable(true);

@@ -6,6 +6,8 @@
 <?import ui.controls.clients.legal.LegalPersonListView?>
 <?import ui.controls.clients.natural.NaturalPersonsListView?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.geometry.Insets?>
 <fx:root type="javafx.scene.layout.StackPane" xmlns:fx="http://javafx.com/fxml">
     <VBox alignment="CENTER_RIGHT" fx:id="vbox">
         <children>
@@ -17,6 +19,11 @@
                     <Button fx:id="newClientButton" text="Create new"/>
                 </children>
             </HBox>
+            <TextField fx:id="searchField" minHeight="20">
+                <VBox.margin>
+                    <Insets bottom="10"/>
+                </VBox.margin>
+            </TextField>
             <NaturalPersonsListView fx:id="naturalListView" VBox.vgrow="ALWAYS"/>
             <LegalPersonListView fx:id="legalListView" VBox.vgrow="ALWAYS"/>
         </children>

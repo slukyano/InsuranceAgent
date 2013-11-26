@@ -28,6 +28,7 @@ public class InsurancePage extends ViewPage<Insurance> {
     @FXML private CompanyReferenceView companyReferenceView;
     @FXML private ClientReferenceView clientReferenceView;
     @FXML private AttributesListView attributesListView;
+    @FXML private Label dateLabel;
 
     public InsurancePage(Insurance data) {
         super(data);
@@ -78,7 +79,7 @@ public class InsurancePage extends ViewPage<Insurance> {
                 companyReferenceView.setData(data.getCompany());
                 clientReferenceView.setData(data.getClient());
                 attributesListView.setItems(FXCollections.observableArrayList(data.getAttributes()));
-
+                dateLabel.setText(data.getInsuranceDate() != null ? data.getInsuranceDate().toString() : "");
                 UserType currentUser = ModelController.getInstance().getUserType();
                 switch (currentUser) {
                     case LEGAL:
@@ -116,6 +117,7 @@ public class InsurancePage extends ViewPage<Insurance> {
             companyReferenceView.setData(null);
             clientReferenceView.setData(null);
             attributesListView.setItems(null);
+            dateLabel.setText("");
         }
     }
 }

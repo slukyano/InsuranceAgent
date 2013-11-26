@@ -16,6 +16,7 @@
         <ClientReferenceView fx:id="clientReferenceView"/>
         <AgentReferenceView fx:id="agentReferenceView"/>
         <CompanyReferenceView fx:id="companyReferenceView"/>
+        <Label fx:id="dateLabel"/>
         <AttributesListView fx:id="attributesListView" VBox.vgrow="ALWAYS"/>
     </VBox>
 </fx:root>

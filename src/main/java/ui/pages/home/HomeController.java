@@ -26,6 +26,8 @@ import ui.controls.insurances.InsuranceForm;
 import ui.controls.insurances.InsurancesListView;
 import ui.controls.insurances.insurancetypes.InsuranceTypeForm;
 import ui.pages.EditPage;
+import ui.pages.Matcher;
+import ui.pages.SelectPage;
 import ui.pages.agents.AgentPage;
 import ui.pages.clients.ClientPage;
 import ui.pages.clients.ClientsPage;
@@ -63,14 +65,22 @@ public class HomeController {
             AgentsListView listView = new AgentsListView();
             List<Agent> list = ModelController.getInstance().getAgents();
             listView.setItems(FXCollections.observableArrayList(list));
-            listView.addSelectionListener(new SelectionListener<Agent>() {
+
+            SelectPage<Agent> page = new SelectPage<Agent>(listView);
+            page.setMatcher(new Matcher<Agent>() {
+                @Override
+                public boolean match(String pattern, Agent object) {
+                    return object.getFullName().contains(pattern);
+                }
+            });
+            page.addSelectionListener(new SelectionListener<Agent>() {
                 @Override
                 public void objectSelected(SelectionProvider<Agent> provider, Agent selectedObject) {
                     UiRootController.getInstance().navigateForward(new AgentPage(selectedObject),
                             selectedObject.getFullName());
                 }
             });
-            UiRootController.getInstance().navigateForward(listView, "Agent select");
+            UiRootController.getInstance().navigateForward(page, "Agent select");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -81,14 +91,21 @@ public class HomeController {
             CompaniesListView listView = new CompaniesListView();
             List<Company> list = ModelController.getInstance().getCompanies();
             listView.setItems(FXCollections.observableArrayList(list));
-            listView.addSelectionListener(new SelectionListener<Company>() {
+            SelectPage<Company> page = new SelectPage<Company>(listView);
+            page.setMatcher(new Matcher<Company>() {
+                @Override
+                public boolean match(String pattern, Company object) {
+                    return object.getName().contains(pattern);
+                }
+            });
+            page.addSelectionListener(new SelectionListener<Company>() {
                 @Override
                 public void objectSelected(SelectionProvider<Company> provider, Company selectedObject) {
                     UiRootController.getInstance().navigateForward(new CompanyPage(selectedObject),
                             selectedObject.getName());
                 }
             });
-            UiRootController.getInstance().navigateForward(listView, "Companies");
+            UiRootController.getInstance().navigateForward(page, "Companies");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -99,14 +116,24 @@ public class HomeController {
             InsurancesListView listView = new InsurancesListView();
             List<Insurance> list = ModelController.getInstance().getUserType().getInsurances();
             listView.setItems(FXCollections.observableArrayList(list));
-            listView.addSelectionListener(new SelectionListener<Insurance>() {
+            SelectPage<Insurance> page = new SelectPage<Insurance>(listView);
+            page.setMatcher(new Matcher<Insurance>() {
+                @Override
+                public boolean match(String pattern, Insurance object) {
+                    return object.getInsuranceTypeName().contains(pattern)
+                            || object.getClientName().contains(pattern)
+                            || object.getAgentName().contains(pattern)
+                            || object.getCompanyName().contains(pattern);
+                }
+            });
+            page.addSelectionListener(new SelectionListener<Insurance>() {
                 @Override
                 public void objectSelected(SelectionProvider<Insurance> provider, Insurance selectedObject) {
                     UiRootController.getInstance().navigateForward(new InsurancePage(selectedObject),
                             selectedObject.getInsuranceTypeName());
                 }
             });
-            UiRootController.getInstance().navigateForward(listView, "Insurances");
+            UiRootController.getInstance().navigateForward(page, "Insurances");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -138,14 +165,24 @@ public class HomeController {
             InsurancesListView listView = new InsurancesListView();
             List<Insurance> list = ModelController.getInstance().getInsurances();
             listView.setItems(FXCollections.observableArrayList(list));
-            listView.addSelectionListener(new SelectionListener<Insurance>() {
+            SelectPage<Insurance> page = new SelectPage<Insurance>(listView);
+            page.setMatcher(new Matcher<Insurance>() {
+                @Override
+                public boolean match(String pattern, Insurance object) {
+                    return object.getInsuranceTypeName().contains(pattern)
+                            || object.getClientName().contains(pattern)
+                            || object.getAgentName().contains(pattern)
+                            || object.getCompanyName().contains(pattern);
+                }
+            });
+            page.addSelectionListener(new SelectionListener<Insurance>() {
                 @Override
                 public void objectSelected(SelectionProvider<Insurance> provider, Insurance selectedObject) {
                     UiRootController.getInstance().navigateForward(new InsurancePage(selectedObject),
                             selectedObject.getInsuranceTypeName());
                 }
             });
-            UiRootController.getInstance().navigateForward(listView, "Insurances");
+            UiRootController.getInstance().navigateForward(page, "Insurances");
         } catch (SQLException e) {
             e.printStackTrace();
         }
