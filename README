@@ -1,1 +1,7 @@
-This file was created by IntelliJ IDEA 12.1.6 for binding GitHub repository
+Insurance Agency database client project
+=================================
+
+An Insurance Agency database scripts and client application.
+Created as a coursework for the Databases course in SPB ITMO.
+Target database is Oracle DB 11.
+Client application is based on Swing, Java SE 7.
